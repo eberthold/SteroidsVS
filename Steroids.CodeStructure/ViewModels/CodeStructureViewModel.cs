@@ -2,21 +2,21 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
+    using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Data;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Diagnostics;
-    using Microsoft.CodeAnalysis.Text;
     using Microsoft.VisualStudio.Text.Editor;
     using Microsoft.VisualStudio.Text.Formatting;
     using Steroids.CodeStructure.Analyzers;
+    using Steroids.CodeStructure.Analyzers.Services;
     using Steroids.CodeStructure.Controls;
     using Steroids.CodeStructure.Extensions;
     using Steroids.Common;
     using Steroids.Contracts;
-    using Steroids.Contracts.Services;
 
     public class CodeStructureViewModel : BindableBase
     {
@@ -24,41 +24,54 @@
 
         private readonly IWpfTextView _textView;
         private readonly IWorkspaceManager _workspaceManager;
-        private readonly IDocumentAnalyzerService _diagnosticCollectorService;
+        private readonly IDocumentAnalyzerService _documentAnalyzerService;
         private readonly IAdornmentLayer _adornmentLayer;
         private readonly FloatingDiagnosticHintsViewModel _diagnosticHintsViewModel;
 
         private SelectionHintControl _adornerContent;
-        private CancellationTokenSource _cts;
         private bool _isListVisible;
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
         private ICodeStructureNodeContainer _selectedNode;
         private DiagnosticSeverity _currentDiagnosticLevel;
         private double _analysisTime;
+        private ICollectionView _nodeCollection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureViewModel"/> class.
         /// </summary>
         /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
         /// <param name="workspaceManager">The <see cref="IWorkspaceManager"/>.</param>
-        /// <param name="diagnosticCollectorService">The <see cref="IDocumentAnalyzerService"/>.</param>
+        /// <param name="documentAnalyzerService">The <see cref="IDocumentAnalyzerService"/>.</param>
         /// <param name="diagnosticHintsViewModel">The view model which should display all our diagnostic hints.</param>
         public CodeStructureViewModel(
             IWpfTextView textView,
             IWorkspaceManager workspaceManager,
-            IDocumentAnalyzerService diagnosticCollectorService,
+            IDocumentAnalyzerService documentAnalyzerService,
             FloatingDiagnosticHintsViewModel diagnosticHintsViewModel)
         {
             _textView = textView;
             _workspaceManager = workspaceManager ?? throw new ArgumentNullException(nameof(workspaceManager));
-            _diagnosticCollectorService = diagnosticCollectorService ?? throw new ArgumentNullException(nameof(diagnosticCollectorService));
+            _documentAnalyzerService = documentAnalyzerService ?? throw new ArgumentNullException(nameof(documentAnalyzerService));
             _diagnosticHintsViewModel = diagnosticHintsViewModel ?? throw new ArgumentNullException(nameof(diagnosticHintsViewModel));
 
-            _textView.TextViewModel.VisualBuffer.PostChanged += OnTextViewDataBufferChanged;
             _adornmentLayer = textView.GetAdornmentLayer("SelectionHintAdornment");
 
-            SetSyntaxWalker();
+            WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
+            RefreshUi();
+        }
+
+        private void OnAnalysisFinished(object sender, EventArgs args)
+        {
+            Application.Current.Dispatcher.Invoke(() => RefreshUi());
+        }
+
+        private void RefreshUi()
+        {
+            RaisePropertyChanged(nameof(LeafCount));
+            RaisePropertyChanged(nameof(CurrentDiagnosticLevel));
+
+            NodeCollection = CollectionViewSource.GetDefaultView(_documentAnalyzerService?.Nodes ?? new List<ICodeStructureNodeContainer>());
         }
 
         /// <summary>
@@ -109,7 +122,7 @@
         /// </summary>
         public int? LeafCount
         {
-            get { return SyntaxWalker.NodeList.OfType<ICodeStructureLeaf>().Count(); }
+            get { return _documentAnalyzerService?.Nodes.OfType<ICodeStructureLeaf>().Count(); }
         }
 
         /// <summary>
@@ -125,95 +138,25 @@
         }
 
         /// <summary>
-        /// Gets or sets the current diagnostic level.
+        /// Gets the current diagnostic level.
         /// </summary>
         public DiagnosticSeverity CurrentDiagnosticLevel
         {
-            get { return _currentDiagnosticLevel; }
-            set { Set(ref _currentDiagnosticLevel, value); }
-        }
-
-        /// <summary>
-        /// Cancels the token source and aplly  a new one.
-        /// </summary>
-        private void CancelAndRenewTokenSource()
-        {
-            if (_cts != null)
+            get
             {
-                _cts.Cancel();
-                _cts.Dispose();
+                if (!_documentAnalyzerService?.Diagnostics.Any() ?? true)
+                {
+                    return DiagnosticSeverity.Hidden;
+                }
+
+                return _documentAnalyzerService.Diagnostics.Max(x => x.Severity);
             }
-
-            _cts = new CancellationTokenSource();
         }
 
-        /// <summary>
-        /// Gets called when the data buffer changed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The event args.</param>
-        private void OnTextViewDataBufferChanged(object sender, EventArgs e)
+        public ICollectionView NodeCollection
         {
-            RefreshStructure();
-        }
-
-        /// <summary>
-        /// Refreshing the file structure
-        /// </summary>
-        private void RefreshStructure()
-        {
-            if (SyntaxWalker == null)
-            {
-                return;
-            }
-
-            CancelAndRenewTokenSource();
-            var token = _cts.Token;
-
-            if (IsPaused)
-            {
-                return;
-            }
-
-            Task.Run(() => Analysis(token));
-        }
-
-        private async Task Analysis(CancellationToken token)
-        {
-            // because analysis is a bit expensive we wait for further user input and may cancel current analysis.
-            await Task.Delay(TimeSpan.FromSeconds(1.5), token);
-            if (token.IsCancellationRequested)
-            {
-                return;
-            }
-
-            var document = GetDocument();
-            var tasks = new List<Task>();
-
-            tasks.Add(ProcessAnalysis(document, token));
-            tasks.Add(AnalyzeDocument(document, token));
-
-            await Task.WhenAll(tasks);
-        }
-
-        private async Task ProcessAnalysis(Document document, CancellationToken token)
-        {
-            // we want to remain responsive
-            Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
-
-            var analysisResult = await _diagnosticCollectorService.GetDiagnosticsAsync(document, token);
-            CurrentDiagnosticLevel = GetDiagnosticLevel(analysisResult, document);
-            AnalysisTime = Math.Round(analysisResult.AnalyzerTelemetryInfo.Sum(x => x.Value.ExecutionTime.TotalMilliseconds), 0);
-
-            // reset thread priority to normal
-            Thread.CurrentThread.Priority = ThreadPriority.Normal;
-        }
-
-        private async Task AnalyzeDocument(Document document, CancellationToken token)
-        {
-            var rootNode = await document.GetSyntaxRootAsync();
-            await SyntaxWalker.Analyze(rootNode, token);
-            RaisePropertyChanged(nameof(LeafCount));
+            get { return _nodeCollection; }
+            set { Set(ref _nodeCollection, value); }
         }
 
         /// <summary>
@@ -237,12 +180,6 @@
             }
 
             return diagnostics.Max(x => x.Severity);
-        }
-
-        private Document GetDocument()
-        {
-            var caretPosition = _textView.Caret.Position.BufferPosition;
-            return caretPosition.Snapshot.GetOpenDocumentInCurrentContextWithChanges();
         }
 
         /// <summary>
@@ -296,15 +233,6 @@
 
             _adornerContent.Width = Math.Max(0, _textView.ViewportWidth);
             _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, null, _adornerContent, null);
-        }
-
-        /// <summary>
-        /// Sets the syntax walker.
-        /// </summary>
-        private void SetSyntaxWalker()
-        {
-            SyntaxWalker = new TypeGroupedSyntaxAnalyzer();
-            RefreshStructure();
         }
     }
 }

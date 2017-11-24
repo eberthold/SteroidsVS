@@ -16,7 +16,6 @@
 
     public class TypeGroupedSyntaxAnalyzer : CSharpSyntaxWalker, ICodeStructureSyntaxAnalyzer
     {
-        private static SemaphoreSlim locker = new SemaphoreSlim(1, 1);
 
         private readonly List<TypeGroupedSyntaxAnalyzer> _subWalkers = new List<TypeGroupedSyntaxAnalyzer>();
         private readonly FileSectionHeader _file = new FileSectionHeader();
@@ -28,6 +27,7 @@
 
         private CancellationToken _token;
         private Guid _analyzeId;
+        private SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeGroupedSyntaxAnalyzer"/> class.
@@ -120,16 +120,18 @@
                 return;
             }
 
-            _analyzeId = Guid.NewGuid();
-
             try
             {
+                await _locker.WaitAsync();
+                _analyzeId = Guid.NewGuid();
+
                 await AnalyzeCore(node, token);
                 RootNode.RefreshIndexes();
                 SortNodes();
             }
             finally
             {
+                _locker.Release();
             }
         }
 

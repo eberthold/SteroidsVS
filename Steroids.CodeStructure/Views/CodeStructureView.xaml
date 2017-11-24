@@ -56,7 +56,7 @@
                     </Thumb.Template>
                 </Thumb>
 
-                <ListView Grid.Column="1" x:Name="PART_List" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding SyntaxWalker.NodeList}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" BorderThickness="0" HorizontalAlignment="Stretch" VirtualizingPanel.VirtualizationMode="Standard" SelectedItem="{Binding SelectedNode, Mode=TwoWay}"/>
+                <ListView Grid.Column="1" x:Name="PART_List" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" BorderThickness="0" HorizontalAlignment="Stretch" VirtualizingPanel.VirtualizationMode="Standard" SelectedItem="{Binding SelectedNode, Mode=TwoWay}"/>
             </Grid>
         </Border>
 

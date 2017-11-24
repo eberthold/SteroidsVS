@@ -142,7 +142,6 @@
     <Compile Include="ICompositionRoot.cs" />
     <Compile Include="IWorkspaceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IDocumentAnalyzerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\SteroidsVs.snk">
@@ -159,6 +158,9 @@
     <Analyzer Include="..\packages\Roslynator.Analyzers.1.5.0\analyzers\dotnet\cs\Roslynator.CSharp.Analyzers.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
