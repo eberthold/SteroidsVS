@@ -8,7 +8,6 @@
     using System.Windows.Controls;
     using System.Windows.Data;
     using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using Microsoft.VisualStudio.Text.Editor;
     using Microsoft.VisualStudio.Text.Formatting;
     using Steroids.CodeStructure.Analyzers;
@@ -33,7 +32,6 @@
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
         private ICodeStructureNodeContainer _selectedNode;
-        private DiagnosticSeverity _currentDiagnosticLevel;
         private double _analysisTime;
         private ICollectionView _nodeCollection;
 
@@ -59,19 +57,6 @@
 
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
             RefreshUi();
-        }
-
-        private void OnAnalysisFinished(object sender, EventArgs args)
-        {
-            Application.Current.Dispatcher.Invoke(() => RefreshUi());
-        }
-
-        private void RefreshUi()
-        {
-            RaisePropertyChanged(nameof(LeafCount));
-            RaisePropertyChanged(nameof(CurrentDiagnosticLevel));
-
-            NodeCollection = CollectionViewSource.GetDefaultView(_documentAnalyzerService?.Nodes ?? new List<ICodeStructureNodeContainer>());
         }
 
         /// <summary>
@@ -159,27 +144,17 @@
             set { Set(ref _nodeCollection, value); }
         }
 
-        /// <summary>
-        /// Gets the highest <see cref="DiagnosticSeverity"/> in this document.
-        /// </summary>
-        /// <param name="analysisResult">The <see cref="AnalysisResult"/>.</param>
-        /// <param name="document">The current <see cref="Document"/>.</param>
-        /// <returns>The <see cref="DiagnosticSeverity"/>.</returns>
-        private DiagnosticSeverity GetDiagnosticLevel(AnalysisResult analysisResult, Document document)
+        private void OnAnalysisFinished(object sender, EventArgs args)
         {
-            if (analysisResult == null)
-            {
-                return DiagnosticSeverity.Hidden;
-            }
+            Application.Current.Dispatcher.Invoke(() => RefreshUi());
+        }
 
-            var diagnostics = analysisResult.GetAllDiagnostics().Where(x => x.Location.SourceTree.FilePath == document.FilePath).ToList();
-            _diagnosticHintsViewModel.MergeDiagnostics(diagnostics);
-            if (!diagnostics.Any())
-            {
-                return DiagnosticSeverity.Hidden;
-            }
+        private void RefreshUi()
+        {
+            RaisePropertyChanged(nameof(LeafCount));
+            RaisePropertyChanged(nameof(CurrentDiagnosticLevel));
 
-            return diagnostics.Max(x => x.Severity);
+            NodeCollection = CollectionViewSource.GetDefaultView(_documentAnalyzerService?.Nodes ?? new List<ICodeStructureNodeContainer>());
         }
 
         /// <summary>

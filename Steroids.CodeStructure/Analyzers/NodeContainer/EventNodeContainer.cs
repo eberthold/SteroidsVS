@@ -22,7 +22,7 @@
         /// <inheritdoc />
         protected override ImageMoniker GetMoniker()
         {
-            return (ImageMoniker)typeof(KnownMonikers).GetProperty($"Event{AccessModifier}").GetValue(null);
+            return MonikerCache.GetMoniker($"Event{AccessModifier}");
         }
 
         /// <inheritdoc />

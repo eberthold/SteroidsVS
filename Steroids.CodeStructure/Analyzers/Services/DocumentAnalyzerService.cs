@@ -135,9 +135,18 @@
         {
             var compilation = await document.Project.GetCompilationAsync(token);
             ImmutableArray<DiagnosticAnalyzer> analyzers = GetAnalyzersOfProject(document);
-            var analyzedCompilation = compilation.WithAnalyzers(analyzers);
 
-            var allDiagnostics = await analyzedCompilation.GetAllDiagnosticsAsync(token);
+            ImmutableArray<Diagnostic> allDiagnostics = ImmutableArray<Diagnostic>.Empty;
+            if (analyzers.Length > 0)
+            {
+                var analyzedCompilation = compilation.WithAnalyzers(analyzers);
+                allDiagnostics = await analyzedCompilation.GetAllDiagnosticsAsync(token);
+            }
+            else
+            {
+                allDiagnostics = compilation.GetDiagnostics();
+            }
+
             return allDiagnostics.Where(x => x.Location.SourceTree.FilePath == document.FilePath);
         }
 
