@@ -2,6 +2,7 @@
 {
     using Microsoft.VisualStudio.Text.Editor;
     using Steroids.CodeStructure.Adorners;
+    using Steroids.CodeStructure.Analyzers.Services;
     using Steroids.CodeStructure.ViewModels;
     using Unity;
     using Unity.Lifetime;
@@ -27,6 +28,7 @@
         {
             Container = RootContainer.CreateChildContainer();
             Container.RegisterInstance(_textView);
+            Container.RegisterType<ISyntaxWalkerProvider, SyntaxWalkerProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<FloatingDiagnosticHintsViewModel>(new ContainerControlledLifetimeManager());

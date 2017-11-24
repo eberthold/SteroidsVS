@@ -3,9 +3,8 @@
     using System;
     using System.ComponentModel.Composition;
     using Microsoft.CodeAnalysis;
-    using Steroids.CodeStructure.Services;
+    using Steroids.CodeStructure.Analyzers.Services;
     using Steroids.Contracts;
-    using Steroids.Contracts.Services;
     using SteroidsVS.Contracts;
     using Unity;
     using Unity.Lifetime;
@@ -25,7 +24,7 @@
             Container.RegisterInstance(workspace);
 
             Container.RegisterType<IWorkspaceManager, WorkspaceManager>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IDocumentAnalyzerService, DocumentanAlyzerService>(new HierarchicalLifetimeManager());
+            Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new HierarchicalLifetimeManager());
         }
 
         /// <inheritdoc />
