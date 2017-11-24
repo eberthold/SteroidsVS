@@ -5,6 +5,20 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS", "SteroidsVS\SteroidsVS.csproj", "{CE39BD04-12F1-4061-89A0-86154E247132}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeStructure", "Steroids.CodeStructure\Steroids.CodeStructure.csproj", "{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Skin", "Steroids.Skin\Steroids.Skin.csproj", "{DEA6534A-406C-409E-802F-9B655BC8E876}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Common", "Steroids.Common\Steroids.Common.csproj", "{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionFiles", ".SolutionFiles", "{12415D6D-27DC-4947-9C17-64F892C1FCB1}"
+	ProjectSection(SolutionItems) = preProject
+		SteroidsVS.ruleset = SteroidsVS.ruleset
+		SteroidsVs.snk = SteroidsVs.snk
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Contracts", "Steroids.Contracts\Steroids.Contracts.csproj", "{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +29,22 @@ Global
 		{CE39BD04-12F1-4061-89A0-86154E247132}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE39BD04-12F1-4061-89A0-86154E247132}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE39BD04-12F1-4061-89A0-86154E247132}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEA6534A-406C-409E-802F-9B655BC8E876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEA6534A-406C-409E-802F-9B655BC8E876}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEA6534A-406C-409E-802F-9B655BC8E876}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEA6534A-406C-409E-802F-9B655BC8E876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
