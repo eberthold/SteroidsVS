@@ -15,7 +15,7 @@
         /// <inheritdoc />
         protected override ImageMoniker GetMoniker()
         {
-            return (ImageMoniker)typeof(KnownMonikers).GetProperty($"EnumerationItem{AccessModifier}").GetValue(null);
+            return MonikerCache.GetMoniker($"EnumerationItem{AccessModifier}");
         }
 
         /// <inheritdoc />

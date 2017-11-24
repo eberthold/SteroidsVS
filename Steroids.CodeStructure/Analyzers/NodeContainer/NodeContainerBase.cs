@@ -107,11 +107,7 @@
             {
                 if (_moniker.Equals(KnownMonikers.UnknownMember))
                 {
-                    // the moniker uses reflection, which is slow on large file, so run on background thread
-                    Task.Run(() =>
-                    {
-                        Moniker = GetMoniker();
-                    });
+                    Moniker = GetMoniker();
                 }
 
                 return _moniker;

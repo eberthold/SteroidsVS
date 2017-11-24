@@ -282,6 +282,7 @@
     <Compile Include="Analyzers\NodeContainer\FieldNodeContainer.cs" />
     <Compile Include="Analyzers\ICodeStructureLeaf.cs" />
     <Compile Include="Analyzers\NodeContainer\MethodNodeContainer.cs" />
+    <Compile Include="Analyzers\NodeContainer\MonikerCache.cs" />
     <Compile Include="Analyzers\NodeContainer\NodeContainerBase.cs" />
     <Compile Include="Analyzers\NodeContainer\PropertyNodeContainer.cs" />
     <Compile Include="Analyzers\SectionHeader\ClassSectionHeader.cs" />
