@@ -34,6 +34,7 @@
         private ICodeStructureNodeContainer _selectedNode;
         private double _analysisTime;
         private ICollectionView _nodeCollection;
+        private bool _isPinned;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureViewModel"/> class.
@@ -57,6 +58,12 @@
 
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
             RefreshUi();
+        }
+
+        public bool IsPinned
+        {
+            get { return _isPinned; }
+            set { Set(ref _isPinned, value); }
         }
 
         /// <summary>

@@ -16,7 +16,6 @@
 
     public class TypeGroupedSyntaxAnalyzer : CSharpSyntaxWalker, ICodeStructureSyntaxAnalyzer
     {
-
         private readonly List<TypeGroupedSyntaxAnalyzer> _subWalkers = new List<TypeGroupedSyntaxAnalyzer>();
         private readonly FileSectionHeader _file = new FileSectionHeader();
         private readonly FieldsSectionHeader _fields = new FieldsSectionHeader();
@@ -263,6 +262,7 @@
         /// Analyzes a single section in separate walker.
         /// </summary>
         /// <param name="node">The node </param>
+        /// <param name="rootOfSubtree">The <see cref="ICodeStructureSectionHeader"/>.</param>
         private async void VisitSectionDeclaration(SyntaxNode node, ICodeStructureSectionHeader rootOfSubtree)
         {
             if (!RootNode.Items.Any(x => x.Id == rootOfSubtree.Id))
@@ -381,28 +381,6 @@
             });
 
             return Task.FromResult(0);
-        }
-
-        /// <summary>
-        /// Ensures that the node is in list and at right position.
-        /// </summary>
-        /// <param name="section">The <see cref="ICodeStructureSectionHeader"/>.</param>
-        private void ArrangeSectionInList(ICodeStructureSectionHeader section)
-        {
-            //if (section.Items.Count == 0)
-            //{
-            //    return;
-            //}
-
-            //if (!NodeList.Contains(section))
-            //{
-            //    NodeList.Add(section);
-            //}
-
-            //foreach (var node in section.Items.Where(x => !NodeList.Contains(x)))
-            //{
-            //    NodeList.Add(node);
-            //}
         }
 
         /// <summary>

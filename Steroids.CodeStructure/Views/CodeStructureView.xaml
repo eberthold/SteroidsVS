@@ -6,6 +6,7 @@
              xmlns:controls="clr-namespace:Steroids.CodeStructure.Controls"
              xmlns:converters="clr-namespace:Steroids.Common.Converters;assembly=Steroids.Common"
              xmlns:viewModels="clr-namespace:Steroids.CodeStructure.ViewModels"
+             xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
              mc:Ignorable="d" 
              MinWidth="150"
              Loaded="OnLoaded"
@@ -30,7 +31,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border x:Name="PART_ListBorder" Grid.Row="1" BorderBrush="#007ACC" BorderThickness="1" Background="#111111" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=PART_Indicator, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <!-- Flyout -->
+        <!-- #007ACC -->
+        <Border x:Name="PART_ListBorder" Grid.Row="1" Cursor="Arrow" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTabSelectedActiveTextBrushKey}}" BorderThickness="1" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowContentGridBrushKey}}" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=PART_Indicator, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -40,7 +43,7 @@
                 <Thumb DragDelta="OnThumbDragged" Cursor="SizeWE">
                     <Thumb.Template>
                         <ControlTemplate TargetType="{x:Type Thumb}">
-                            <Grid Grid.Column="0" Background="#007ACC">
+                            <Grid Grid.Column="0" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTabSelectedActiveTextBrushKey}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1"/>
                                     <ColumnDefinition Width="Auto" />
@@ -56,11 +59,25 @@
                     </Thumb.Template>
                 </Thumb>
 
-                <ListView Grid.Column="1" x:Name="PART_List" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" BorderThickness="0" HorizontalAlignment="Stretch" VirtualizingPanel.VirtualizationMode="Standard" SelectedItem="{Binding SelectedNode, Mode=TwoWay}"/>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Column="0" BorderThickness="0, 0, 0, 1" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.CommandBarMenuBorderBrushKey}}" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.CommandBarMenuBackgroundGradientBrushKey}}">
+                        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right">
+                            <CheckBox IsChecked="{Binding IsPinned, Mode=TwoWay}" />
+                        </StackPanel>
+                    </Border>
+                    
+                    <ListView Grid.Row="1" x:Name="PART_List" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" BorderThickness="0" HorizontalAlignment="Stretch" VirtualizingPanel.VirtualizationMode="Standard" SelectedItem="{Binding SelectedNode, Mode=TwoWay}"/>
+                </Grid>
             </Grid>
         </Border>
 
-        <Grid Grid.Row="3" Width="33" Height="33" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        <!-- Indicator Button -->
+        <Grid Grid.Row="3" Width="33" Height="33" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="Arrow">
             <Border>
                 <Border.CacheMode>
                     <BitmapCache EnableClearType="False" SnapsToDevicePixels="False" />

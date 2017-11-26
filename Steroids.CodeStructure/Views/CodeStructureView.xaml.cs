@@ -1,12 +1,12 @@
 ﻿namespace Steroids.CodeStructure.Views
 {
-    using Steroids.CodeStructure.ViewModels;
     using System;
     using System.ComponentModel;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
+    using Steroids.CodeStructure.ViewModels;
 
     public partial class CodeStructureView : UserControl
     {
@@ -61,7 +61,7 @@
             }
 
             var vm = DataContext as CodeStructureViewModel;
-            if (vm == null)
+            if (vm == null || vm.IsPinned)
             {
                 return;
             }

@@ -6,6 +6,7 @@
     xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:moduleConverters="clr-namespace:Steroids.CodeStructure.Converters"
+    xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
     xmlns:selector="clr-namespace:Steroids.CodeStructure.TemplateSelectors"
     xmlns:converters="clr-namespace:Steroids.CodeStructure.Converters"
     mc:Ignorable="d"
@@ -13,7 +14,6 @@
 
     <moduleConverters:LevelToThicknessConverter x:Key="LevelToThicknessConverter" />
 
-    <SolidColorBrush x:Key="ToolWindowTextBrush" Color="White" />
     <SolidColorBrush x:Key="ClickableItemContainerHighlightBrush" Color="#44444444" />
 
     <SolidColorBrush x:Key="DiagnosticsNoneBrush" Color="Chartreuse" />
@@ -108,7 +108,7 @@
     </Style>
 
     <Style x:Key="CodeStructureTextBlock" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource ToolWindowTextBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
 
@@ -152,7 +152,7 @@
         <ContentControl Style="{StaticResource MouseOverControl}" Padding="{Binding IndentLevel, Converter={StaticResource LevelToThicknessConverter}}" theming:ImageThemingUtilities.ImageBackgroundColor="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource BrushToColorConverter}}">
             <StackPanel Orientation="Horizontal" Margin="0, 2">
                 <imaging:CrispImage Width="16" Height="16" Moniker="{Binding Moniker}" Margin="0, 0, 6, 0"/>
-                <TextBlock Text="{Binding Name}" Foreground="{StaticResource ToolWindowTextBrush}" VerticalAlignment="Center" Style="{StaticResource CodeStructureTextBlock}"/>
+                <TextBlock Text="{Binding Name}" Foreground="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextBrushKey}}" VerticalAlignment="Center" Style="{StaticResource CodeStructureTextBlock}"/>
             </StackPanel>
         </ContentControl>
     </DataTemplate>
@@ -161,7 +161,7 @@
         <ContentControl Style="{StaticResource ExpandableControl}" Padding="{Binding IndentLevel, Converter={StaticResource LevelToThicknessConverter}}" theming:ImageThemingUtilities.ImageBackgroundColor="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource BrushToColorConverter}}">
             <StackPanel Orientation="Horizontal" Margin="0, 2">
                 <imaging:CrispImage Width="16" Height="16" Moniker="{Binding Moniker}" Margin="0, 0, 6, 0"/>
-                <TextBlock Text="{Binding Name}" Foreground="{StaticResource ToolWindowTextBrush}" VerticalAlignment="Center" Style="{StaticResource CodeStructureTextBlock}"/>
+                <TextBlock Text="{Binding Name}" Foreground="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextBrushKey}}" VerticalAlignment="Center" Style="{StaticResource CodeStructureTextBlock}"/>
             </StackPanel>
         </ContentControl>
     </DataTemplate>
