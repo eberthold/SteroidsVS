@@ -82,11 +82,7 @@
         {
             get
             {
-                if (_indentLevel == -1)
-                {
-                    _indentLevel = Parent?.IndentLevel + 1 ?? 0;
-                }
-
+                _indentLevel = Parent?.IndentLevel + 1 ?? -1;
                 return _indentLevel;
             }
 

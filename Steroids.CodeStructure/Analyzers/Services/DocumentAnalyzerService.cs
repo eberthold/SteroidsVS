@@ -11,16 +11,16 @@
     using Microsoft.VisualStudio.Text.Editor;
     using Steroids.CodeStructure.Analyzers;
     using Steroids.CodeStructure.Extensions;
+    using Steroids.Common.Helpers;
     using Steroids.Contracts;
 
     public class DocumentAnalyzerService : IDocumentAnalyzerService
     {
-        private const double AnalysisStartDelay = 1.5;
-
+        private readonly TimeSpan _analysisStartDelay = TimeSpan.FromSeconds(1);
         private readonly IWpfTextView _textView;
         private readonly ISyntaxWalkerProvider _syntaxWalkerProvider;
 
-        private CancellationTokenSource _cts = new CancellationTokenSource();
+        private Debouncer _debouncer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentAnalyzerService"/> class.
@@ -37,7 +37,9 @@
             _syntaxWalkerProvider = syntaxWalkerProvider ?? throw new ArgumentNullException(nameof(syntaxWalkerProvider));
 
             workspaceManager.VsWorkspace.WorkspaceChanged += OnWorkspaceChanged;
-            Task.Run(() => Analysis(_cts.Token));
+
+            _debouncer = new Debouncer(() => Task.Run(Analysis), _analysisStartDelay);
+            Task.Run(Analysis);
         }
 
         /// <inheritdoc />
@@ -61,34 +63,24 @@
                 return;
             }
 
-            var token = CancelAndRenewTokenSource();
-
-            Task.Run(() => Analysis(token));
+            _debouncer.Start();
         }
 
         /// <summary>
         /// Performs the document analysis, after the <see cref="AnalysisStartDelay"/> exceeded.
         /// </summary>
-        /// <param name="token">The <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        private async Task Analysis(CancellationToken token)
+        private async Task Analysis()
         {
-            // because analysis is a bit expensive we wait for further user input and may cancel current analysis.
-            await Task.Delay(TimeSpan.FromSeconds(AnalysisStartDelay), token);
-            if (token.IsCancellationRequested)
-            {
-                return;
-            }
-
             var document = _textView.GetDocument();
 
             var tasks = new List<Task>
             {
-                DocumentAnalysis(document, token),
-                AnalyzeCodeStructureAsync(document, token)
+                DocumentAnalysis(document),
+                AnalyzeCodeStructureAsync(document)
             };
 
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(tasks).ConfigureAwait(false);
 
             AnalysisFinished?.Invoke(this, EventArgs.Empty);
         }
@@ -97,17 +89,16 @@
         /// Does the code structure analysis.
         /// </summary>
         /// <param name="document">The <see cref="Document"/>.</param>
-        /// <param name="token">The <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        private async Task AnalyzeCodeStructureAsync(Document document, CancellationToken token)
+        private async Task AnalyzeCodeStructureAsync(Document document)
         {
             // we want to remain responsive
             Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 
             var syntaxAnalyzer = _syntaxWalkerProvider.SyntaxAnalyzer;
-            var rootNode = await document.GetSyntaxRootAsync(token);
+            var rootNode = await document.GetSyntaxRootAsync(CancellationToken.None);
 
-            await syntaxAnalyzer.Analyze(rootNode, token);
+            await syntaxAnalyzer.Analyze(rootNode, CancellationToken.None);
             Nodes = syntaxAnalyzer.NodeList;
 
             // reset thread priority to normal
@@ -118,29 +109,28 @@
         /// Analyses the document for existing errors, warnings and hints.
         /// </summary>
         /// <param name="document">The <see cref="Document"/>.</param>
-        /// <param name="token">The <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        private async Task DocumentAnalysis(Document document, CancellationToken token)
+        private async Task DocumentAnalysis(Document document)
         {
             // we want to remain responsive
             Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 
-            Diagnostics = await GetDiagnosticsAsync(document, token);
+            Diagnostics = await GetDiagnosticsAsync(document);
 
             // reset thread priority to normal
             Thread.CurrentThread.Priority = ThreadPriority.Normal;
         }
 
-        private async Task<IEnumerable<Diagnostic>> GetDiagnosticsAsync(Document document, CancellationToken token)
+        private async Task<IEnumerable<Diagnostic>> GetDiagnosticsAsync(Document document)
         {
-            var compilation = await document.Project.GetCompilationAsync(token);
+            var compilation = await document.Project.GetCompilationAsync(CancellationToken.None);
             ImmutableArray<DiagnosticAnalyzer> analyzers = GetAnalyzersOfProject(document);
 
             ImmutableArray<Diagnostic> allDiagnostics = ImmutableArray<Diagnostic>.Empty;
             if (analyzers.Length > 0)
             {
                 var analyzedCompilation = compilation.WithAnalyzers(analyzers);
-                allDiagnostics = await analyzedCompilation.GetAllDiagnosticsAsync(token);
+                allDiagnostics = await analyzedCompilation.GetAllDiagnosticsAsync(CancellationToken.None);
             }
             else
             {
@@ -164,18 +154,6 @@
             }
 
             return ImmutableArray<DiagnosticAnalyzer>.Empty.AddRange(analyzerReferences);
-        }
-
-        /// <summary>
-        /// Cancels the <see cref="_cts"/> and creates a new one.
-        /// </summary>
-        /// <returns>The new <see cref="CancellationToken"/>.</returns>
-        private CancellationToken CancelAndRenewTokenSource()
-        {
-            _cts?.Cancel();
-            _cts?.Dispose();
-            _cts = new CancellationTokenSource();
-            return _cts.Token;
         }
     }
 }

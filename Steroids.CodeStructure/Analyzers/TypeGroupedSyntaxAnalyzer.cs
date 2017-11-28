@@ -39,6 +39,7 @@
             };
 
             NodeList = new ObservableCollection<ICodeStructureNodeContainer>();
+
             TreeId = Guid.NewGuid();
         }
 
@@ -49,7 +50,6 @@
         /// <param name="nodeList">The node list of the root syntax walker.</param>
         /// <param name="rootNode">The <see cref="ICodeStructureNodeContainer">root node</see> for this walker.</param>
         private TypeGroupedSyntaxAnalyzer(Guid analyzeId, ObservableCollection<ICodeStructureNodeContainer> nodeList, ICodeStructureSectionHeader rootNode)
-            : base()
         {
             NodeList = nodeList;
             _analyzeId = analyzeId;
@@ -121,7 +121,11 @@
 
             try
             {
-                await _locker.WaitAsync();
+                if (!await _locker.WaitAsync(TimeSpan.FromSeconds(0.5)))
+                {
+                    return;
+                }
+
                 _analyzeId = Guid.NewGuid();
 
                 await AnalyzeCore(node, token);
