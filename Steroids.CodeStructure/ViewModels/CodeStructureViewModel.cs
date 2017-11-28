@@ -57,7 +57,6 @@
             _adornmentLayer = textView.GetAdornmentLayer("SelectionHintAdornment");
 
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
-            RefreshUi();
         }
 
         public bool IsPinned
@@ -78,10 +77,8 @@
 
             set
             {
-                _selectedNode = value;
+                Set(ref _selectedNode, value);
                 ScrollToNode(value);
-                _selectedNode = null;  // one day we will synchronize the cursor position with the selected node.
-                RaisePropertyChanged();
             }
         }
 
@@ -211,7 +208,7 @@
             Canvas.SetTop(_adornerContent, startLine.TextTop);
             Canvas.SetLeft(_adornerContent, 0);
 
-            _adornerContent.Height = Math.Max(0, endLine.Top - startLine.Top);
+            _adornerContent.Height = Math.Max(startLine.Height, endLine.Top - startLine.Top);
 
             _adornerContent.Width = Math.Max(0, _textView.ViewportWidth);
             _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, null, _adornerContent, null);

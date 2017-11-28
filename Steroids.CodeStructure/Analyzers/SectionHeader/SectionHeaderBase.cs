@@ -8,7 +8,6 @@
 
     public abstract class SectionHeaderBase : NodeContainerBase<CSharpSyntaxNode>, ICodeStructureSectionHeader
     {
-        private readonly List<ICodeStructureNodeContainer> _items = new List<ICodeStructureNodeContainer>();
         private bool _isCollapsed;
 
         /// <summary>
@@ -18,9 +17,9 @@
         {
             get
             {
-                _items.RemoveAll(x => x.AnalyzeId != AnalyzeId);
+                Items.RemoveAll(x => x.AnalyzeId != AnalyzeId);
 
-                return _items.Concat(_items.OfType<ICodeStructureSectionHeader>().SelectMany(x => x.AllTreeItems)).ToList();
+                return Items.Concat(Items.OfType<ICodeStructureSectionHeader>().SelectMany(x => x.AllTreeItems)).ToList();
             }
         }
 
@@ -38,10 +37,7 @@
         /// <summary>
         /// Gets the <see cref="ICodeStructureSectionHeader.Items"/>.
         /// </summary>
-        public List<ICodeStructureNodeContainer> Items
-        {
-            get { return _items; }
-        }
+        public List<ICodeStructureNodeContainer> Items { get; } = new List<ICodeStructureNodeContainer>();
 
         /// <summary>
         /// Gets the <see cref="ICodeStructureSectionHeader.LastAbsoluteIndex"/>.

@@ -68,5 +68,16 @@
 
             vm.IsListVisible = false;
         }
+
+        private void OnListSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var list = sender as ListView;
+            if (list?.SelectedItem == null)
+            {
+                return;
+            }
+
+            list.SelectedItem = null;
+        }
     }
 }
