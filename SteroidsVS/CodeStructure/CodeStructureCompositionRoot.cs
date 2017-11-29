@@ -1,10 +1,13 @@
 ﻿namespace SteroidsVS.CodeStructure
 {
+    using EnvDTE;
+    using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Text.Editor;
     using Steroids.CodeStructure.Adorners;
     using Steroids.CodeStructure.Analyzers.Services;
     using Steroids.CodeStructure.ViewModels;
     using Unity;
+    using Unity.Injection;
     using Unity.Lifetime;
 
     public class CodeStructureCompositionRoot : CompositionRoot
@@ -28,6 +31,7 @@
         {
             Container = RootContainer.CreateChildContainer();
             Container.RegisterInstance(_textView);
+
             Container.RegisterType<ISyntaxWalkerProvider, SyntaxWalkerProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureViewModel>(new ContainerControlledLifetimeManager());

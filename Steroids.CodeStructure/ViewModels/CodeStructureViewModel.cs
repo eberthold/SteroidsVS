@@ -22,7 +22,7 @@
         private const string AdornmentName = "HintAdorner";
 
         private readonly IWpfTextView _textView;
-        private readonly IWorkspaceManager _workspaceManager;
+        private readonly ICompilationAnalyzerService _compilationAnalyzerService;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
         private readonly IAdornmentLayer _adornmentLayer;
         private readonly FloatingDiagnosticHintsViewModel _diagnosticHintsViewModel;
@@ -40,22 +40,23 @@
         /// Initializes a new instance of the <see cref="CodeStructureViewModel"/> class.
         /// </summary>
         /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
-        /// <param name="workspaceManager">The <see cref="IWorkspaceManager"/>.</param>
+        /// <param name="compilationAnalyzerService">The <see cref="ICompilationAnalyzerService"/>.</param>
         /// <param name="documentAnalyzerService">The <see cref="IDocumentAnalyzerService"/>.</param>
         /// <param name="diagnosticHintsViewModel">The view model which should display all our diagnostic hints.</param>
         public CodeStructureViewModel(
             IWpfTextView textView,
-            IWorkspaceManager workspaceManager,
+            ICompilationAnalyzerService compilationAnalyzerService,
             IDocumentAnalyzerService documentAnalyzerService,
             FloatingDiagnosticHintsViewModel diagnosticHintsViewModel)
         {
             _textView = textView;
-            _workspaceManager = workspaceManager ?? throw new ArgumentNullException(nameof(workspaceManager));
+            _compilationAnalyzerService = compilationAnalyzerService ?? throw new ArgumentNullException(nameof(compilationAnalyzerService));
             _documentAnalyzerService = documentAnalyzerService ?? throw new ArgumentNullException(nameof(documentAnalyzerService));
             _diagnosticHintsViewModel = diagnosticHintsViewModel ?? throw new ArgumentNullException(nameof(diagnosticHintsViewModel));
 
             _adornmentLayer = textView.GetAdornmentLayer("SelectionHintAdornment");
 
+            WeakEventManager<ICompilationAnalyzerService, EventArgs>.AddHandler(_compilationAnalyzerService, nameof(ICompilationAnalyzerService.CompilationFinished), OnAnalysisFinished);
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
         }
 
@@ -133,12 +134,25 @@
         {
             get
             {
-                if (!_documentAnalyzerService?.Diagnostics.Any() ?? true)
+                var document = _textView.GetDocument();
+                if (document == null)
                 {
                     return DiagnosticSeverity.Hidden;
                 }
 
-                return _documentAnalyzerService.Diagnostics.Max(x => x.Severity);
+                var allDiagnostics = _compilationAnalyzerService.GetProjectDiagnostics(document.Project);
+                if (allDiagnostics == null)
+                {
+                    return DiagnosticSeverity.Hidden;
+                }
+
+                var documentDiagnostics = allDiagnostics.Where(x => x.Location.SourceTree.FilePath == document.FilePath);
+                if (!documentDiagnostics.Any())
+                {
+                    return DiagnosticSeverity.Hidden;
+                }
+
+                return documentDiagnostics.Max(x => x.Severity);
             }
         }
 

@@ -1,15 +1,18 @@
 ﻿namespace SteroidsVS.Contracts
 {
-    using Microsoft.CodeAnalysis;
+    using Microsoft.VisualStudio.LanguageServices;
     using Steroids.Contracts;
 
     public class WorkspaceManager : IWorkspaceManager
     {
-        public WorkspaceManager(Workspace workspace)
+        public WorkspaceManager(VisualStudioWorkspace workspace)
         {
             VsWorkspace = workspace;
         }
 
-        public Workspace VsWorkspace { get; set; }
+        public VisualStudioWorkspace VsWorkspace
+        {
+            get; set;
+        }
     }
 }

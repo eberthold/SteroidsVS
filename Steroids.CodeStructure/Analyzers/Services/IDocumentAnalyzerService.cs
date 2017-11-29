@@ -17,8 +17,8 @@
         IEnumerable<ICodeStructureNodeContainer> Nodes { get; }
 
         /// <summary>
-        /// Gets the diagnostics of the last analysis run.
+        /// Gets the Id of the Project, for which this Analyzer works.
         /// </summary>
-        IEnumerable<Diagnostic> Diagnostics { get; }
+        ProjectId ProjectId { get; }
     }
 }

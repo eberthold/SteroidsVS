@@ -4,6 +4,7 @@
     using System.Runtime.InteropServices;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.ComponentModelHost;
+    using Microsoft.VisualStudio.LanguageServices;
     using Microsoft.VisualStudio.Shell;
     using Steroids.Contracts;
 
@@ -31,7 +32,7 @@
             base.Initialize();
 
             var componentModel = (IComponentModel)GetGlobalService(typeof(SComponentModel));
-            var workspace = componentModel.GetService<Microsoft.VisualStudio.LanguageServices.VisualStudioWorkspace>();
+            var workspace = componentModel.GetService<VisualStudioWorkspace>();
 
             var root = new CompositionRoot();
             root.Initialize(workspace);
