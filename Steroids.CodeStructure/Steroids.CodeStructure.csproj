@@ -42,6 +42,11 @@
     <AssemblyOriginatorKeyFile>..\SteroidsVs.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\packages\EnvDTE.8.0.1\lib\net10\EnvDTE.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Esent.Interop, Version=1.9.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ManagedEsent.1.9.4\lib\net40\Esent.Interop.dll</HintPath>
     </Reference>
@@ -162,6 +167,11 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\packages\stdole.7.0.3301\lib\net10\stdole.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.AppContext.4.3.0\lib\net463\System.AppContext.dll</HintPath>
@@ -300,6 +310,8 @@
     <Compile Include="Analyzers\SectionHeader\PropertiesSectionHeader.cs" />
     <Compile Include="Analyzers\SectionHeader\SectionHeaderBase.cs" />
     <Compile Include="Analyzers\SectionHeader\StructSectionHeader.cs" />
+    <Compile Include="Analyzers\Services\CompilationAnalyzerService.cs" />
+    <Compile Include="Analyzers\Services\ICompilationAnalyzerService.cs" />
     <Compile Include="Analyzers\Services\ISyntaxWalkerProvider.cs" />
     <Compile Include="Analyzers\Services\SyntaxWalkerProvider.cs" />
     <Compile Include="Analyzers\TypeGroupedSyntaxAnalyzer.cs" />

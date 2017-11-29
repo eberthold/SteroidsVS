@@ -13,6 +13,8 @@
              Width="250"
              Loaded="OnLoaded"
              Unloaded="OnUnloaded"
+             UseLayoutRounding="True"
+             SnapsToDevicePixels="True"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=viewModels:CodeStructureViewModel}"
              d:DesignHeight="400" d:DesignWidth="250">
     <UserControl.Resources>
@@ -66,11 +68,11 @@
 
                     <Border Grid.Column="0" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.CommandBarToolBarBorderBrushKey}}">
                         <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" Margin="4, 2">
-                            <CheckBox Content="{x:Static imageCatalog:KnownMonikers.Pin}" IsChecked="{Binding IsPinned, Mode=TwoWay}" Style="{StaticResource MonikerCheckBox}"/>
+                            <CheckBox Focusable="False" Content="{x:Static imageCatalog:KnownMonikers.Pin}" IsChecked="{Binding IsPinned, Mode=TwoWay}" Style="{StaticResource MonikerCheckBox}"/>
                         </StackPanel>
                     </Border>
                     
-                    <ListView Grid.Row="1" x:Name="PART_List" SelectionMode="Single" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" BorderThickness="0" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedNode, Mode=TwoWay}" SelectionChanged="OnListSelectionChanged"/>
+                    <ListView Focusable="False" Grid.Row="1" x:Name="PART_List" SelectionMode="Single" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" BorderThickness="0" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedNode, Mode=TwoWay}" SelectionChanged="OnListSelectionChanged"/>
                 </Grid>
             </Grid>
         </Border>

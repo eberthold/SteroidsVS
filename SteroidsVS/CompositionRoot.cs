@@ -2,11 +2,14 @@
 {
     using System;
     using System.ComponentModel.Composition;
-    using Microsoft.CodeAnalysis;
+    using EnvDTE;
+    using Microsoft.VisualStudio.LanguageServices;
+    using Microsoft.VisualStudio.Shell;
     using Steroids.CodeStructure.Analyzers.Services;
     using Steroids.Contracts;
     using SteroidsVS.Contracts;
     using Unity;
+    using Unity.Injection;
     using Unity.Lifetime;
 
     [Export(typeof(ICompositionRoot))]
@@ -16,7 +19,7 @@
 
         protected virtual IUnityContainer Container { get; set; }
 
-        public void Initialize(Workspace workspace)
+        public void Initialize(VisualStudioWorkspace workspace)
         {
             RootContainer = new UnityContainer();
             Container = RootContainer;
@@ -25,6 +28,7 @@
 
             Container.RegisterType<IWorkspaceManager, WorkspaceManager>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new HierarchicalLifetimeManager());
+            Container.RegisterType<ICompilationAnalyzerService, CompilationAnalyzerService>(new ContainerControlledLifetimeManager());
         }
 
         /// <inheritdoc />
