@@ -14,26 +14,22 @@
     {
         private readonly IWpfTextView _textView;
         private readonly ISyntaxWalkerProvider _syntaxWalkerProvider;
-        private readonly Debouncer _compilationDebouncer;
         private readonly Debouncer _structureDebouncer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentAnalyzerService"/> class.
         /// </summary>
         /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
-        /// <param name="compilationAnalyzerService">The <see cref="ICompilationAnalyzerService"/>.</param>
         /// <param name="syntaxWalkerProvider">The <see cref="ISyntaxWalkerProvider"/>.</param>
         public DocumentAnalyzerService(
             IWpfTextView textView,
-            ICompilationAnalyzerService compilationAnalyzerService,
             ISyntaxWalkerProvider syntaxWalkerProvider)
         {
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
             _syntaxWalkerProvider = syntaxWalkerProvider ?? throw new ArgumentNullException(nameof(syntaxWalkerProvider));
 
             _textView.TextBuffer.PostChanged += OnTextChanged;
-            _structureDebouncer = new Debouncer(Analysis, TimeSpan.FromSeconds(0.5));
-            _compilationDebouncer = new Debouncer(compilationAnalyzerService.DoCompilation, TimeSpan.FromSeconds(1.5));
+            _structureDebouncer = new Debouncer(Analysis, TimeSpan.FromSeconds(1.5));
             _structureDebouncer.Start();
         }
 
@@ -54,7 +50,6 @@
             }
 
             _structureDebouncer.Start();
-            _compilationDebouncer.Start();
         }
 
         /// <summary>

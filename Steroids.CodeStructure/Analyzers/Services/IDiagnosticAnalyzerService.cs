@@ -5,7 +5,7 @@
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Diagnostics;
 
-    public interface ICompilationAnalyzerService
+    public interface IDiagnosticAnalyzerService
     {
         event EventHandler CompilationFinished;
 

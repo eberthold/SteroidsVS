@@ -3,11 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
+    using System.Windows.Data;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -38,7 +40,9 @@
                 AbsoluteIndex = -1,
             };
 
-            NodeList = new ObservableCollection<ICodeStructureNodeContainer>();
+            NodeList = new List<ICodeStructureNodeContainer>();
+            var view = CollectionViewSource.GetDefaultView(NodeList);
+            view.SortDescriptions.Add(new SortDescription(nameof(ICodeStructureNodeContainer.AbsoluteIndex), ListSortDirection.Ascending));
 
             TreeId = Guid.NewGuid();
         }
@@ -49,7 +53,7 @@
         /// <param name="analyzeId">An id to identify current analysis run.</param>
         /// <param name="nodeList">The node list of the root syntax walker.</param>
         /// <param name="rootNode">The <see cref="ICodeStructureNodeContainer">root node</see> for this walker.</param>
-        private TypeGroupedSyntaxAnalyzer(Guid analyzeId, ObservableCollection<ICodeStructureNodeContainer> nodeList, ICodeStructureSectionHeader rootNode)
+        private TypeGroupedSyntaxAnalyzer(Guid analyzeId, List<ICodeStructureNodeContainer> nodeList, ICodeStructureSectionHeader rootNode)
         {
             NodeList = nodeList;
             _analyzeId = analyzeId;
@@ -92,7 +96,7 @@
         /// <summary>
         /// Gets the node list.
         /// </summary>
-        public ObservableCollection<ICodeStructureNodeContainer> NodeList
+        public List<ICodeStructureNodeContainer> NodeList
         {
             get;
         }
@@ -394,17 +398,18 @@
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                foreach (var node in NodeList.OrderBy(x => x.AbsoluteIndex).ToList())
-                {
-                    if (NodeList.IndexOf(node) == node.AbsoluteIndex)
-                    {
-                        continue;
-                    }
+                CollectionViewSource.GetDefaultView(NodeList).Refresh();
+                //foreach (var node in NodeList.OrderBy(x => x.AbsoluteIndex).ToList())
+                //{
+                //    if (NodeList.IndexOf(node) == node.AbsoluteIndex)
+                //    {
+                //        continue;
+                //    }
 
-                    NodeList.Move(NodeList.IndexOf(node), node.AbsoluteIndex);
-                }
+                //    NodeList.Move(NodeList.IndexOf(node), node.AbsoluteIndex);
+                //}
 
-                Debug.WriteLine(string.Join(", ", NodeList.Select(x => x.AbsoluteIndex)));
+                //Debug.WriteLine(string.Join(", ", NodeList.Select(x => x.AbsoluteIndex)));
             });
         }
     }

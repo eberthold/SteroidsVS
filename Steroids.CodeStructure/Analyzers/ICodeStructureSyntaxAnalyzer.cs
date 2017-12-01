@@ -1,5 +1,6 @@
 ﻿namespace Steroids.CodeStructure.Analyzers
 {
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading;
     using System.Threading.Tasks;
@@ -7,7 +8,7 @@
 
     public interface ICodeStructureSyntaxAnalyzer
     {
-        ObservableCollection<ICodeStructureNodeContainer> NodeList { get; }
+        List<ICodeStructureNodeContainer> NodeList { get; }
 
         Task Analyze(SyntaxNode node, CancellationToken token);
     }

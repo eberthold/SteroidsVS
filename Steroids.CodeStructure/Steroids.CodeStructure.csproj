@@ -287,6 +287,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adorners\FloatingDiagnosticHintsAdorner.cs" />
+    <Compile Include="Analyzers\DiagnosticInfo.cs" />
+    <Compile Include="Analyzers\DiagnosticsChangedEventArgs.cs" />
     <Compile Include="Analyzers\ICodeStructureNodeContainer.cs" />
     <Compile Include="Analyzers\ICodeStructureSyntaxAnalyzer.cs" />
     <Compile Include="Analyzers\NodeContainer\ConstructorNodeContainer.cs" />
@@ -310,8 +312,10 @@
     <Compile Include="Analyzers\SectionHeader\PropertiesSectionHeader.cs" />
     <Compile Include="Analyzers\SectionHeader\SectionHeaderBase.cs" />
     <Compile Include="Analyzers\SectionHeader\StructSectionHeader.cs" />
-    <Compile Include="Analyzers\Services\CompilationAnalyzerService.cs" />
-    <Compile Include="Analyzers\Services\ICompilationAnalyzerService.cs" />
+    <Compile Include="Analyzers\Services\CompilationDiagnosticAnalyzerService.cs" />
+    <Compile Include="Analyzers\Services\ErrorListDiagnosticProvider.cs" />
+    <Compile Include="Analyzers\Services\IDiagnosticAnalyzerService.cs" />
+    <Compile Include="Analyzers\Services\IDiagnosticProvider.cs" />
     <Compile Include="Analyzers\Services\ISyntaxWalkerProvider.cs" />
     <Compile Include="Analyzers\Services\SyntaxWalkerProvider.cs" />
     <Compile Include="Analyzers\TypeGroupedSyntaxAnalyzer.cs" />
