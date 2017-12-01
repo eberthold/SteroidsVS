@@ -6,19 +6,28 @@
     using Microsoft.VisualStudio.ComponentModelHost;
     using Microsoft.VisualStudio.LanguageServices;
     using Microsoft.VisualStudio.Shell;
-    using Steroids.Contracts;
+    using Microsoft.VisualStudio.Shell.Interop;
 
     [ProvideAutoLoad(VSConstants.UICONTEXT.ShellInitialized_string)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string)]
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [Guid(PackageGuidString)]
-    public sealed class SteroidsVsPackage : Package
+    public sealed class SteroidsVsPackage : Package, IVsPackageServices
     {
         public const string PackageGuidString = "9ac11e28-22b5-4c3c-a40f-ab2c9bdd18d6";
 
         private bool _initialized;
-        private ICompositionRoot _compositionRoot;
+
+        public VisualStudioWorkspace Workspace
+        {
+            get; private set;
+        }
+
+        public IErrorList ErrorList
+        {
+            get; private set;
+        }
 
         protected override void Initialize()
         {
@@ -32,11 +41,11 @@
             base.Initialize();
 
             var componentModel = (IComponentModel)GetGlobalService(typeof(SComponentModel));
-            var workspace = componentModel.GetService<VisualStudioWorkspace>();
+            Workspace = componentModel.GetService<VisualStudioWorkspace>();
+            ErrorList = GetService(typeof(SVsErrorList)) as IErrorList;
 
             var root = new CompositionRoot();
-            root.Initialize(workspace);
-            _compositionRoot = root;
+            root.Initialize(this);
         }
     }
 }

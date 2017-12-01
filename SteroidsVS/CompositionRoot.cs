@@ -2,14 +2,10 @@
 {
     using System;
     using System.ComponentModel.Composition;
-    using EnvDTE;
-    using Microsoft.VisualStudio.LanguageServices;
-    using Microsoft.VisualStudio.Shell;
     using Steroids.CodeStructure.Analyzers.Services;
     using Steroids.Contracts;
     using SteroidsVS.Contracts;
     using Unity;
-    using Unity.Injection;
     using Unity.Lifetime;
 
     [Export(typeof(ICompositionRoot))]
@@ -19,16 +15,17 @@
 
         protected virtual IUnityContainer Container { get; set; }
 
-        public void Initialize(VisualStudioWorkspace workspace)
+        public void Initialize(IVsPackageServices services)
         {
             RootContainer = new UnityContainer();
             Container = RootContainer;
 
-            Container.RegisterInstance(workspace);
+            Container.RegisterInstance(services.Workspace);
+            Container.RegisterInstance(services.ErrorList);
 
             Container.RegisterType<IWorkspaceManager, WorkspaceManager>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new HierarchicalLifetimeManager());
-            Container.RegisterType<ICompilationAnalyzerService, CompilationAnalyzerService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
         }
 
         /// <inheritdoc />

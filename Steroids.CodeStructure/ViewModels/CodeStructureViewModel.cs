@@ -8,6 +8,7 @@
     using System.Windows.Controls;
     using System.Windows.Data;
     using Microsoft.CodeAnalysis;
+    using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.Text.Editor;
     using Microsoft.VisualStudio.Text.Formatting;
     using Steroids.CodeStructure.Analyzers;
@@ -22,7 +23,7 @@
         private const string AdornmentName = "HintAdorner";
 
         private readonly IWpfTextView _textView;
-        private readonly ICompilationAnalyzerService _compilationAnalyzerService;
+        private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
         private readonly IAdornmentLayer _adornmentLayer;
         private readonly FloatingDiagnosticHintsViewModel _diagnosticHintsViewModel;
@@ -35,28 +36,29 @@
         private double _analysisTime;
         private ICollectionView _nodeCollection;
         private bool _isPinned;
+        private DiagnosticSeverity _currentDiagnosticLevel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureViewModel"/> class.
         /// </summary>
         /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
-        /// <param name="compilationAnalyzerService">The <see cref="ICompilationAnalyzerService"/>.</param>
+        /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         /// <param name="documentAnalyzerService">The <see cref="IDocumentAnalyzerService"/>.</param>
         /// <param name="diagnosticHintsViewModel">The view model which should display all our diagnostic hints.</param>
         public CodeStructureViewModel(
             IWpfTextView textView,
-            ICompilationAnalyzerService compilationAnalyzerService,
+            IDiagnosticProvider diagnosticProvider,
             IDocumentAnalyzerService documentAnalyzerService,
             FloatingDiagnosticHintsViewModel diagnosticHintsViewModel)
         {
             _textView = textView;
-            _compilationAnalyzerService = compilationAnalyzerService ?? throw new ArgumentNullException(nameof(compilationAnalyzerService));
+            _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
             _documentAnalyzerService = documentAnalyzerService ?? throw new ArgumentNullException(nameof(documentAnalyzerService));
             _diagnosticHintsViewModel = diagnosticHintsViewModel ?? throw new ArgumentNullException(nameof(diagnosticHintsViewModel));
 
             _adornmentLayer = textView.GetAdornmentLayer("SelectionHintAdornment");
 
-            WeakEventManager<ICompilationAnalyzerService, EventArgs>.AddHandler(_compilationAnalyzerService, nameof(ICompilationAnalyzerService.CompilationFinished), OnAnalysisFinished);
+            WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
         }
 
@@ -128,32 +130,12 @@
         }
 
         /// <summary>
-        /// Gets the current diagnostic level.
+        /// Gets or sets the current diagnostic level.
         /// </summary>
         public DiagnosticSeverity CurrentDiagnosticLevel
         {
-            get
-            {
-                var document = _textView.GetDocument();
-                if (document == null)
-                {
-                    return DiagnosticSeverity.Hidden;
-                }
-
-                var allDiagnostics = _compilationAnalyzerService.GetProjectDiagnostics(document.Project);
-                if (allDiagnostics == null)
-                {
-                    return DiagnosticSeverity.Hidden;
-                }
-
-                var documentDiagnostics = allDiagnostics.Where(x => x.Location.SourceTree.FilePath == document.FilePath);
-                if (!documentDiagnostics.Any())
-                {
-                    return DiagnosticSeverity.Hidden;
-                }
-
-                return documentDiagnostics.Max(x => x.Severity);
-            }
+            get { return _currentDiagnosticLevel; }
+            set { Set(ref _currentDiagnosticLevel, value); }
         }
 
         public ICollectionView NodeCollection
@@ -167,11 +149,38 @@
             Application.Current.Dispatcher.Invoke(() => RefreshUi());
         }
 
+        private void OnDiagnosticsChanged(object sender, DiagnosticsChangedEventArgs args)
+        {
+            var path = _textView.GetDocument()?.FilePath;
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
+
+            var fileDiagnostics = args.Diagnostics.Where(x => string.Equals(x.Path, path, StringComparison.OrdinalIgnoreCase));
+            if (!fileDiagnostics.Any())
+            {
+                CurrentDiagnosticLevel = DiagnosticSeverity.Hidden;
+                return;
+            }
+
+            switch (fileDiagnostics.Min(x => x.ErrorCategory))
+            {
+                case __VSERRORCATEGORY.EC_ERROR:
+                    CurrentDiagnosticLevel = DiagnosticSeverity.Error;
+                    break;
+                case __VSERRORCATEGORY.EC_WARNING:
+                    CurrentDiagnosticLevel = DiagnosticSeverity.Warning;
+                    break;
+                case __VSERRORCATEGORY.EC_MESSAGE:
+                    CurrentDiagnosticLevel = DiagnosticSeverity.Info;
+                    break;
+            }
+        }
+
         private void RefreshUi()
         {
             RaisePropertyChanged(nameof(LeafCount));
-            RaisePropertyChanged(nameof(CurrentDiagnosticLevel));
-
             NodeCollection = CollectionViewSource.GetDefaultView(_documentAnalyzerService?.Nodes ?? new List<ICodeStructureNodeContainer>());
         }
 

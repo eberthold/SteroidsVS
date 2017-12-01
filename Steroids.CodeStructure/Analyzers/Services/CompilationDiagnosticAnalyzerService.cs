@@ -13,7 +13,7 @@
     using DTE = EnvDTE;
     using Shell = Microsoft.VisualStudio.Shell;
 
-    public class CompilationAnalyzerService : ICompilationAnalyzerService
+    public class CompilationDiagnosticAnalyzerService : IDiagnosticAnalyzerService
     {
         private readonly Dictionary<ProjectId, CompilationWithAnalyzers> _projectCompilations = new Dictionary<ProjectId, CompilationWithAnalyzers>();
         private readonly Dictionary<ProjectId, IEnumerable<Diagnostic>> _projectDiagnostics = new Dictionary<ProjectId, IEnumerable<Diagnostic>>();
@@ -23,7 +23,7 @@
 
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
-        public CompilationAnalyzerService(IWorkspaceManager workspaceManager)
+        public CompilationDiagnosticAnalyzerService(IWorkspaceManager workspaceManager)
         {
             _workspaceManager = workspaceManager ?? throw new ArgumentNullException(nameof(workspaceManager));
 
