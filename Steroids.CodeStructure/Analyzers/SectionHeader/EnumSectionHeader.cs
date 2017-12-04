@@ -15,9 +15,6 @@
             return (ImageMoniker)typeof(KnownMonikers).GetProperty($"Enumeration{AccessModifier}").GetValue(null);
         }
 
-        /// <summary>
-        /// Gets the <see cref="ICodeStructureNodeContainer.Name"/>.
-        /// </summary>
         protected override string GetName()
         {
             var node = Node as EnumDeclarationSyntax;

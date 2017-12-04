@@ -3,8 +3,8 @@
     using System.ComponentModel.Composition;
     using Microsoft.VisualStudio.Text.Editor;
     using Microsoft.VisualStudio.Utilities;
-    using Steroids.CodeStructure;
     using Steroids.CodeStructure.Adorners;
+    using Steroids.CodeStructure.ViewModels;
 
     /// <summary>
     /// Establishes an <see cref="IAdornmentLayer"/> to place the adornment on and exports the <see cref="IWpfTextViewCreationListener"/>
@@ -22,7 +22,7 @@
         [Export(typeof(AdornmentLayerDefinition))]
         [Name("CodeStructureAdorner")]
         [Order(After = PredefinedAdornmentLayers.Caret)]
-        private readonly AdornmentLayerDefinition EditorAdornmentLayer;
+        private readonly AdornmentLayerDefinition _editorAdornmentLayer;
 
         /// <summary>
         /// Instantiates a CodeStructureAdorner manager when a textView is created.
@@ -30,7 +30,10 @@
         /// <param name="textView">The <see cref="IWpfTextView"/> upon which the adornment should be placed</param>
         public void TextViewCreated(IWpfTextView textView)
         {
-            new CodeStructureCompositionRoot(textView).GetService(typeof(CodeStructureAdorner));
+            var root = new CodeStructureCompositionRoot(textView);
+            var viewModel = root.GetService(typeof(CodeStructureViewModel));
+            var adorner = root.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
+            adorner.SetDataContext(viewModel);
         }
     }
 }

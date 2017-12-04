@@ -5,7 +5,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:controls="clr-namespace:Steroids.CodeStructure.Controls"
+    xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
     xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+    xmlns:analysis="clr-namespace:Microsoft.CodeAnalysis;assembly=Microsoft.CodeAnalysis"
     mc:Ignorable="d" >
 
     <Style TargetType="{x:Type controls:IndicatorButton}" BasedOn="{StaticResource {x:Type CheckBox}}">
@@ -28,6 +31,31 @@
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="root" Property="Background" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabProvisionalSelectedActiveBrushKey}}" />
                             <Setter TargetName="content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabProvisionalSelectedActiveForegroundBrushKey}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type controls:FloatingDiagnosticHint}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:FloatingDiagnosticHint}">
+                    <imaging:CrispImage x:Name="PART_Moniker" Width="16" Height="16" Margin="2" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    
+                    <ControlTemplate.Triggers>
+                        <!-- Info -->
+                        <Trigger Property="Severity" Value="1">
+                            <Setter TargetName="PART_Moniker" Property="Moniker" Value="{x:Static catalog:KnownMonikers.StatusInformation}" />
+                        </Trigger>
+                        <!-- Warning -->
+                        <Trigger Property="Severity" Value="2">
+                            <Setter TargetName="PART_Moniker" Property="Moniker" Value="{x:Static catalog:KnownMonikers.StatusWarning}" />
+                        </Trigger>
+                        <!-- Error -->
+                        <Trigger Property="Severity" Value="3">
+                            <Setter TargetName="PART_Moniker" Property="Moniker" Value="{x:Static catalog:KnownMonikers.StatusError}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

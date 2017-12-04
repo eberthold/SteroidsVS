@@ -2,7 +2,6 @@
 {
     using System.Linq;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using Microsoft.VisualStudio.Imaging;
     using Microsoft.VisualStudio.Imaging.Interop;
     using Steroids.CodeStructure.Extensions;
 
@@ -29,6 +28,7 @@
         /// <summary>
         /// Gets the <see cref="ICodeStructureNodeContainer.Parameters"/>
         /// </summary>
+        /// <returns>The types of the parameters given to this constructor.</returns>
         protected override string GetParameters()
         {
             return string.Join(string.Empty, Node.ParameterList.Parameters.Select(x => x.Type.ToFullString()));

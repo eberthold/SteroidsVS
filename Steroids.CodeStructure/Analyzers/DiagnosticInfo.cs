@@ -14,6 +14,8 @@
 
         public string HelpUriRaw { get; internal set; }
 
-        public string Line { get; internal set; }
+        public int Line { get; internal set; }
+
+        public int Column { get; internal set; }
     }
 }

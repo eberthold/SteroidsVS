@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -396,21 +394,7 @@
         /// </summary>
         private void SortNodes()
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                CollectionViewSource.GetDefaultView(NodeList).Refresh();
-                //foreach (var node in NodeList.OrderBy(x => x.AbsoluteIndex).ToList())
-                //{
-                //    if (NodeList.IndexOf(node) == node.AbsoluteIndex)
-                //    {
-                //        continue;
-                //    }
-
-                //    NodeList.Move(NodeList.IndexOf(node), node.AbsoluteIndex);
-                //}
-
-                //Debug.WriteLine(string.Join(", ", NodeList.Select(x => x.AbsoluteIndex)));
-            });
+            Application.Current.Dispatcher.Invoke(() => CollectionViewSource.GetDefaultView(NodeList).Refresh());
         }
     }
 }

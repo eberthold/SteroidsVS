@@ -13,8 +13,6 @@
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FloatingDiagnosticHint), new FrameworkPropertyMetadata(typeof(FloatingDiagnosticHint)));
         }
 
-
-
         public DiagnosticSeverity Severity
         {
             get { return (DiagnosticSeverity)GetValue(SeverityProperty); }
