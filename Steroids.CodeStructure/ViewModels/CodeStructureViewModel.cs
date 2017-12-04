@@ -16,7 +16,6 @@
     using Steroids.CodeStructure.Controls;
     using Steroids.CodeStructure.Extensions;
     using Steroids.Common;
-    using Steroids.Contracts;
 
     public class CodeStructureViewModel : BindableBase
     {
@@ -26,7 +25,7 @@
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
         private readonly IAdornmentLayer _adornmentLayer;
-        private readonly FloatingDiagnosticHintsViewModel _diagnosticHintsViewModel;
+        private readonly CodeQualityHintsViewModel _diagnosticHintsViewModel;
 
         private SelectionHintControl _adornerContent;
         private bool _isListVisible;
@@ -49,7 +48,7 @@
             IWpfTextView textView,
             IDiagnosticProvider diagnosticProvider,
             IDocumentAnalyzerService documentAnalyzerService,
-            FloatingDiagnosticHintsViewModel diagnosticHintsViewModel)
+            CodeQualityHintsViewModel diagnosticHintsViewModel)
         {
             _textView = textView;
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
@@ -62,6 +61,10 @@
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the code structure view should stay open,
+        /// when the user clicks somewhere else.
+        /// </summary>
         public bool IsPinned
         {
             get { return _isPinned; }
@@ -83,12 +86,6 @@
                 Set(ref _selectedNode, value);
                 ScrollToNode(value);
             }
-        }
-
-        public double AnalysisTime
-        {
-            get { return _analysisTime; }
-            set { Set(ref _analysisTime, value); }
         }
 
         /// <summary>

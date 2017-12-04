@@ -15,7 +15,7 @@
         [Name(AdornmentLayerName)]
         [Order(Before = PredefinedAdornmentLayers.Selection)]
         [TextViewRole(PredefinedTextViewRoles.Document)]
-        public AdornmentLayerDefinition SelectionHintDefinition = null;
+        private readonly AdornmentLayerDefinition _selectionHintDefinition = null;
 
         public void TextViewCreated(IWpfTextView textView)
         {

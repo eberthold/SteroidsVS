@@ -35,7 +35,8 @@
                 entry.TryGetValue(StandardTableKeyNames.FullText, out string fullText);
                 entry.TryGetValue(StandardTableKeyNames.ErrorCode, out string errorCode);
                 entry.TryGetValue(StandardTableKeyNames.HelpLink, out string helpLink);
-                entry.TryGetValue(StandardTableKeyNames.Line, out string line);
+                entry.TryGetValue(StandardTableKeyNames.Line, out int line);
+                entry.TryGetValue(StandardTableKeyNames.Column, out int column);
 
                 _diagnosticInfos.Add(new DiagnosticInfo
                 {
@@ -44,7 +45,8 @@
                     Message = fullText,
                     ErrorCode = errorCode,
                     HelpUriRaw = helpLink,
-                    Line = line
+                    Line = line,
+                    Column = column
                 });
             }
 

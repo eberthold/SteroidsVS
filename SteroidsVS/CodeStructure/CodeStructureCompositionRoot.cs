@@ -35,6 +35,7 @@
             Container.RegisterType<ISyntaxWalkerProvider, SyntaxWalkerProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<CodeQualityHintsViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<FloatingDiagnosticHintsViewModel>(new ContainerControlledLifetimeManager());
         }
     }

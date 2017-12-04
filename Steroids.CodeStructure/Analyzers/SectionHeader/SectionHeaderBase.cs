@@ -90,6 +90,7 @@
         /// <summary>
         /// Gets the <see cref="ICodeStructureNodeContainer.AccessModifier"/>.
         /// </summary>
+        /// <returns>The access modifier text.</returns>
         protected override string GetAccessModifier()
         {
             return string.Empty;
@@ -103,6 +104,7 @@
         /// <summary>
         /// Gets the <see cref="ICodeStructureNodeContainer.Type"/>.
         /// </summary>
+        /// <returns>The return type.</returns>
         protected override string GetReturnType()
         {
             return string.Empty;
