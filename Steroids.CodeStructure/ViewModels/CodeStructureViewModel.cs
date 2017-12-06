@@ -161,18 +161,7 @@
                 return;
             }
 
-            switch (fileDiagnostics.Min(x => x.ErrorCategory))
-            {
-                case __VSERRORCATEGORY.EC_ERROR:
-                    CurrentDiagnosticLevel = DiagnosticSeverity.Error;
-                    break;
-                case __VSERRORCATEGORY.EC_WARNING:
-                    CurrentDiagnosticLevel = DiagnosticSeverity.Warning;
-                    break;
-                case __VSERRORCATEGORY.EC_MESSAGE:
-                    CurrentDiagnosticLevel = DiagnosticSeverity.Info;
-                    break;
-            }
+            CurrentDiagnosticLevel = fileDiagnostics.Max(x => x.Severity);
         }
 
         private void RefreshUi()

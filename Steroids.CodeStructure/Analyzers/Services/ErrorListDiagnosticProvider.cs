@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.CodeAnalysis;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.Shell.TableControl;
@@ -32,15 +33,35 @@
                 }
 
                 entry.TryGetValue(StandardTableKeyNames.DocumentName, out string path);
+                entry.TryGetValue(StandardTableKeyNames.Text, out string text);
                 entry.TryGetValue(StandardTableKeyNames.FullText, out string fullText);
                 entry.TryGetValue(StandardTableKeyNames.ErrorCode, out string errorCode);
                 entry.TryGetValue(StandardTableKeyNames.HelpLink, out string helpLink);
                 entry.TryGetValue(StandardTableKeyNames.Line, out int line);
                 entry.TryGetValue(StandardTableKeyNames.Column, out int column);
 
+                if (string.IsNullOrWhiteSpace(fullText))
+                {
+                    fullText = text;
+                }
+
+                var severity = DiagnosticSeverity.Hidden;
+                switch (errorCategory)
+                {
+                    case __VSERRORCATEGORY.EC_ERROR:
+                        severity = DiagnosticSeverity.Error;
+                        break;
+                    case __VSERRORCATEGORY.EC_WARNING:
+                        severity = DiagnosticSeverity.Warning;
+                        break;
+                    case __VSERRORCATEGORY.EC_MESSAGE:
+                        severity = DiagnosticSeverity.Info;
+                        break;
+                }
+
                 _diagnosticInfos.Add(new DiagnosticInfo
                 {
-                    ErrorCategory = errorCategory,
+                    Severity = severity,
                     Path = path,
                     Message = fullText,
                     ErrorCode = errorCode,

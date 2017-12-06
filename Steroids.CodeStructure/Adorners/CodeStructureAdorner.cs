@@ -26,7 +26,7 @@
         private readonly CodeStructureView _indicatorView;
         private readonly IWpfTextView _parentView;
 
-        private Dictionary<SnapshotSpan, IEnumerable<DiagnosticInfo>> _lastDiagnostics = new Dictionary<SnapshotSpan, IEnumerable<DiagnosticInfo>>();
+        private IEnumerable<IGrouping<int, DiagnosticInfo>> _lastDiagnostics = new List<IGrouping<int, DiagnosticInfo>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureAdorner"/> class.
@@ -56,7 +56,7 @@
             _indicatorView.DataContext = context;
         }
 
-        public void AddOrUpdateDiagnosticLine(Dictionary<SnapshotSpan, IEnumerable<DiagnosticInfo>> diagnostics, bool canUpdate = true)
+        public void AddOrUpdateDiagnosticLine(IEnumerable<IGrouping<int, DiagnosticInfo>> diagnostics, bool canUpdate = true)
         {
             if (canUpdate)
             {
@@ -67,21 +67,7 @@
             var existingAdronments = _adornmentLayer.Elements.Where(x => x.Tag.Equals(FloatingMarkerTag)).ToList();
             foreach (var diagnostic in diagnostics)
             {
-                var severity = DiagnosticSeverity.Hidden;
-                switch (diagnostic.Value.Min(x => x.ErrorCategory))
-                {
-                    case __VSERRORCATEGORY.EC_ERROR:
-                        severity = DiagnosticSeverity.Error;
-                        break;
-                    case __VSERRORCATEGORY.EC_WARNING:
-                        severity = DiagnosticSeverity.Warning;
-                        break;
-                    case __VSERRORCATEGORY.EC_MESSAGE:
-                        severity = DiagnosticSeverity.Info;
-                        break;
-                }
-
-                var line = _parentView.TextSnapshot.Lines.ElementAt(diagnostic.Value.First().Line);
+                var line = _parentView.TextSnapshot.Lines.ElementAt(diagnostic.Key);
                 if (line == null)
                 {
                     continue;
@@ -110,8 +96,16 @@
                     continue;
                 }
 
-                floatingHint.Severity = severity;
-                Canvas.SetLeft(floatingHint, Math.Min(textViewLine.TextRight + 4, _parentView.ViewportRight));
+                var previewDiagnostic = diagnostic.OrderByDescending(x => x.Severity).ThenBy(x => x.Column).First();
+
+                //var left = Math.Max(_parentView.ViewportWidth / 2, Math.Min(textViewLine.TextRight + 4, _parentView.ViewportRight - 50));
+                var left = Math.Min(textViewLine.TextRight + 4, _parentView.ViewportRight);
+                floatingHint.Severity = diagnostic.Max(x => x.Severity);
+                floatingHint.Code = previewDiagnostic.ErrorCode;
+                floatingHint.Message = previewDiagnostic.Message;
+                floatingHint.Width = _parentView.ViewportWidth - left;
+
+                Canvas.SetLeft(floatingHint, left);
                 Canvas.SetTop(floatingHint, textViewLine.TextTop - ((floatingHint.Height - textViewLine.Height) / 2));
                 i++;
             }
@@ -136,6 +130,7 @@
         private void SetPosition()
         {
             _indicatorView.Height = _parentView.ViewportHeight;
+            Canvas.SetZIndex(_indicatorView, 10);
             Canvas.SetLeft(_indicatorView, _parentView.ViewportRight - _indicatorView.ActualWidth);
             Canvas.SetTop(_indicatorView, _parentView.ViewportTop);
         }

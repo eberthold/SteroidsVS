@@ -40,12 +40,26 @@
 
     <Style TargetType="{x:Type controls:FloatingDiagnosticHint}">
         <Setter Property="Padding" Value="1" />
-        <Setter Property="Width" Value="18" />
         <Setter Property="Height" Value="18" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:FloatingDiagnosticHint}">
-                    <imaging:CrispImage x:Name="PART_Moniker" Margin="{TemplateBinding Padding}" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    <Border Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <imaging:CrispImage x:Name="PART_Moniker" Opacity="0.5" Margin="{TemplateBinding Padding}" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                            <Border Margin="4, 0" Grid.Column="2" HorizontalAlignment="Right" BorderBrush="Gray" BorderThickness="1" Padding="4, 0" Opacity="0.8">
+                                <TextBlock Foreground="Gray" TextTrimming="CharacterEllipsis" >
+                                    <Run Text="{TemplateBinding Code}" /><Run Text=":" />
+                                    <Run Text="{TemplateBinding Message}" />
+                                </TextBlock>
+                            </Border>
+                        </Grid>
+                    </Border>
                     
                     <ControlTemplate.Triggers>
                         <!-- Info -->
