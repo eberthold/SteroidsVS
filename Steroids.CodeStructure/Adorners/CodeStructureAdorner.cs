@@ -63,7 +63,8 @@
                 _lastDiagnostics = diagnostics;
             }
 
-            _adornmentLayer.RemoveAdornmentsByTag(FloatingMarkerTag);
+            int i = 0;
+            var existingAdronments = _adornmentLayer.Elements.Where(x => x.Tag.Equals(FloatingMarkerTag)).ToList();
             foreach (var diagnostic in diagnostics)
             {
                 var severity = DiagnosticSeverity.Hidden;
@@ -80,12 +81,7 @@
                         break;
                 }
 
-                var control = new FloatingDiagnosticHint()
-                {
-                    Severity = severity
-                };
-
-                var line = _parentView.TextSnapshot.Lines.FirstOrDefault(x => x.Extent == diagnostic.Key);
+                var line = _parentView.TextSnapshot.Lines.ElementAt(diagnostic.Value.First().Line);
                 if (line == null)
                 {
                     continue;
@@ -97,9 +93,33 @@
                     continue;
                 }
 
-                Canvas.SetLeft(control, 0);
-                Canvas.SetTop(control, textViewLine.TextTop);
-                _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, FloatingMarkerTag, control, null);
+                FloatingDiagnosticHint floatingHint;
+                if (i < existingAdronments.Count && existingAdronments.Count > 0)
+                {
+                    floatingHint = existingAdronments[i].Adornment as FloatingDiagnosticHint;
+                }
+                else
+                {
+                    floatingHint = new FloatingDiagnosticHint();
+
+                    _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.TextRelative, line.Extent, FloatingMarkerTag, floatingHint, null);
+                }
+
+                if (floatingHint == null)
+                {
+                    continue;
+                }
+
+                floatingHint.Severity = severity;
+                Canvas.SetLeft(floatingHint, Math.Min(textViewLine.TextRight + 4, _parentView.ViewportRight));
+                Canvas.SetTop(floatingHint, textViewLine.TextTop - ((floatingHint.Height - textViewLine.Height) / 2));
+                i++;
+            }
+
+            if (i < existingAdronments.Count)
+            {
+                var remainginAdornments = existingAdronments.Skip(i);
+                _adornmentLayer.RemoveMatchingAdornments(x => remainginAdornments.Contains(x));
             }
         }
 

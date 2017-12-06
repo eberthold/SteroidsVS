@@ -39,10 +39,13 @@
     </Style>
 
     <Style TargetType="{x:Type controls:FloatingDiagnosticHint}">
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Height" Value="18" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:FloatingDiagnosticHint}">
-                    <imaging:CrispImage x:Name="PART_Moniker" Width="16" Height="16" Margin="2" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    <imaging:CrispImage x:Name="PART_Moniker" Margin="{TemplateBinding Padding}" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                     
                     <ControlTemplate.Triggers>
                         <!-- Info -->
