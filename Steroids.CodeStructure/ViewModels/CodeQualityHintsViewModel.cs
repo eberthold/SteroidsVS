@@ -32,17 +32,9 @@
         private void OnDiagnosticsChanged(object sender, DiagnosticsChangedEventArgs args)
         {
             var fileDiagnostics = IWpfTextViewHelper.GetDiagnosticsOfEditor(_textView, args.Diagnostics);
-            var lineDiagnostics = fileDiagnostics.GroupBy(x => x.Line);
-            var dictionary = new Dictionary<SnapshotSpan, IEnumerable<DiagnosticInfo>>();
+            var diagnostics = fileDiagnostics.GroupBy(x => x.Line);
 
-            foreach (var diagnostic in lineDiagnostics)
-            {
-                var line = _textView.TextBuffer.CurrentSnapshot.GetLineFromLineNumber(diagnostic.Key);
-                var snapshot = line.Extent;
-                dictionary.Add(snapshot, diagnostic);
-            }
-
-            _adorner.AddOrUpdateDiagnosticLine(dictionary);
+            _adorner.AddOrUpdateDiagnosticLine(diagnostics);
         }
     }
 }

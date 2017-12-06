@@ -1,10 +1,10 @@
 ﻿namespace Steroids.CodeStructure.Analyzers
 {
-    using Microsoft.VisualStudio.Shell.Interop;
+    using Microsoft.CodeAnalysis;
 
     public class DiagnosticInfo
     {
-        public __VSERRORCATEGORY ErrorCategory { get; internal set; }
+        public DiagnosticSeverity Severity { get; internal set; }
 
         public string Message { get; internal set; }
 

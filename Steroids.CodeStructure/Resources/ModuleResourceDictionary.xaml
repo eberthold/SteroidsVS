@@ -16,9 +16,9 @@
 
     <SolidColorBrush x:Key="ClickableItemContainerHighlightBrush" Color="#44444444" />
 
-    <SolidColorBrush x:Key="DiagnosticsNoneBrush" Color="Chartreuse" />
-    <SolidColorBrush x:Key="DiagnosticsWarningBrush" Color="Gold" />
-    <SolidColorBrush x:Key="DiagnosticsErrorBrush" Color="OrangeRed" />
+    <SolidColorBrush x:Key="DiagnosticsNoneBrush" Color="#33BB33" />
+    <SolidColorBrush x:Key="DiagnosticsWarningBrush" Color="#FFCC00" />
+    <SolidColorBrush x:Key="DiagnosticsErrorBrush" Color="#E51400" />
 
     <converters:DiagnosticLevelToBrushConverter x:Key="DiagnosticLevelToBrushConverter" None="{StaticResource DiagnosticsNoneBrush}" Warning="{StaticResource DiagnosticsWarningBrush}" Error="{StaticResource DiagnosticsErrorBrush}" />
 
