@@ -51,7 +51,7 @@
                                 <ColumnDefinition Width="0.5*"/>
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <imaging:CrispImage x:Name="PART_Moniker" Opacity="0.5" Margin="{TemplateBinding Padding}" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                            <imaging:CrispImage x:Name="PART_Moniker" Opacity="0.75" Margin="{TemplateBinding Padding}" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                             <Border Margin="4, 0" Grid.Column="2" HorizontalAlignment="Right" BorderBrush="Gray" BorderThickness="1" Padding="4, 0" Opacity="0.8">
                                 <TextBlock Foreground="Gray" TextTrimming="CharacterEllipsis" >
                                     <Run Text="{TemplateBinding Code}" /><Run Text=":" />
