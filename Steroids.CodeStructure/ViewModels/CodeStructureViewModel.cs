@@ -151,7 +151,7 @@
                 return;
             }
 
-            var fileDiagnostics = args.Diagnostics.Where(x => string.Equals(x.Path, path, StringComparison.OrdinalIgnoreCase));
+            var fileDiagnostics = args.Diagnostics.Where(x => string.Equals(x.Path, path, StringComparison.OrdinalIgnoreCase) && x.IsActive);
             if (!fileDiagnostics.Any())
             {
                 CurrentDiagnosticLevel = DiagnosticSeverity.Hidden;

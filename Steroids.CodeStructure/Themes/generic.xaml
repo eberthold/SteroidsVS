@@ -43,27 +43,26 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:FloatingDiagnosticHint}">
-                    <Border Background="Transparent">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
+                            
                             <imaging:CrispImage x:Name="PART_Moniker" Opacity="0.75" Margin="{TemplateBinding Padding}" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderTransformOrigin="0, 0.5">
                                 <imaging:CrispImage.RenderTransform>
                                     <ScaleTransform ScaleX="{TemplateBinding ScaleFactor}" ScaleY="{TemplateBinding ScaleFactor}" />
                                 </imaging:CrispImage.RenderTransform>
                             </imaging:CrispImage>
-                            <Border Margin="4, 0" Grid.Column="2" HorizontalAlignment="Right" BorderBrush="Gray" BorderThickness="1" Padding="4, 0" Opacity="0.8" RenderTransformOrigin="1, 0.5">
-                                <Border.RenderTransform>
+                            
+                            <TextBlock Margin="10, 0, 4, 0" Grid.Column="2" Foreground="Gray" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" RenderTransformOrigin="1, 0.5" Opacity="0.8" >
+                                <TextBlock.RenderTransform>
                                     <ScaleTransform ScaleX="{TemplateBinding ScaleFactor}" ScaleY="{TemplateBinding ScaleFactor}" />
-                                </Border.RenderTransform>
-
-                                <TextBlock Foreground="Gray" TextTrimming="CharacterEllipsis" >
-                                    <Run Text="{TemplateBinding Code}" /><Run Text=":" />
-                                    <Run Text="{TemplateBinding Message}" />
-                                </TextBlock>
-                            </Border>
+                                </TextBlock.RenderTransform>
+                                <Run Text="{TemplateBinding Code}" /><Run Text=":" />
+                                <Run Text="{TemplateBinding Message}" />
+                            </TextBlock>
                         </Grid>
                     </Border>
 

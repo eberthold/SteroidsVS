@@ -54,11 +54,16 @@ namespace Steroids.CodeStructure.ViewModels
 
             foreach (var diagnostic in fileDiagnostics)
             {
+                if (diagnostic.Line >= _textView.TextSnapshot.LineCount)
+                {
+                    continue;
+                }
+
                 diagnostic.LineSpan = _textView.TextSnapshot.Lines.ElementAt(diagnostic.Line);
             }
 
             var lineDiagnostics = fileDiagnostics.ToLookup(x => x.Line);
-            QualityHints = lineDiagnostics.Select(x => new CodeHintLineEntry(_textView, x, x.Key));
+            QualityHints = lineDiagnostics.Select(x => new CodeHintLineEntry(_textView, x, x.Key)).ToList();
         }
     }
 }
