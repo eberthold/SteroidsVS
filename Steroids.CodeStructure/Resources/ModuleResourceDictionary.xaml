@@ -11,6 +11,7 @@
     xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
     xmlns:selector="clr-namespace:Steroids.CodeStructure.TemplateSelectors"
     xmlns:converters="clr-namespace:Steroids.CodeStructure.Converters"
+    xmlns:models="clr-namespace:Steroids.CodeStructure.Models"
     mc:Ignorable="d"
     x:Class="Steroids.CodeStructure.Resources.ModuleResourceDictionary">
 
@@ -19,9 +20,9 @@
     <SolidColorBrush x:Key="ClickableItemContainerHighlightBrush" Color="#44444444" />
 
     <SolidColorBrush x:Key="DiagnosticsNoneBrush" Color="#33BB33" />
-    <SolidColorBrush x:Key="DiagnosticsInfoBrush" Color="LightBlue" />
+    <SolidColorBrush x:Key="DiagnosticsInfoBrush" Color="#1AA1E2" />
     <SolidColorBrush x:Key="DiagnosticsWarningBrush" Color="#FFCC00" />
-    <SolidColorBrush x:Key="DiagnosticsErrorBrush" Color="#E51400" />
+    <SolidColorBrush x:Key="DiagnosticsErrorBrush" Color="#E41300" />
 
     <converters:DiagnosticLevelToBrushConverter x:Key="DiagnosticLevelToBrushConverter" None="{StaticResource DiagnosticsNoneBrush}" Warning="{StaticResource DiagnosticsWarningBrush}" Error="{StaticResource DiagnosticsErrorBrush}" />
 
@@ -105,7 +106,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="ExpandableControl" TargetType="ContentControl">
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -139,10 +140,11 @@
     </Style>
 
     <Style x:Key="CodeStructureListViewItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
-        <Setter Property="MinHeight" Value="24" /> <!-- avoids jumping virtualizing list in combination with template selector -->
+        <Setter Property="MinHeight" Value="24" />
+        <!-- avoids jumping virtualizing list in combination with template selector -->
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
-    
+
     <Style x:Key="ScrollableItemsControl" TargetType="ItemsControl">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
@@ -175,35 +177,33 @@
     </Style>
 
     <Style TargetType="{x:Type controls:FloatingDiagnosticHint}">
-        <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="1" />
         <Setter Property="Height" Value="20" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:FloatingDiagnosticHint}">
-                    <Border Background="Transparent">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
+
                             <imaging:CrispImage x:Name="PART_Moniker" Margin="{TemplateBinding Padding}" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderTransformOrigin="0, 0.5">
                                 <imaging:CrispImage.RenderTransform>
                                     <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </imaging:CrispImage.RenderTransform>
                             </imaging:CrispImage>
-                            <Border Margin="4, 0" Grid.Column="2" HorizontalAlignment="Right" RenderTransformOrigin="1, 0.5" MaxWidth="450" Background="Transparent" ToolTip="{TemplateBinding Message}">
+
+                            <Border Margin="10, 0, 4, 0" Grid.Column="2" MaxWidth="450" HorizontalAlignment="Right" RenderTransformOrigin="1, 0.5" Opacity="0.8">
                                 <Border.RenderTransform>
                                     <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </Border.RenderTransform>
 
-                                <TextBlock TextTrimming="CharacterEllipsis">
-                                    <TextBlock.Foreground>
-                                        <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" Opacity="0.75" />
-                                    </TextBlock.Foreground>
-                                    
-                                    <Run x:Name="PART_Message" Text="{TemplateBinding Code}" /><Run Text=":" />
+                                <TextBlock Foreground="Gray" TextTrimming="CharacterEllipsis">                                
+                                    <Run x:Name="PART_Message"  Text="{TemplateBinding Code}" FontWeight="SemiBold" /><Run Text=":" />
                                     <Run Text="{TemplateBinding Message}" />
                                 </TextBlock>
                             </Border>
@@ -248,6 +248,10 @@
                 <TextBlock Text="{Binding Name}" Foreground="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextBrushKey}}" VerticalAlignment="Center" Style="{StaticResource CodeStructureTextBlock}"/>
             </StackPanel>
         </ContentControl>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type models:CodeHintLineEntry}">
+        <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Code="{Binding Code}" Message="{Binding Message}" ScaleFactor="{Binding ScaleFactor}"/>
     </DataTemplate>
 
     <selector:NodeContainerTemplateSelector x:Key="NodeContainerTemplateSelector" SectionHeaderTemplate="{StaticResource SectionHeaderTemplate}" NodeContainerTemplate="{StaticResource NodeContainerTemplate}" />

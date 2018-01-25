@@ -1,16 +1,15 @@
-﻿using Steroids.CodeStructure.Views;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Controls;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
+using Steroids.CodeStructure.Analyzers;
+using Steroids.CodeStructure.Views;
+using Steroids.Common.Helpers;
+
 namespace Steroids.CodeStructure.Adorners
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Controls;
-    using Microsoft.VisualStudio.Text;
-    using Microsoft.VisualStudio.Text.Editor;
-    using Steroids.CodeStructure.Analyzers;
-    using Steroids.CodeStructure.Views;
-    using Steroids.Common.Helpers;
-
     /// <summary>
     /// The adorner which will display the code structure.
     /// </summary>

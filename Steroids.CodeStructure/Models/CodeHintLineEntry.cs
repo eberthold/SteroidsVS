@@ -1,7 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
@@ -32,7 +31,6 @@ namespace Steroids.CodeStructure.Models
             _lineInfos = lineInfos;
             _textView = textView;
             var line = _textView.TextSnapshot.GetLineFromLineNumber(lineNumber);
-            var textViewLine = _textView.GetTextViewLineContainingBufferPosition(line.Extent.Start);
             _trackingSpan = _textView.TextSnapshot.CreateTrackingSpan(line.Extent, SpanTrackingMode.EdgeExclusive);
 
             var highestDiagnostic = lineInfos.OrderByDescending(x => x.Severity).ThenBy(x => x.Column).First();
@@ -110,10 +108,10 @@ namespace Steroids.CodeStructure.Models
             var textViewLine = _textView.GetTextViewLineContainingBufferPosition(endPoint);
 
             IsVisible = textViewLine.VisibilityState > VisibilityState.PartiallyVisible;
-            Left = Math.Min(textViewLine.TextRight + 10, _textView.ViewportRight);
+            Left = textViewLine.TextRight + 10 - _textView.ViewportLeft;
             Width = _textView.ViewportWidth - Left;
-            Top = textViewLine.TextTop;
-            ScaleFactor = (textViewLine.TextBottom - textViewLine.TextTop) / Height;
+            Top = textViewLine.TextTop - _textView.ViewportTop;
+            ScaleFactor = textViewLine.Baseline / Height;
         }
     }
 }
