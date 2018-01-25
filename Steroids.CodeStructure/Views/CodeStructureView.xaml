@@ -1,13 +1,12 @@
 ﻿<UserControl x:Class="Steroids.CodeStructure.Views.CodeStructureView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:controls="clr-namespace:Steroids.CodeStructure.Controls"
-             xmlns:converters="clr-namespace:Steroids.Common.Converters;assembly=Steroids.Common"
-             xmlns:viewModels="clr-namespace:Steroids.CodeStructure.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:imageCatalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
              xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+             xmlns:controls="clr-namespace:Steroids.CodeStructure.Controls"
+             xmlns:viewModels="clr-namespace:Steroids.CodeStructure.ViewModels"
              mc:Ignorable="d" 
              MinWidth="150"
              Width="250"
@@ -16,17 +15,7 @@
              UseLayoutRounding="True"
              SnapsToDevicePixels="True"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=viewModels:CodeStructureViewModel}"
-             d:DesignHeight="400" d:DesignWidth="250">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/ModuleResourceDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            
-            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        </ResourceDictionary>
-    </UserControl.Resources>
-    
+             d:DesignHeight="400" d:DesignWidth="250">    
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

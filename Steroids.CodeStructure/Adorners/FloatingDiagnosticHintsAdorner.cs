@@ -14,7 +14,7 @@
 
         public FloatingDiagnosticHintsAdorner(
             IWpfTextView parentView,
-            FloatingDiagnosticHintsViewModel viewModel)
+            CodeQualityHintsViewModel viewModel)
         {
             _parentView = parentView;
 
@@ -24,6 +24,7 @@
 
             _parentView.ViewportWidthChanged += OnSizeChanged;
             _parentView.ViewportHeightChanged += OnSizeChanged;
+            _adorner.SizeChanged += OnSizeChanged;
 
             ShowAdorner();
         }

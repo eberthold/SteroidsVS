@@ -4,10 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Steroids.CodeStructure.ViewModels"
+             xmlns:models="clr-namespace:Steroids.CodeStructure.Models"
+             xmlns:controls="clr-namespace:Steroids.CodeStructure.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=viewModels:FloatingDiagnosticHintsViewModel, IsDesignTimeCreatable=False}">
-    <ItemsControl ItemsSource="{Binding Diagnostics}">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type models:CodeHintLineEntry}">
+            <Border Background="#44FF0000">
+                <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Code="{Binding Code}" Message="{Binding Message}" ScaleFactor="{Binding ScaleFactor}"/>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <ItemsControl ItemsSource="{Binding QualityHints}" BorderBrush="HotPink" BorderThickness="2">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <Canvas />
@@ -15,7 +25,9 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemContainerStyle>
             <Style TargetType="{x:Type ContentPresenter}">
-                <Setter Property="Canvas.Left" Value="{Binding }" />
+                <Setter Property="Canvas.Left" Value="{Binding Left}" />
+                <Setter Property="Canvas.Top" Value="{Binding Top}" />
+                <Setter Property="Width" Value="{Binding Width}" />
             </Style>
         </ItemsControl.ItemContainerStyle>
     </ItemsControl>

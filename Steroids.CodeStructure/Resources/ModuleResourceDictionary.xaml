@@ -3,6 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
+    xmlns:controls="clr-namespace:Steroids.CodeStructure.Controls"
     xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:moduleConverters="clr-namespace:Steroids.CodeStructure.Converters"
@@ -17,6 +19,7 @@
     <SolidColorBrush x:Key="ClickableItemContainerHighlightBrush" Color="#44444444" />
 
     <SolidColorBrush x:Key="DiagnosticsNoneBrush" Color="#33BB33" />
+    <SolidColorBrush x:Key="DiagnosticsInfoBrush" Color="LightBlue" />
     <SolidColorBrush x:Key="DiagnosticsWarningBrush" Color="#FFCC00" />
     <SolidColorBrush x:Key="DiagnosticsErrorBrush" Color="#E51400" />
 
@@ -165,6 +168,64 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
                         </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type controls:FloatingDiagnosticHint}">
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:FloatingDiagnosticHint}">
+                    <Border Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <imaging:CrispImage x:Name="PART_Moniker" Margin="{TemplateBinding Padding}" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderTransformOrigin="0, 0.5">
+                                <imaging:CrispImage.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </imaging:CrispImage.RenderTransform>
+                            </imaging:CrispImage>
+                            <Border Margin="4, 0" Grid.Column="2" HorizontalAlignment="Right" RenderTransformOrigin="1, 0.5" MaxWidth="450" Background="Transparent" ToolTip="{TemplateBinding Message}">
+                                <Border.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </Border.RenderTransform>
+
+                                <TextBlock TextTrimming="CharacterEllipsis">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" Opacity="0.75" />
+                                    </TextBlock.Foreground>
+                                    
+                                    <Run x:Name="PART_Message" Text="{TemplateBinding Code}" /><Run Text=":" />
+                                    <Run Text="{TemplateBinding Message}" />
+                                </TextBlock>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Info -->
+                        <Trigger Property="Severity" Value="1">
+                            <Setter TargetName="PART_Moniker" Property="Moniker" Value="{x:Static catalog:KnownMonikers.StatusInformation}" />
+                            <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource DiagnosticsInfoBrush}" />
+                        </Trigger>
+                        <!-- Warning -->
+                        <Trigger Property="Severity" Value="2">
+                            <Setter TargetName="PART_Moniker" Property="Moniker" Value="{x:Static catalog:KnownMonikers.StatusWarning}" />
+                            <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource DiagnosticsWarningBrush}" />
+                        </Trigger>
+                        <!-- Error -->
+                        <Trigger Property="Severity" Value="3">
+                            <Setter TargetName="PART_Moniker" Property="Moniker" Value="{x:Static catalog:KnownMonikers.StatusError}" />
+                            <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource DiagnosticsErrorBrush}" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

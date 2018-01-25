@@ -34,6 +34,10 @@
             var viewModel = root.GetService(typeof(CodeStructureViewModel));
             var adorner = root.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
             adorner.SetDataContext(viewModel);
+
+            var adorner2 = root.GetService(typeof(FloatingDiagnosticHintsAdorner)) as FloatingDiagnosticHintsAdorner;
+
+            textView.Closed += (s, a) => root.Dispose();
         }
     }
 }

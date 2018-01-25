@@ -1,18 +1,15 @@
-﻿namespace Steroids.CodeStructure.Adorners
+﻿using Steroids.CodeStructure.Views;
+namespace Steroids.CodeStructure.Adorners
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Controls;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.Text;
     using Microsoft.VisualStudio.Text.Editor;
-    using Microsoft.VisualStudio.Text.Formatting;
     using Steroids.CodeStructure.Analyzers;
-    using Steroids.CodeStructure.Controls;
-    using Steroids.CodeStructure.ViewModels;
     using Steroids.CodeStructure.Views;
+    using Steroids.Common.Helpers;
 
     /// <summary>
     /// The adorner which will display the code structure.
@@ -20,13 +17,15 @@
     public sealed class CodeStructureAdorner : ICodeStructureAdorner
     {
         private const string CodeStructureTag = "CodeStructure";
-        private const string FloatingMarkerTag = "Marker";
 
         private readonly IAdornmentLayer _adornmentLayer;
         private readonly CodeStructureView _indicatorView;
         private readonly IWpfTextView _parentView;
+        private readonly Debouncer _floatingMarkerDebouncer;
 
-        private IEnumerable<IGrouping<int, DiagnosticInfo>> _lastDiagnostics = new List<IGrouping<int, DiagnosticInfo>>();
+        private ILookup<int, DiagnosticInfo> _lastDiagnostics = new List<DiagnosticInfo>().ToLookup(x => 0);
+
+        private List<ITrackingSpan> _trackingSpans = new List<ITrackingSpan>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureAdorner"/> class.
@@ -36,8 +35,10 @@
         {
             _adornmentLayer = parentView.GetAdornmentLayer(nameof(CodeStructureAdorner));
             _parentView = parentView ?? throw new ArgumentNullException(nameof(parentView));
-            _parentView.LayoutChanged += _parentView_LayoutChanged;
+            _parentView.LayoutChanged += ParentView_LayoutChanged;
             _indicatorView = new CodeStructureView();
+
+            _floatingMarkerDebouncer = new Debouncer(RefreshFloatingMarkers, TimeSpan.FromSeconds(0.1));
 
             _parentView.ViewportWidthChanged += OnSizeChanged;
             _parentView.ViewportHeightChanged += OnSizeChanged;
@@ -46,9 +47,15 @@
             ShowAdorner();
         }
 
-        private void _parentView_LayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
+        private void ParentView_LayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
-            AddOrUpdateDiagnosticLine(_lastDiagnostics, false);
+            if (e.VerticalTranslation)
+            {
+                RefreshFloatingMarkers();
+                return;
+            }
+
+            _floatingMarkerDebouncer.Start();
         }
 
         public void SetDataContext(object context)
@@ -56,65 +63,15 @@
             _indicatorView.DataContext = context;
         }
 
-        public void AddOrUpdateDiagnosticLine(IEnumerable<IGrouping<int, DiagnosticInfo>> diagnostics, bool canUpdate = true)
+        public void AddOrUpdateDiagnosticLine(IEnumerable<DiagnosticInfo> diagnostics)
         {
-            if (canUpdate)
-            {
-                _lastDiagnostics = diagnostics;
-            }
+            _lastDiagnostics = diagnostics.ToLookup(x => x.Line);
+            _floatingMarkerDebouncer.Start();
+        }
 
-            int i = 0;
-            var existingAdronments = _adornmentLayer.Elements.Where(x => x.Tag.Equals(FloatingMarkerTag)).ToList();
-            foreach (var diagnostic in diagnostics)
-            {
-                var line = _parentView.TextSnapshot.Lines.ElementAt(diagnostic.Key);
-                if (line == null)
-                {
-                    continue;
-                }
-
-                var textViewLine = _parentView.GetTextViewLineContainingBufferPosition(line.Extent.Start);
-                if (textViewLine.VisibilityState < VisibilityState.PartiallyVisible)
-                {
-                    continue;
-                }
-
-                FloatingDiagnosticHint floatingHint;
-                if (i < existingAdronments.Count && existingAdronments.Count > 0)
-                {
-                    floatingHint = existingAdronments[i].Adornment as FloatingDiagnosticHint;
-                }
-                else
-                {
-                    floatingHint = new FloatingDiagnosticHint();
-
-                    _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.TextRelative, line.Extent, FloatingMarkerTag, floatingHint, null);
-                }
-
-                if (floatingHint == null)
-                {
-                    continue;
-                }
-
-                var previewDiagnostic = diagnostic.OrderByDescending(x => x.Severity).ThenBy(x => x.Column).First();
-
-                //var left = Math.Max(_parentView.ViewportWidth / 2, Math.Min(textViewLine.TextRight + 4, _parentView.ViewportRight - 50));
-                var left = Math.Min(textViewLine.TextRight + 4, _parentView.ViewportRight);
-                floatingHint.Severity = diagnostic.Max(x => x.Severity);
-                floatingHint.Code = previewDiagnostic.ErrorCode;
-                floatingHint.Message = previewDiagnostic.Message;
-                floatingHint.Width = _parentView.ViewportWidth - left;
-
-                Canvas.SetLeft(floatingHint, left);
-                Canvas.SetTop(floatingHint, textViewLine.TextTop - ((floatingHint.Height - textViewLine.Height) / 2));
-                i++;
-            }
-
-            if (i < existingAdronments.Count)
-            {
-                var remainginAdornments = existingAdronments.Skip(i);
-                _adornmentLayer.RemoveMatchingAdornments(x => remainginAdornments.Contains(x));
-            }
+        private void RefreshFloatingMarkers()
+        {
+            
         }
 
         /// <summary>

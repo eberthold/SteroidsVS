@@ -1,6 +1,7 @@
 ﻿namespace Steroids.CodeStructure.Analyzers
 {
     using Microsoft.CodeAnalysis;
+    using Microsoft.VisualStudio.Text;
 
     public class DiagnosticInfo
     {
@@ -17,5 +18,12 @@
         public int Line { get; internal set; }
 
         public int Column { get; internal set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the DiagnosticInfo is not suppressed by comment or suppress attribute.
+        /// </summary>
+        public bool IsActive { get; internal set; }
+
+        public ITextSnapshotLine LineSpan { get; internal set; }
     }
 }
