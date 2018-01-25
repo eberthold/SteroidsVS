@@ -12,6 +12,7 @@
         public static readonly DependencyProperty DiagnosticsProperty = DependencyProperty.Register("Diagnostics", typeof(IEnumerable<DiagnosticInfo>), typeof(FloatingDiagnosticHint), new PropertyMetadata(new List<DiagnosticInfo>()));
         public static readonly DependencyProperty CodeProperty = DependencyProperty.Register("Code", typeof(string), typeof(FloatingDiagnosticHint), new PropertyMetadata(string.Empty));
         public static readonly DependencyProperty MessageProperty = DependencyProperty.Register("Message", typeof(string), typeof(FloatingDiagnosticHint), new PropertyMetadata(string.Empty));
+        public static readonly DependencyProperty ScaleFactorProperty = DependencyProperty.Register("ScaleFactor", typeof(double), typeof(FloatingDiagnosticHint), new PropertyMetadata(1.0));
 
         static FloatingDiagnosticHint()
         {
@@ -40,6 +41,12 @@
         {
             get { return (DiagnosticSeverity)GetValue(SeverityProperty); }
             set { SetValue(SeverityProperty, value); }
+        }
+
+        public double ScaleFactor
+        {
+            get { return (double)GetValue(ScaleFactorProperty); }
+            set { SetValue(ScaleFactorProperty, value); }
         }
     }
 }

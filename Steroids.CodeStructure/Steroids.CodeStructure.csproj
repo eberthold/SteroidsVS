@@ -321,6 +321,7 @@
     <Compile Include="Analyzers\Services\SyntaxWalkerProvider.cs" />
     <Compile Include="Analyzers\TypeGroupedSyntaxAnalyzer.cs" />
     <Compile Include="Adorners\CodeStructureAdorner.cs" />
+    <Compile Include="CodeStructureInitializer.cs" />
     <Compile Include="Controls\FloatingDiagnosticHint.cs" />
     <Compile Include="Controls\IndicatorButton.cs" />
     <Compile Include="Controls\SelectionHintControl.xaml.cs">
@@ -332,6 +333,7 @@
     <Compile Include="Extensions\TextSpanExtensions.cs" />
     <Compile Include="Extensions\WpfTextViewExtensions.cs" />
     <Compile Include="Helpers\IWpfTextViewHelper.cs" />
+    <Compile Include="Models\CodeHintLineEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ModuleResourceDictionary.xaml.cs">
       <DependentUpon>ModuleResourceDictionary.xaml</DependentUpon>
@@ -398,7 +400,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

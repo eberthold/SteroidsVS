@@ -10,6 +10,9 @@
 
     public class ErrorListDiagnosticProvider : IDiagnosticProvider
     {
+        private const string SuppressionState = "suppressionstate";
+        private const string ActiveSuppression = "Active";
+
         private readonly IErrorList _errorList;
         private List<DiagnosticInfo> _diagnosticInfos = new List<DiagnosticInfo>();
 
@@ -39,6 +42,7 @@
                 entry.TryGetValue(StandardTableKeyNames.HelpLink, out string helpLink);
                 entry.TryGetValue(StandardTableKeyNames.Line, out int line);
                 entry.TryGetValue(StandardTableKeyNames.Column, out int column);
+                entry.TryGetValue(SuppressionState, out string suppressionState);
 
                 if (string.IsNullOrWhiteSpace(fullText))
                 {
@@ -67,7 +71,8 @@
                     ErrorCode = errorCode,
                     HelpUriRaw = helpLink,
                     Line = line,
-                    Column = column
+                    Column = column,
+                    IsActive = suppressionState == ActiveSuppression
                 });
             }
 

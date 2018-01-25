@@ -2,11 +2,13 @@
 {
     using System;
     using System.Runtime.InteropServices;
+    using System.Windows;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.ComponentModelHost;
     using Microsoft.VisualStudio.LanguageServices;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
+    using Steroids.CodeStructure;
 
     [ProvideAutoLoad(VSConstants.UICONTEXT.ShellInitialized_string)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string)]
@@ -39,6 +41,8 @@
             _initialized = true;
 
             base.Initialize();
+
+            CodeStructureInitializer.Initialize();
 
             var componentModel = (IComponentModel)GetGlobalService(typeof(SComponentModel));
             Workspace = componentModel.GetService<VisualStudioWorkspace>();

@@ -25,7 +25,6 @@
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
         private readonly IAdornmentLayer _adornmentLayer;
-        private readonly CodeQualityHintsViewModel _diagnosticHintsViewModel;
 
         private SelectionHintControl _adornerContent;
         private bool _isListVisible;
@@ -47,13 +46,11 @@
         public CodeStructureViewModel(
             IWpfTextView textView,
             IDiagnosticProvider diagnosticProvider,
-            IDocumentAnalyzerService documentAnalyzerService,
-            CodeQualityHintsViewModel diagnosticHintsViewModel)
+            IDocumentAnalyzerService documentAnalyzerService)
         {
             _textView = textView;
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
             _documentAnalyzerService = documentAnalyzerService ?? throw new ArgumentNullException(nameof(documentAnalyzerService));
-            _diagnosticHintsViewModel = diagnosticHintsViewModel ?? throw new ArgumentNullException(nameof(diagnosticHintsViewModel));
 
             _adornmentLayer = textView.GetAdornmentLayer("SelectionHintAdornment");
 
