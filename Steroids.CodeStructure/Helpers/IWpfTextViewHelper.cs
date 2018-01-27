@@ -9,12 +9,12 @@
 
     public static class IWpfTextViewHelper
     {
-        public static IEnumerable<DiagnosticInfo> GetDiagnosticsOfEditor(IWpfTextView textView, IEnumerable<DiagnosticInfo> diagnostics)
+        public static IEnumerable<DiagnosticInfo> ExtractRelatedDiagnostics(this IWpfTextView textView, IEnumerable<DiagnosticInfo> diagnostics)
         {
             var path = textView.GetDocument()?.FilePath;
             if (string.IsNullOrWhiteSpace(path))
             {
-                return new List<DiagnosticInfo>();
+                return Enumerable.Empty<DiagnosticInfo>();
             }
 
             return diagnostics.Where(x => string.Equals(x.Path, path, StringComparison.OrdinalIgnoreCase));
