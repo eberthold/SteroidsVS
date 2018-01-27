@@ -1,15 +1,16 @@
-﻿namespace Steroids.CodeStructure.Analyzers.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.VisualStudio.Text.Editor;
-    using Steroids.CodeStructure.Analyzers;
-    using Steroids.CodeStructure.Extensions;
-    using Steroids.Common.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using Microsoft.CodeAnalysis;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
+using Steroids.CodeStructure.Extensions;
+using Steroids.Common.Helpers;
 
+namespace Steroids.CodeStructure.Analyzers.Services
+{
     public class DocumentAnalyzerService : IDocumentAnalyzerService
     {
         private readonly IWpfTextView _textView;
@@ -28,7 +29,7 @@
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
             _syntaxWalkerProvider = syntaxWalkerProvider ?? throw new ArgumentNullException(nameof(syntaxWalkerProvider));
 
-            _textView.TextBuffer.PostChanged += OnTextChanged;
+            WeakEventManager<ITextBuffer, EventArgs>.AddHandler(_textView.TextBuffer, nameof(ITextBuffer.PostChanged), OnTextChanged);
             _structureDebouncer = new Debouncer(Analysis, TimeSpan.FromSeconds(1.5));
             _structureDebouncer.Start();
         }
@@ -58,13 +59,7 @@
         private void Analysis()
         {
             var document = _textView.GetDocument();
-
-            var tasks = new List<Task>
-            {
-                AnalyzeCodeStructureAsync(document)
-            };
-
-            Task.WhenAll(tasks)
+            AnalyzeCodeStructureAsync(document)
                 .ContinueWith(t => AnalysisFinished?.Invoke(this, EventArgs.Empty), TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 

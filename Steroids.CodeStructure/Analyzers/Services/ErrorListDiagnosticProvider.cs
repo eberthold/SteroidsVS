@@ -1,32 +1,37 @@
-﻿namespace Steroids.CodeStructure.Analyzers.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Shell.Interop;
-    using Microsoft.VisualStudio.Shell.TableControl;
-    using Microsoft.VisualStudio.Shell.TableManager;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
+using Microsoft.CodeAnalysis;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Shell.TableControl;
+using Microsoft.VisualStudio.Shell.TableManager;
 
+namespace Steroids.CodeStructure.Analyzers.Services
+{
     public class ErrorListDiagnosticProvider : IDiagnosticProvider
     {
         private const string SuppressionState = "suppressionstate";
-        private const string ActiveSuppression = "Active";
-
-        private readonly IErrorList _errorList;
-        private List<DiagnosticInfo> _diagnosticInfos = new List<DiagnosticInfo>();
+        private const string NotSuppressed = "Active";
 
         public ErrorListDiagnosticProvider(IErrorList errorList)
         {
-            _errorList = errorList ?? throw new ArgumentNullException(nameof(errorList));
-            errorList.TableControl.EntriesChanged += OnErrorListEntriesChanged;
+            if (errorList == null)
+            {
+                throw new ArgumentNullException(nameof(errorList));
+            }
+
+            WeakEventManager<IWpfTableControl, EntriesChangedEventArgs>.AddHandler(errorList.TableControl, nameof(IWpfTableControl.EntriesChanged), OnErrorListEntriesChanged);
         }
 
+        /// <summary>
+        /// Triggered when a new set of Diagnostics get popuplated.
+        /// </summary>
         public event EventHandler<DiagnosticsChangedEventArgs> DiagnosticsChanged;
 
         private void OnErrorListEntriesChanged(object sender, EntriesChangedEventArgs args)
         {
-            _diagnosticInfos.Clear();
+            var diagnostics = new List<DiagnosticInfo>();
 
             foreach (var entry in args.AllEntries)
             {
@@ -63,7 +68,7 @@
                         break;
                 }
 
-                _diagnosticInfos.Add(new DiagnosticInfo
+                diagnostics.Add(new DiagnosticInfo
                 {
                     Severity = severity,
                     Path = path,
@@ -72,11 +77,11 @@
                     HelpUriRaw = helpLink,
                     Line = line,
                     Column = column,
-                    IsActive = suppressionState == ActiveSuppression
+                    IsActive = suppressionState == NotSuppressed
                 });
             }
 
-            DiagnosticsChanged?.Invoke(this, new DiagnosticsChangedEventArgs(_diagnosticInfos.AsReadOnly()));
+            DiagnosticsChanged?.Invoke(this, new DiagnosticsChangedEventArgs(diagnostics.AsReadOnly()));
         }
     }
 }

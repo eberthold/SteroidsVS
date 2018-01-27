@@ -1,6 +1,7 @@
 ﻿namespace Steroids.CodeStructure.Adorners
 {
     using System;
+    using System.Windows;
     using System.Windows.Controls;
     using Microsoft.VisualStudio.Text.Editor;
     using Steroids.CodeStructure.ViewModels;
@@ -8,23 +9,25 @@
 
     public class FloatingDiagnosticHintsAdorner
     {
-        private readonly IWpfTextView _parentView;
+        private readonly IWpfTextView _textView;
         private readonly IAdornmentLayer _adornmentLayer;
         private readonly FloatingDiagnosticHintsView _adorner;
 
         public FloatingDiagnosticHintsAdorner(
-            IWpfTextView parentView,
+            IWpfTextView textView,
             CodeQualityHintsViewModel viewModel)
         {
-            _parentView = parentView;
+            _textView = textView;
 
-            _adornmentLayer = parentView.GetAdornmentLayer(nameof(CodeStructureAdorner));
-            _adorner = new FloatingDiagnosticHintsView();
-            _adorner.DataContext = viewModel;
+            _adornmentLayer = textView.GetAdornmentLayer(nameof(CodeStructureAdorner));
+            _adorner = new FloatingDiagnosticHintsView
+            {
+                DataContext = viewModel
+            };
 
-            _parentView.ViewportWidthChanged += OnSizeChanged;
-            _parentView.ViewportHeightChanged += OnSizeChanged;
-            _adorner.SizeChanged += OnSizeChanged;
+            WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportWidthChanged), OnSizeChanged);
+            WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportHeightChanged), OnSizeChanged);
+            WeakEventManager<FloatingDiagnosticHintsView, EventArgs>.AddHandler(_adorner, nameof(FrameworkElement.SizeChanged), OnSizeChanged);
 
             ShowAdorner();
         }
@@ -36,10 +39,10 @@
 
         private void SetPosition()
         {
-            _adorner.Width = _parentView.ViewportWidth;
-            _adorner.Height = _parentView.ViewportHeight;
-            Canvas.SetLeft(_adorner, _parentView.ViewportLeft);
-            Canvas.SetTop(_adorner, _parentView.ViewportTop);
+            _adorner.Width = _textView.ViewportWidth;
+            _adorner.Height = _textView.ViewportHeight;
+            Canvas.SetLeft(_adorner, _textView.ViewportLeft);
+            Canvas.SetTop(_adorner, _textView.ViewportTop);
         }
 
         private void ShowAdorner()

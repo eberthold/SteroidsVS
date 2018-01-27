@@ -1,8 +1,9 @@
-﻿namespace Steroids.Common.Helpers
-{
-    using System;
-    using System.Windows.Threading;
+﻿using System;
+using System.Windows;
+using System.Windows.Threading;
 
+namespace Steroids.Common.Helpers
+{
     public class Debouncer
     {
         private readonly TimeSpan _delay;
@@ -18,7 +19,7 @@
                 Interval = delay
             };
 
-            _timer.Tick += Execute;
+            WeakEventManager<DispatcherTimer, EventArgs>.AddHandler(_timer, nameof(DispatcherTimer.Tick), Execute);
         }
 
         public void Start()

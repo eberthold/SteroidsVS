@@ -197,12 +197,16 @@
                                 </imaging:CrispImage.RenderTransform>
                             </imaging:CrispImage>
 
-                            <Border Margin="10, 0, 4, 0" Grid.Column="2" MaxWidth="450" HorizontalAlignment="Right" RenderTransformOrigin="1, 0.5" Opacity="0.8">
+                            <Border Margin="4, 0" Grid.Column="2" HorizontalAlignment="Right" RenderTransformOrigin="1, 0.5" MaxWidth="450" Background="Transparent" ToolTip="{TemplateBinding Message}">
                                 <Border.RenderTransform>
                                     <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </Border.RenderTransform>
 
-                                <TextBlock Foreground="Gray" TextTrimming="CharacterEllipsis">                                
+                                <TextBlock TextTrimming="CharacterEllipsis">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" Opacity="0.75" />
+                                    </TextBlock.Foreground>
+                                    
                                     <Run x:Name="PART_Message"  Text="{TemplateBinding Code}" FontWeight="SemiBold" /><Run Text=":" />
                                     <Run Text="{TemplateBinding Message}" />
                                 </TextBlock>

@@ -81,7 +81,7 @@ namespace Steroids.CodeStructure.Models
 
         public double Height
         {
-            get { return 18; }
+            get { return 16; }
         }
 
         public double Top
