@@ -155,7 +155,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICompositionRoot.cs" />
+    <Compile Include="IBootstrapper.cs" />
     <Compile Include="IWorkspaceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
