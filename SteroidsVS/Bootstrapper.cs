@@ -8,8 +8,8 @@
     using Unity;
     using Unity.Lifetime;
 
-    [Export(typeof(ICompositionRoot))]
-    public class CompositionRoot : IServiceProvider, ICompositionRoot
+    [Export(typeof(IBootstrapper))]
+    public class Bootstrapper : IServiceProvider, IBootstrapper
     {
         protected static IUnityContainer RootContainer { get; private set; }
 
@@ -24,7 +24,6 @@
             Container.RegisterInstance(services.ErrorList);
 
             Container.RegisterType<IWorkspaceManager, WorkspaceManager>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new HierarchicalLifetimeManager());
             Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
         }
 

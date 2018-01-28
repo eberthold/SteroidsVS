@@ -47,7 +47,7 @@
             Workspace = componentModel.GetService<VisualStudioWorkspace>();
             ErrorList = GetService(typeof(SVsErrorList)) as IErrorList;
 
-            var root = new CompositionRoot();
+            var root = new Bootstrapper();
             root.Initialize(this);
         }
     }

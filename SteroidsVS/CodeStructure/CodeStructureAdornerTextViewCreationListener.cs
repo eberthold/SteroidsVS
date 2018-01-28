@@ -18,7 +18,7 @@ namespace SteroidsVS.CodeStructure
     internal sealed class CodeStructureAdornerTextViewCreationListener : IWpfTextViewCreationListener
     {
         private IWpfTextView _textView;
-        private CodeStructureCompositionRoot _bootstrapper;
+        private CodeStructureBootstrapper _bootstrapper;
 
         /// <summary>
         /// Defines the adornment layer for the scarlet adornment. This layer is ordered
@@ -36,7 +36,7 @@ namespace SteroidsVS.CodeStructure
         public void TextViewCreated(IWpfTextView textView)
         {
             _textView = textView;
-            _bootstrapper = new CodeStructureCompositionRoot(textView);
+            _bootstrapper = new CodeStructureBootstrapper(textView);
             var viewModel = _bootstrapper.GetService(typeof(CodeStructureViewModel));
             var adorner = _bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
             adorner.SetDataContext(viewModel);
@@ -48,9 +48,10 @@ namespace SteroidsVS.CodeStructure
 
         private void OnClosed(object sender, EventArgs e)
         {
+            _textView?.GetAdornmentLayer(nameof(CodeStructureAdorner))?.RemoveAllAdornments();
+            _textView = null;
             _bootstrapper?.Dispose();
             _bootstrapper = null;
-            _textView?.GetAdornmentLayer(nameof(CodeStructureAdorner))?.RemoveAllAdornments();
         }
     }
 }

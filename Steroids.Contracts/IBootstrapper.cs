@@ -1,6 +1,6 @@
 ﻿namespace Steroids.Contracts
 {
-    public interface ICompositionRoot
+    public interface IBootstrapper
     {
     }
 }

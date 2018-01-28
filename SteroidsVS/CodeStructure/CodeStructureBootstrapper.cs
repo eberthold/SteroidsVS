@@ -1,24 +1,24 @@
-﻿namespace SteroidsVS.CodeStructure
-{
-    using System;
-    using Microsoft.VisualStudio.Text.Editor;
-    using Steroids.CodeStructure.Adorners;
-    using Steroids.CodeStructure.Analyzers.Services;
-    using Steroids.CodeStructure.ViewModels;
-    using Unity;
-    using Unity.Lifetime;
+﻿using System;
+using Microsoft.VisualStudio.Text.Editor;
+using Steroids.CodeStructure.Adorners;
+using Steroids.CodeStructure.Analyzers.Services;
+using Steroids.CodeStructure.ViewModels;
+using Unity;
+using Unity.Lifetime;
 
-    public class CodeStructureCompositionRoot : CompositionRoot, IDisposable
+namespace SteroidsVS.CodeStructure
+{
+    public class CodeStructureBootstrapper : Bootstrapper, IDisposable
     {
-        private readonly IWpfTextView _textView;
+        private IWpfTextView _textView;
 
         private bool _disposed = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CodeStructureCompositionRoot"/> class.
+        /// Initializes a new instance of the <see cref="CodeStructureBootstrapper"/> class.
         /// </summary>
         /// <param name="textView">The <see cref="IWpfTextView"/> to analyze.</param>
-        public CodeStructureCompositionRoot(IWpfTextView textView)
+        public CodeStructureBootstrapper(IWpfTextView textView)
         {
             _textView = textView;
             Initialize();
@@ -39,6 +39,7 @@
                 {
                     Container.Dispose();
                     Container = null;
+                    _textView = null;
                 }
 
                 _disposed = true;
@@ -53,6 +54,7 @@
             Container = RootContainer.CreateChildContainer();
             Container.RegisterInstance(_textView);
 
+            Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ISyntaxWalkerProvider, SyntaxWalkerProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureViewModel>(new ContainerControlledLifetimeManager());
