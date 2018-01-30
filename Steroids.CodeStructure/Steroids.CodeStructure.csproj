@@ -347,7 +347,6 @@
     <Compile Include="TemplateSelectors\NodeContainerTemplateSelector.cs" />
     <Compile Include="ViewModels\CodeQualityHintsViewModel.cs" />
     <Compile Include="ViewModels\CodeStructureViewModel.cs" />
-    <Compile Include="ViewModels\FloatingDiagnosticHintsViewModel.cs" />
     <Compile Include="Views\CodeStructureView.xaml.cs">
       <DependentUpon>CodeStructureView.xaml</DependentUpon>
     </Compile>
@@ -372,8 +371,8 @@
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Condition="'$(DesignTime)'=='true' AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true' AND '$(BuildingSolutionFile)'!='true'" Include="App.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\SelectionHintControl.xaml">
       <SubType>Designer</SubType>
