@@ -255,7 +255,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type models:CodeHintLineEntry}">
-        <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Code="{Binding Code}" Message="{Binding Message}" ScaleFactor="{Binding ScaleFactor}"/>
+        <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Code="{Binding Code}" Message="{Binding Message}" ScaleFactor="{Binding ScaleFactor}" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </DataTemplate>
 
     <selector:NodeContainerTemplateSelector x:Key="NodeContainerTemplateSelector" SectionHeaderTemplate="{StaticResource SectionHeaderTemplate}" NodeContainerTemplate="{StaticResource NodeContainerTemplate}" />

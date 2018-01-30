@@ -165,7 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindableBase.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\Debouncer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

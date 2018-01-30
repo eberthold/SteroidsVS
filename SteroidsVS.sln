@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS", "SteroidsVS\SteroidsVS.csproj", "{CE39BD04-12F1-4061-89A0-86154E247132}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Contracts", "Steroids.Contracts\Steroids.Contracts.csproj", "{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeStructure.Tests", "Steroids.CodeStructure.Tests\Steroids.CodeStructure.Tests.csproj", "{7ACA354E-33FC-45C1-932F-F7A5B01111A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.SharedUI", "Steroids.SharedUI\Steroids.SharedUI.csproj", "{58AC3D8F-294E-4389-8A93-570AE6C45808}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{7ACA354E-33FC-45C1-932F-F7A5B01111A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ACA354E-33FC-45C1-932F-F7A5B01111A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7ACA354E-33FC-45C1-932F-F7A5B01111A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58AC3D8F-294E-4389-8A93-570AE6C45808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58AC3D8F-294E-4389-8A93-570AE6C45808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58AC3D8F-294E-4389-8A93-570AE6C45808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58AC3D8F-294E-4389-8A93-570AE6C45808}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
