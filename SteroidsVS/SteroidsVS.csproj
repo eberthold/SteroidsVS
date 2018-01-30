@@ -384,6 +384,14 @@
       <Project>{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}</Project>
       <Name>Steroids.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Steroids.SharedUI\Steroids.SharedUI.csproj">
+      <Project>{58ac3d8f-294e-4389-8a93-570ae6c45808}</Project>
+      <Name>Steroids.SharedUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Steroids.Skin\Steroids.Skin.csproj">
+      <Project>{dea6534a-406c-409e-802f-9b655bc8e876}</Project>
+      <Name>Steroids.Skin</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\SteroidsVsPackage.ico" />

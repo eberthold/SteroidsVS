@@ -110,7 +110,7 @@ namespace Steroids.CodeStructure.Models
             IsVisible = textViewLine.VisibilityState > VisibilityState.PartiallyVisible;
             Left = textViewLine.TextRight + 10 - _textView.ViewportLeft;
             Width = _textView.ViewportWidth - Left;
-            Top = textViewLine.TextTop - _textView.ViewportTop;
+            Top = textViewLine.TextTop - _textView.ViewportTop + ((textViewLine.Baseline - Height) / 2);
             ScaleFactor = textViewLine.Baseline / Height;
         }
     }
