@@ -1,4 +1,4 @@
-﻿namespace Steroids.Common.Converters
+﻿namespace Steroids.SharedUI.Converters
 {
     using System;
     using System.Globalization;
