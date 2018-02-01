@@ -14,6 +14,7 @@ namespace Steroids.CodeStructure.Models
         private readonly IEnumerable<DiagnosticInfo> _lineInfos;
         private readonly IWpfTextView _textView;
         private readonly ITrackingSpan _trackingSpan;
+        private readonly bool _isActive;
 
         private double _left;
         private double _width;
@@ -28,16 +29,24 @@ namespace Steroids.CodeStructure.Models
             IEnumerable<DiagnosticInfo> lineInfos,
             int lineNumber)
         {
-            _lineInfos = lineInfos;
-            _textView = textView;
+            // in some strange cases we are getting diagnostics for lines which aren't available anymore
+            if (_textView.TextSnapshot.LineCount <= lineNumber)
+            {
+                return;
+            }
+
             var line = _textView.TextSnapshot.GetLineFromLineNumber(lineNumber);
             _trackingSpan = _textView.TextSnapshot.CreateTrackingSpan(line.Extent, SpanTrackingMode.EdgeExclusive);
+
+            _lineInfos = lineInfos;
+            _textView = textView;
 
             var highestDiagnostic = lineInfos.OrderByDescending(x => x.Severity).ThenBy(x => x.Column).First();
             Code = highestDiagnostic.ErrorCode;
             Message = highestDiagnostic.Message;
             Severity = highestDiagnostic.Severity;
 
+            _isActive = true;
             RefreshPositions();
         }
 
@@ -104,6 +113,11 @@ namespace Steroids.CodeStructure.Models
 
         public void RefreshPositions()
         {
+            if (!_isActive)
+            {
+                return;
+            }
+
             var endPoint = _trackingSpan.GetEndPoint(_textView.TextSnapshot);
             var textViewLine = _textView.GetTextViewLineContainingBufferPosition(endPoint);
 
