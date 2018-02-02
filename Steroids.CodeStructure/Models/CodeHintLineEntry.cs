@@ -29,6 +29,9 @@ namespace Steroids.CodeStructure.Models
             IEnumerable<DiagnosticInfo> lineInfos,
             int lineNumber)
         {
+            _textView = textView;
+            _lineInfos = lineInfos;
+            
             // in some strange cases we are getting diagnostics for lines which aren't available anymore
             if (_textView.TextSnapshot.LineCount <= lineNumber)
             {
@@ -37,9 +40,6 @@ namespace Steroids.CodeStructure.Models
 
             var line = _textView.TextSnapshot.GetLineFromLineNumber(lineNumber);
             _trackingSpan = _textView.TextSnapshot.CreateTrackingSpan(line.Extent, SpanTrackingMode.EdgeExclusive);
-
-            _lineInfos = lineInfos;
-            _textView = textView;
 
             var highestDiagnostic = lineInfos.OrderByDescending(x => x.Severity).ThenBy(x => x.Column).First();
             Code = highestDiagnostic.ErrorCode;
