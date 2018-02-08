@@ -169,9 +169,10 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
-    <Analyzer Include="..\packages\Roslynator.Analyzers.1.5.0\analyzers\dotnet\cs\Roslynator.Common.dll" />
-    <Analyzer Include="..\packages\Roslynator.Analyzers.1.5.0\analyzers\dotnet\cs\Roslynator.Core.dll" />
-    <Analyzer Include="..\packages\Roslynator.Analyzers.1.5.0\analyzers\dotnet\cs\Roslynator.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Roslynator.Analyzers.1.7.0\analyzers\dotnet\cs\Roslynator.Common.dll" />
+    <Analyzer Include="..\packages\Roslynator.Analyzers.1.7.0\analyzers\dotnet\cs\Roslynator.Core.dll" />
+    <Analyzer Include="..\packages\Roslynator.Analyzers.1.7.0\analyzers\dotnet\cs\Roslynator.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Roslynator.Analyzers.1.7.0\analyzers\dotnet\cs\Roslynator.Workspaces.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>

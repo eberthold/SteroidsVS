@@ -8,7 +8,6 @@
     using System.Windows.Controls;
     using System.Windows.Data;
     using Microsoft.CodeAnalysis;
-    using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.Text.Editor;
     using Microsoft.VisualStudio.Text.Formatting;
     using Steroids.CodeStructure.Analyzers;
@@ -19,8 +18,6 @@
 
     public class CodeStructureViewModel : BindableBase
     {
-        private const string AdornmentName = "HintAdorner";
-
         private readonly IWpfTextView _textView;
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
@@ -31,7 +28,6 @@
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
         private ICodeStructureNodeContainer _selectedNode;
-        private double _analysisTime;
         private ICollectionView _nodeCollection;
         private bool _isPinned;
         private DiagnosticSeverity _currentDiagnosticLevel;
@@ -190,8 +186,8 @@
                 return;
             }
 
-            ITextViewLine startLine = lines.First();
-            ITextViewLine endLine = lines.Last();
+            ITextViewLine startLine = lines[0];
+            ITextViewLine endLine = lines[lines.Count - 1];
 
             // skip empty leading lines
             while (string.IsNullOrWhiteSpace(startLine.Extent.GetText()) || startLine.Extent.GetText().StartsWith("/"))

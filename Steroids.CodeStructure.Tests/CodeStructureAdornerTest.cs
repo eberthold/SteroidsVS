@@ -1,18 +1,18 @@
-﻿using System.Linq;
-using Steroids.CodeStructure.Analyzers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.Text.Editor;
 using Steroids.CodeStructure.Adorners;
+using Steroids.CodeStructure.Analyzers;
 
 namespace Steroids.CodeStructure.Tests
 {
     [TestClass]
     public class CodeStructureAdornerTest
     {
-        private readonly IAdornmentLayer adornmentLayer = A.Fake<IAdornmentLayer>();
-        private readonly IWpfTextView textView = A.Fake<IWpfTextView>();
+        private readonly IAdornmentLayer _adornmentLayer = A.Fake<IAdornmentLayer>();
+        private readonly IWpfTextView _textView = A.Fake<IWpfTextView>();
 
         [TestMethod]
         public void AddOrUpdateDiagnosticLine_NewDiagnosticInfo_AddsAdornment()
@@ -27,15 +27,15 @@ namespace Steroids.CodeStructure.Tests
             }.ToLookup(x => 0);
 
             // Act
-            //sut.AddOrUpdateDiagnosticLine(diagnostics);
+            // sut.AddOrUpdateDiagnosticLine(diagnostics);
 
             // Assert
-            A.CallTo(adornmentLayer).Where(x => x.Method.Name == nameof(adornmentLayer.AddAdornment)).MustHaveHappened();
+            A.CallTo(_adornmentLayer).Where(x => x.Method.Name == nameof(_adornmentLayer.AddAdornment)).MustHaveHappened();
         }
 
         public CodeStructureAdorner CreateSut()
         {
-            return new CodeStructureAdorner(textView);
+            return new CodeStructureAdorner(_textView);
         }
     }
 }

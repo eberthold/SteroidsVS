@@ -31,7 +31,7 @@ namespace Steroids.CodeStructure.Models
         {
             _textView = textView;
             _lineInfos = lineInfos;
-            
+
             // in some strange cases we are getting diagnostics for lines which aren't available anymore
             if (_textView.TextSnapshot.LineCount <= lineNumber)
             {
