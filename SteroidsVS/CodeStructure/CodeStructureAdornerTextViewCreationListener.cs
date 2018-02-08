@@ -17,17 +17,13 @@ namespace SteroidsVS.CodeStructure
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
     internal sealed class CodeStructureAdornerTextViewCreationListener : IWpfTextViewCreationListener
     {
-        private IWpfTextView _textView;
-        private CodeStructureBootstrapper _bootstrapper;
-
-        /// <summary>
-        /// Defines the adornment layer for the scarlet adornment. This layer is ordered
-        /// after the selection layer in the Z-order
-        /// </summary>
         [Export(typeof(AdornmentLayerDefinition))]
         [Name("CodeStructureAdorner")]
         [Order(After = PredefinedAdornmentLayers.Caret)]
         private readonly AdornmentLayerDefinition _editorAdornmentLayer;
+
+        private IWpfTextView _textView;
+        private CodeStructureBootstrapper _bootstrapper;
 
         /// <summary>
         /// Instantiates a CodeStructureAdorner manager when a textView is created.

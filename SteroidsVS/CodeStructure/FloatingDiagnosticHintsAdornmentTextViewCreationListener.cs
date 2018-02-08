@@ -13,10 +13,6 @@
     [TextViewRole(PredefinedTextViewRoles.Document)]
     internal sealed class FloatingDiagnosticHintsAdornmentTextViewCreationListener : IWpfTextViewCreationListener
     {
-        /// <summary>
-        /// Defines the adornment layer for the scarlet adornment. This layer is ordered
-        /// after the selection layer in the Z-order
-        /// </summary>
         [Export(typeof(AdornmentLayerDefinition))]
         [Name("FloatingDiagnosticHintsAdornment")]
         [Order(After = PredefinedAdornmentLayers.Caret)]

@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace Steroids.SharedUI.Resources
+﻿namespace Steroids.SharedUI.Resources
 {
     public partial class ModuleResourceDictionary
     {
