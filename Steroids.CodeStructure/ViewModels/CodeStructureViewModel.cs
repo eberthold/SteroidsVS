@@ -1,21 +1,22 @@
-﻿namespace Steroids.CodeStructure.ViewModels
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.VisualStudio.Text.Editor;
-    using Microsoft.VisualStudio.Text.Formatting;
-    using Steroids.CodeStructure.Analyzers;
-    using Steroids.CodeStructure.Analyzers.Services;
-    using Steroids.CodeStructure.Controls;
-    using Steroids.CodeStructure.Extensions;
-    using Steroids.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using Microsoft.CodeAnalysis;
+using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Text.Formatting;
+using Steroids.CodeStructure.Analyzers;
+using Steroids.CodeStructure.Analyzers.Services;
+using Steroids.CodeStructure.Controls;
+using Steroids.CodeStructure.Extensions;
+using Steroids.Common;
+using Steroids.Contracts;
 
+namespace Steroids.CodeStructure.ViewModels
+{
     public class CodeStructureViewModel : BindableBase
     {
         private readonly IWpfTextView _textView;
@@ -36,19 +37,20 @@
         /// Initializes a new instance of the <see cref="CodeStructureViewModel"/> class.
         /// </summary>
         /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
+        /// <param name="adornmentLayer">The <see cref="IAdornmentLayer"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         /// <param name="documentAnalyzerService">The <see cref="IDocumentAnalyzerService"/>.</param>
         /// <param name="diagnosticHintsViewModel">The view model which should display all our diagnostic hints.</param>
         public CodeStructureViewModel(
             IWpfTextView textView,
+            IAdornmentLayer adornmentLayer,
             IDiagnosticProvider diagnosticProvider,
             IDocumentAnalyzerService documentAnalyzerService)
         {
             _textView = textView;
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
             _documentAnalyzerService = documentAnalyzerService ?? throw new ArgumentNullException(nameof(documentAnalyzerService));
-
-            _adornmentLayer = textView.GetAdornmentLayer("SelectionHintAdornment");
+            _adornmentLayer = adornmentLayer ?? throw new ArgumentNullException(nameof(adornmentLayer));
 
             WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);

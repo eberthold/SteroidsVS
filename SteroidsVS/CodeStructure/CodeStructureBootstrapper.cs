@@ -53,6 +53,7 @@ namespace SteroidsVS.CodeStructure
         {
             Container = RootContainer.CreateChildContainer();
             Container.RegisterInstance(_textView);
+            Container.RegisterInstance(_textView.GetAdornmentLayer(nameof(CodeStructureAdorner)));
 
             Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ISyntaxWalkerProvider, SyntaxWalkerProvider>(new ContainerControlledLifetimeManager());

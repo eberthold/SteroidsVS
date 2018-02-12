@@ -4,7 +4,6 @@ using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 using Steroids.CodeStructure.Adorners;
-using Steroids.CodeStructure.ViewModels;
 
 namespace SteroidsVS.CodeStructure
 {
@@ -33,10 +32,8 @@ namespace SteroidsVS.CodeStructure
         {
             _textView = textView;
             _bootstrapper = new CodeStructureBootstrapper(textView);
-            var viewModel = _bootstrapper.GetService(typeof(CodeStructureViewModel));
-            var adorner = _bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
-            adorner.SetDataContext(viewModel);
 
+            var adorner = _bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
             var adorner2 = _bootstrapper.GetService(typeof(FloatingDiagnosticHintsAdorner)) as FloatingDiagnosticHintsAdorner;
 
             WeakEventManager<ITextView, EventArgs>.AddHandler(textView, nameof(ITextView.Closed), OnClosed);

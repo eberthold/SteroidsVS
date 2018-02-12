@@ -1,9 +1,9 @@
-﻿namespace Steroids.CodeStructure.Analyzers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
+namespace Steroids.Contracts
+{
     public class DiagnosticsChangedEventArgs : EventArgs
     {
         public DiagnosticsChangedEventArgs(ReadOnlyCollection<DiagnosticInfo> readOnlyCollection)

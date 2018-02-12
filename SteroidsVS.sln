@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeStructure.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.SharedUI", "Steroids.SharedUI\Steroids.SharedUI.csproj", "{58AC3D8F-294E-4389-8A93-570AE6C45808}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2E07FB3F-3BFE-4EF8-9A10-530B2F7CDEBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7ACA354E-33FC-45C1-932F-F7A5B01111A0} = {2E07FB3F-3BFE-4EF8-9A10-530B2F7CDEBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA622E88-1DED-4B8D-8890-E38D3F07C08E}

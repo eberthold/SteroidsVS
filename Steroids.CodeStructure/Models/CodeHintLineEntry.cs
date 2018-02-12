@@ -4,8 +4,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
-using Steroids.CodeStructure.Analyzers;
 using Steroids.Common;
+using Steroids.Contracts;
 
 namespace Steroids.CodeStructure.Models
 {

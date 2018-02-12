@@ -1,12 +1,12 @@
-﻿namespace Steroids.CodeStructure.Helpers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.VisualStudio.Text.Editor;
-    using Steroids.CodeStructure.Analyzers;
-    using Steroids.CodeStructure.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.VisualStudio.Text.Editor;
+using Steroids.CodeStructure.Extensions;
+using Steroids.Contracts;
 
+namespace Steroids.CodeStructure.Helpers
+{
     public static class IWpfTextViewHelper
     {
         public static IEnumerable<DiagnosticInfo> ExtractRelatedDiagnostics(this IWpfTextView textView, IEnumerable<DiagnosticInfo> diagnostics)
