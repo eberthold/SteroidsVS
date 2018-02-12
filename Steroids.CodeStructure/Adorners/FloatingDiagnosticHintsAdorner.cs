@@ -15,11 +15,12 @@
 
         public FloatingDiagnosticHintsAdorner(
             IWpfTextView textView,
+            IAdornmentLayer adornmentLayer,
             CodeQualityHintsViewModel viewModel)
         {
             _textView = textView;
+            _adornmentLayer = adornmentLayer;
 
-            _adornmentLayer = textView.GetAdornmentLayer(nameof(CodeStructureAdorner));
             _adorner = new FloatingDiagnosticHintsView
             {
                 DataContext = viewModel

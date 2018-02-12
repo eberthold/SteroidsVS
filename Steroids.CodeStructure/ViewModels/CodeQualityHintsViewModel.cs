@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
-using Steroids.CodeStructure.Adorners;
-using Steroids.CodeStructure.Analyzers;
-using Steroids.CodeStructure.Analyzers.Services;
 using Steroids.CodeStructure.Helpers;
 using Steroids.CodeStructure.Models;
 using Steroids.Common;
+using Steroids.Contracts;
 
 namespace Steroids.CodeStructure.ViewModels
 {
@@ -45,16 +43,6 @@ namespace Steroids.CodeStructure.ViewModels
             var fileDiagnostics = _textView
                 .ExtractRelatedDiagnostics(args.Diagnostics)
                 .Where(x => x.IsActive);
-
-            foreach (var diagnostic in fileDiagnostics)
-            {
-                if (diagnostic.Line >= _textView.TextSnapshot.LineCount)
-                {
-                    continue;
-                }
-
-                diagnostic.LineSpan = _textView.TextSnapshot.Lines.ElementAt(diagnostic.Line);
-            }
 
             var lineDiagnostics = fileDiagnostics.ToLookup(x => x.Line);
             QualityHints = lineDiagnostics.Select(x => new CodeHintLineEntry(_textView, x, x.Key)).ToList();

@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.Text.Editor;
+using Steroids.CodeStructure.ViewModels;
 using Steroids.CodeStructure.Views;
 
 namespace Steroids.CodeStructure.Adorners
@@ -21,9 +22,14 @@ namespace Steroids.CodeStructure.Adorners
         /// Initializes a new instance of the <see cref="CodeStructureAdorner"/> class.
         /// </summary>
         /// <param name="textView">The <see cref="IWpfTextView"/> upon which the adornment will be drawn.</param>
-        public CodeStructureAdorner(IWpfTextView textView)
+        /// <param name="adornmentLayer">The <see cref="IAdornmentLayer"/>.</param>
+        /// <param name="viewModel">The <see cref="CodeStructureViewModel"/>.</param>
+        public CodeStructureAdorner(
+            IWpfTextView textView,
+            IAdornmentLayer adornmentLayer,
+            CodeStructureViewModel viewModel)
         {
-            _adornmentLayer = textView.GetAdornmentLayer(nameof(CodeStructureAdorner));
+            _adornmentLayer = adornmentLayer ?? throw new ArgumentNullException(nameof(adornmentLayer));
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
             _indicatorView = new CodeStructureView();
 
@@ -31,12 +37,9 @@ namespace Steroids.CodeStructure.Adorners
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportHeightChanged), OnSizeChanged);
             WeakEventManager<CodeStructureView, EventArgs>.AddHandler(_indicatorView, nameof(FrameworkElement.SizeChanged), OnSizeChanged);
 
-            ShowAdorner();
-        }
+            _indicatorView.DataContext = viewModel;
 
-        public void SetDataContext(object context)
-        {
-            _indicatorView.DataContext = context;
+            ShowAdorner();
         }
 
         /// <summary>

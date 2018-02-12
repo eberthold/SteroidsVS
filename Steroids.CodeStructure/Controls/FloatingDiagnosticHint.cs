@@ -1,11 +1,11 @@
-﻿namespace Steroids.CodeStructure.Controls
-{
-    using System.Collections.Generic;
-    using System.Windows;
-    using System.Windows.Controls;
-    using Microsoft.CodeAnalysis;
-    using Steroids.CodeStructure.Analyzers;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using Microsoft.CodeAnalysis;
+using Steroids.Contracts;
 
+namespace Steroids.CodeStructure.Controls
+{
     public class FloatingDiagnosticHint : Control
     {
         public static readonly DependencyProperty SeverityProperty = DependencyProperty.Register("Severity", typeof(DiagnosticSeverity), typeof(FloatingDiagnosticHint), new PropertyMetadata(DiagnosticSeverity.Info));

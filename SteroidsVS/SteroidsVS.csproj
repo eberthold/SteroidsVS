@@ -59,13 +59,11 @@
   <ItemGroup>
     <Compile Include="CodeStructure\CodeStructureAdornerTextViewCreationListener.cs" />
     <Compile Include="CodeStructure\CodeStructureBootstrapper.cs" />
-    <Compile Include="CodeStructure\FloatingDiagnosticHintsAdornmentTextViewCreationListener.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Contracts\WorkspaceManager.cs" />
     <Compile Include="Factories\FileIndicatorFactory.cs" />
     <Compile Include="IVsPackageServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CodeStructure\SelectionHintAdornmentTextViewCreationListener.cs" />
     <Compile Include="SteroidsVsPackage.cs" />
   </ItemGroup>
   <ItemGroup>
