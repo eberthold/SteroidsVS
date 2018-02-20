@@ -113,7 +113,7 @@ namespace Steroids.CodeStructure.Models
 
         public void RefreshPositions()
         {
-            if (!_isActive)
+            if (!_isActive || _textView.IsClosed)
             {
                 return;
             }
