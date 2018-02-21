@@ -1,7 +1,7 @@
-﻿namespace Steroids.Contracts
-{
-    using Microsoft.VisualStudio.LanguageServices;
+﻿using Microsoft.VisualStudio.LanguageServices;
 
+namespace Steroids.Contracts
+{
     public interface IWorkspaceManager
     {
         VisualStudioWorkspace VsWorkspace { get; }

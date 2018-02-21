@@ -1,14 +1,13 @@
-﻿namespace Steroids.CodeStructure.Analyzers.NodeContainer
-{
-    using System;
-    using System.Threading.Tasks;
-    using System.Windows.Input;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp;
-    using Microsoft.VisualStudio.Imaging;
-    using Microsoft.VisualStudio.Imaging.Interop;
-    using Steroids.Common;
+﻿using System;
+using System.Windows.Input;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.VisualStudio.Imaging;
+using Microsoft.VisualStudio.Imaging.Interop;
+using Steroids.Common;
 
+namespace Steroids.CodeStructure.Analyzers.NodeContainer
+{
     public abstract class NodeContainerBase<T> : BindableBase, ICodeStructureNodeContainer
         where T : CSharpSyntaxNode
     {

@@ -1,8 +1,8 @@
-﻿namespace Steroids.Common
-{
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
+namespace Steroids.Common
+{
     public class BindableBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

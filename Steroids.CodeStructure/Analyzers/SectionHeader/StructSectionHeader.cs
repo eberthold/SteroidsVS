@@ -1,9 +1,9 @@
-﻿namespace Steroids.CodeStructure.Analyzers.SectionHeader
-{
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using Microsoft.VisualStudio.Imaging;
-    using Microsoft.VisualStudio.Imaging.Interop;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.VisualStudio.Imaging;
+using Microsoft.VisualStudio.Imaging.Interop;
 
+namespace Steroids.CodeStructure.Analyzers.SectionHeader
+{
     public class StructSectionHeader : SectionHeaderBase
     {
         public override bool IsMetaNode => false;

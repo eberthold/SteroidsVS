@@ -1,10 +1,10 @@
-﻿namespace Steroids.CodeStructure.Analyzers.NodeContainer
-{
-    using System.Collections.Generic;
-    using System.Threading;
-    using Microsoft.VisualStudio.Imaging;
-    using Microsoft.VisualStudio.Imaging.Interop;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Microsoft.VisualStudio.Imaging;
+using Microsoft.VisualStudio.Imaging.Interop;
 
+namespace Steroids.CodeStructure.Analyzers.NodeContainer
+{
     public static class MonikerCache
     {
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);

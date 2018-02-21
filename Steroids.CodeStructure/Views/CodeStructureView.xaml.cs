@@ -1,13 +1,13 @@
-﻿namespace Steroids.CodeStructure.Views
-{
-    using System;
-    using System.ComponentModel;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Controls.Primitives;
-    using System.Windows.Input;
-    using Steroids.CodeStructure.ViewModels;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using Steroids.CodeStructure.ViewModels;
 
+namespace Steroids.CodeStructure.Views
+{
     public partial class CodeStructureView : UserControl
     {
         private Window _window;

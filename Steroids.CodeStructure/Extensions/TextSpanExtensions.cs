@@ -1,8 +1,8 @@
-﻿namespace Steroids.CodeStructure.Extensions
-{
-    using Microsoft.CodeAnalysis.Text;
-    using Microsoft.VisualStudio.Text;
+﻿using Microsoft.CodeAnalysis.Text;
+using Microsoft.VisualStudio.Text;
 
+namespace Steroids.CodeStructure.Extensions
+{
     public static class TextSpanExtensions
     {
         /// <summary>

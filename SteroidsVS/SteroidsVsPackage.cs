@@ -1,14 +1,14 @@
-﻿namespace SteroidsVS
-{
-    using System;
-    using System.Runtime.InteropServices;
-    using Microsoft.VisualStudio;
-    using Microsoft.VisualStudio.ComponentModelHost;
-    using Microsoft.VisualStudio.LanguageServices;
-    using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Shell.Interop;
-    using Steroids.CodeStructure;
+﻿using System;
+using System.Runtime.InteropServices;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.ComponentModelHost;
+using Microsoft.VisualStudio.LanguageServices;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Steroids.CodeStructure;
 
+namespace SteroidsVS
+{
     [ProvideAutoLoad(VSConstants.UICONTEXT.ShellInitialized_string)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string)]
     [PackageRegistration(UseManagedResourcesOnly = true)]

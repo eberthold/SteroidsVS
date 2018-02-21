@@ -1,19 +1,19 @@
-﻿namespace Steroids.CodeStructure.Analyzers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Data;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using Steroids.CodeStructure.Analyzers.NodeContainer;
-    using Steroids.CodeStructure.Analyzers.SectionHeader;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Steroids.CodeStructure.Analyzers.NodeContainer;
+using Steroids.CodeStructure.Analyzers.SectionHeader;
 
+namespace Steroids.CodeStructure.Analyzers
+{
     public class TypeGroupedSyntaxAnalyzer : CSharpSyntaxWalker, ICodeStructureSyntaxAnalyzer
     {
         private readonly List<TypeGroupedSyntaxAnalyzer> _subWalkers = new List<TypeGroupedSyntaxAnalyzer>();

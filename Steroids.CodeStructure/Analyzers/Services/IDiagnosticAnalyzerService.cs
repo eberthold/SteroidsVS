@@ -1,10 +1,10 @@
-﻿namespace Steroids.CodeStructure.Analyzers.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 
+namespace Steroids.CodeStructure.Analyzers.Services
+{
     public interface IDiagnosticAnalyzerService
     {
         event EventHandler CompilationFinished;
