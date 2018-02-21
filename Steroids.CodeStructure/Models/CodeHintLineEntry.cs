@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Text;
@@ -23,6 +24,7 @@ namespace Steroids.CodeStructure.Models
         private string _message;
         private bool _isVisible;
         private double _scaleFactor;
+        private double _opacity;
 
         public CodeHintLineEntry(
             IWpfTextView textView,
@@ -111,6 +113,12 @@ namespace Steroids.CodeStructure.Models
             set { Set(ref _scaleFactor, value); }
         }
 
+        public double Opacity
+        {
+            get { return _opacity; }
+            set { Set(ref _opacity, value); }
+        }
+
         public void RefreshPositions()
         {
             if (!_isActive || _textView.IsClosed)
@@ -122,10 +130,19 @@ namespace Steroids.CodeStructure.Models
             var textViewLine = _textView.GetTextViewLineContainingBufferPosition(endPoint);
 
             IsVisible = textViewLine.VisibilityState > VisibilityState.PartiallyVisible;
-            Left = textViewLine.TextRight + 10 - _textView.ViewportLeft;
-            Width = _textView.ViewportWidth - Left;
+            Left = Math.Min(textViewLine.TextRight + 10, _textView.ViewportRight - Height) - _textView.ViewportLeft;
+
+            Width = Math.Max(_textView.ViewportWidth - Left, Height);
             Top = textViewLine.TextTop - _textView.ViewportTop + ((textViewLine.Baseline - Height) / 2);
             ScaleFactor = textViewLine.Baseline / Height;
+
+            CalculateOpacity(textViewLine);
+        }
+
+        private void CalculateOpacity(IWpfTextViewLine textViewLine)
+        {
+            var factor = 1 - ((textViewLine.TextRight - Left) / 100);
+            Opacity = Math.Max(factor, 0.6);
         }
     }
 }

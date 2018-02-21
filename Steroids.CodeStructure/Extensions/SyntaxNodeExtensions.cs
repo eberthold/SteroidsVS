@@ -1,9 +1,9 @@
-﻿namespace Steroids.CodeStructure.Extensions
-{
-    using System.Linq;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp;
+﻿using System.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
+namespace Steroids.CodeStructure.Extensions
+{
     public static class SyntaxNodeExtensions
     {
         public static string GetAccessModifier(this SyntaxTokenList list)

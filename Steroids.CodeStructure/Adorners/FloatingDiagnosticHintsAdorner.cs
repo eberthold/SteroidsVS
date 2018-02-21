@@ -1,12 +1,12 @@
-﻿namespace Steroids.CodeStructure.Adorners
-{
-    using System;
-    using System.Windows;
-    using System.Windows.Controls;
-    using Microsoft.VisualStudio.Text.Editor;
-    using Steroids.CodeStructure.ViewModels;
-    using Steroids.CodeStructure.Views;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using Microsoft.VisualStudio.Text.Editor;
+using Steroids.CodeStructure.ViewModels;
+using Steroids.CodeStructure.Views;
 
+namespace Steroids.CodeStructure.Adorners
+{
     public class FloatingDiagnosticHintsAdorner
     {
         private readonly IWpfTextView _textView;

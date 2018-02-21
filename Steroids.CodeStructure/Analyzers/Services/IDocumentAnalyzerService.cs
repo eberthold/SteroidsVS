@@ -1,9 +1,9 @@
-﻿namespace Steroids.CodeStructure.Analyzers.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 
+namespace Steroids.CodeStructure.Analyzers.Services
+{
     public interface IDocumentAnalyzerService
     {
         /// <summary>

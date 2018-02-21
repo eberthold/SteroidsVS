@@ -1,8 +1,8 @@
-﻿namespace Steroids.CodeStructure.Analyzers
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace Steroids.CodeStructure.Analyzers
+{
     /// <summary>
     /// Empty sub-interface to distinguish headers and nodes
     /// </summary>

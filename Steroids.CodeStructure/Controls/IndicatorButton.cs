@@ -1,8 +1,8 @@
-﻿namespace Steroids.CodeStructure.Controls
-{
-    using System.Windows;
-    using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
+namespace Steroids.CodeStructure.Controls
+{
     public class IndicatorButton : CheckBox
     {
         static IndicatorButton()

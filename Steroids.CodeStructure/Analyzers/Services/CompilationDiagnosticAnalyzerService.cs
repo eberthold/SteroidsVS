@@ -1,18 +1,18 @@
-﻿namespace Steroids.CodeStructure.Analyzers.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Immutable;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.Diagnostics;
-    using Steroids.Common.Helpers;
-    using Steroids.Contracts;
-    using DTE = EnvDTE;
-    using Shell = Microsoft.VisualStudio.Shell;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
+using Steroids.Common.Helpers;
+using Steroids.Contracts;
+using DTE = EnvDTE;
+using Shell = Microsoft.VisualStudio.Shell;
 
+namespace Steroids.CodeStructure.Analyzers.Services
+{
     public class CompilationDiagnosticAnalyzerService : IDiagnosticAnalyzerService
     {
         private readonly Dictionary<ProjectId, CompilationWithAnalyzers> _projectCompilations = new Dictionary<ProjectId, CompilationWithAnalyzers>();

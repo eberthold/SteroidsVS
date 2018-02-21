@@ -1,10 +1,9 @@
-﻿namespace Steroids.CodeStructure.Analyzers.NodeContainer
-{
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using Microsoft.VisualStudio.Imaging;
-    using Microsoft.VisualStudio.Imaging.Interop;
-    using Steroids.CodeStructure.Extensions;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.VisualStudio.Imaging.Interop;
+using Steroids.CodeStructure.Extensions;
 
+namespace Steroids.CodeStructure.Analyzers.NodeContainer
+{
     public class EventNodeContainer : NodeContainerBase<VariableDeclaratorSyntax>, ICodeStructureLeaf
     {
         /// <inheritdoc />

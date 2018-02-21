@@ -1,9 +1,9 @@
-﻿namespace Steroids.CodeStructure.Extensions
-{
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.Text;
-    using Microsoft.VisualStudio.Text.Editor;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
+using Microsoft.VisualStudio.Text.Editor;
 
+namespace Steroids.CodeStructure.Extensions
+{
     public static class WpfTextViewExtensions
     {
         /// <summary>

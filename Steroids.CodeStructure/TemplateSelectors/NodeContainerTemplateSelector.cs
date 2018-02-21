@@ -1,9 +1,9 @@
-﻿namespace Steroids.CodeStructure.TemplateSelectors
-{
-    using System.Windows;
-    using System.Windows.Controls;
-    using Steroids.CodeStructure.Analyzers;
+﻿using System.Windows;
+using System.Windows.Controls;
+using Steroids.CodeStructure.Analyzers;
 
+namespace Steroids.CodeStructure.TemplateSelectors
+{
     public class NodeContainerTemplateSelector : DataTemplateSelector
     {
         public DataTemplate SectionHeaderTemplate { get; set; }

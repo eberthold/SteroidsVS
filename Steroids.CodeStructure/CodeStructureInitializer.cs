@@ -1,9 +1,9 @@
-﻿namespace Steroids.CodeStructure
-{
-    using System.Windows;
-    using Steroids.CodeStructure.Resources;
-    using Steroids.SharedUI;
+﻿using System.Windows;
+using Steroids.CodeStructure.Resources;
+using Steroids.SharedUI;
 
+namespace Steroids.CodeStructure
+{
     public static class CodeStructureInitializer
     {
         public static void Initialize()

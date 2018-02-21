@@ -1,9 +1,9 @@
-﻿namespace Steroids.CodeStructure.Analyzers
-{
-    using System;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.VisualStudio.Imaging.Interop;
+﻿using System;
+using Microsoft.CodeAnalysis;
+using Microsoft.VisualStudio.Imaging.Interop;
 
+namespace Steroids.CodeStructure.Analyzers
+{
     public interface ICodeStructureNodeContainer
     {
         /// <summary>

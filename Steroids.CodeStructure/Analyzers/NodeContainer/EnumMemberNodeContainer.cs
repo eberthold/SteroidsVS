@@ -1,9 +1,8 @@
-﻿namespace Steroids.CodeStructure.Analyzers.NodeContainer
-{
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using Microsoft.VisualStudio.Imaging;
-    using Microsoft.VisualStudio.Imaging.Interop;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.VisualStudio.Imaging.Interop;
 
+namespace Steroids.CodeStructure.Analyzers.NodeContainer
+{
     public class EnumMemberNodeContainer : NodeContainerBase<EnumMemberDeclarationSyntax>, ICodeStructureLeaf
     {
         /// <inheritdoc />

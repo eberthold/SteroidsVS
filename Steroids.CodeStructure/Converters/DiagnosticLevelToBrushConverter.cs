@@ -1,11 +1,11 @@
-﻿namespace Steroids.CodeStructure.Converters
-{
-    using System;
-    using System.Globalization;
-    using System.Windows.Data;
-    using System.Windows.Media;
-    using Microsoft.CodeAnalysis;
+﻿using System;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Media;
+using Microsoft.CodeAnalysis;
 
+namespace Steroids.CodeStructure.Converters
+{
     public class DiagnosticLevelToBrushConverter : IValueConverter
     {
         /// <summary>

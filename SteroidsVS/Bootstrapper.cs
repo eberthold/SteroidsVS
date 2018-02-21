@@ -1,14 +1,12 @@
-﻿namespace SteroidsVS
-{
-    using System;
-    using System.ComponentModel.Composition;
-    using Steroids.CodeStructure.Analyzers.Services;
-    using Steroids.Contracts;
-    using SteroidsVS.Contracts;
-    using Unity;
-    using Unity.Lifetime;
+﻿using System;
+using Steroids.CodeStructure.Analyzers.Services;
+using Steroids.Contracts;
+using SteroidsVS.Contracts;
+using Unity;
+using Unity.Lifetime;
 
-    [Export(typeof(IBootstrapper))]
+namespace SteroidsVS
+{
     public class Bootstrapper : IServiceProvider, IBootstrapper
     {
         protected static IUnityContainer RootContainer { get; private set; }

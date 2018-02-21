@@ -1,9 +1,9 @@
-﻿namespace Steroids.CodeStructure.Controls
-{
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media.Animation;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
+namespace Steroids.CodeStructure.Controls
+{
     /// <summary>
     /// Interaction logic for SelectionHintControl.xaml
     /// </summary>

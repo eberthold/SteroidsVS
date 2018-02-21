@@ -1,11 +1,11 @@
-﻿namespace Steroids.CodeStructure.Analyzers.SectionHeader
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.CodeAnalysis.CSharp;
-    using Steroids.CodeStructure.Analyzers.NodeContainer;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.CodeAnalysis.CSharp;
+using Steroids.CodeStructure.Analyzers.NodeContainer;
 
+namespace Steroids.CodeStructure.Analyzers.SectionHeader
+{
     public abstract class SectionHeaderBase : NodeContainerBase<CSharpSyntaxNode>, ICodeStructureSectionHeader
     {
         private bool _isCollapsed;

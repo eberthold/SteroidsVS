@@ -23,7 +23,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border x:Name="PART_ListBorder" Grid.Row="0" Cursor="Arrow" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTabSelectedActiveTextBrushKey}}" BorderThickness="1" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=PART_Indicator, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Border x:Name="PART_ListBorder" Grid.Row="0" Cursor="Arrow" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.ScrollBarArrowGlyphPressedBrushKey}}" BorderThickness="0, 1, 1, 1" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=PART_Indicator, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -33,7 +33,7 @@
                 <Thumb DragDelta="OnThumbDragged" Cursor="SizeWE">
                     <Thumb.Template>
                         <ControlTemplate TargetType="{x:Type Thumb}">
-                            <Grid Grid.Column="0" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTabSelectedActiveTextBrushKey}}">
+                            <Grid Grid.Column="0" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ScrollBarArrowGlyphPressedBrushKey}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1"/>
                                     <ColumnDefinition Width="Auto" />

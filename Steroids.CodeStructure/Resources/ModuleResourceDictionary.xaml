@@ -240,7 +240,7 @@
                                 </imaging:CrispImage.RenderTransform>
                             </imaging:CrispImage>-->
 
-                            <Rectangle x:Name="PART_Indicator" Margin="{TemplateBinding Padding}" VerticalAlignment="Stretch" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" RenderTransformOrigin="0.5, 0.5">
+                            <Rectangle x:Name="PART_Indicator" Margin="{TemplateBinding Padding}" VerticalAlignment="Stretch" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" RenderTransformOrigin="0.5, 0.5" ToolTip="{TemplateBinding Message}">
                                 <Rectangle.RenderTransform>
                                     <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </Rectangle.RenderTransform>
@@ -304,7 +304,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type models:CodeHintLineEntry}">
-        <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Code="{Binding Code}" Message="{Binding Message}" ScaleFactor="{Binding ScaleFactor}" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Opacity="{Binding Opacity}" Code="{Binding Code}" Message="{Binding Message}" ScaleFactor="{Binding ScaleFactor}" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </DataTemplate>
 
     <selector:NodeContainerTemplateSelector x:Key="NodeContainerTemplateSelector" SectionHeaderTemplate="{StaticResource SectionHeaderTemplate}" NodeContainerTemplate="{StaticResource NodeContainerTemplate}" />

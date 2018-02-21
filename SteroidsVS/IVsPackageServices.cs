@@ -1,8 +1,8 @@
-﻿namespace SteroidsVS
-{
-    using Microsoft.VisualStudio.LanguageServices;
-    using Microsoft.VisualStudio.Shell;
+﻿using Microsoft.VisualStudio.LanguageServices;
+using Microsoft.VisualStudio.Shell;
 
+namespace SteroidsVS
+{
     public interface IVsPackageServices
     {
         VisualStudioWorkspace Workspace { get; }

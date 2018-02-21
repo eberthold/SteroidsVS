@@ -1,10 +1,10 @@
-﻿namespace Steroids.CodeStructure.Analyzers.NodeContainer
-{
-    using System.Linq;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using Microsoft.VisualStudio.Imaging.Interop;
-    using Steroids.CodeStructure.Extensions;
+﻿using System.Linq;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.VisualStudio.Imaging.Interop;
+using Steroids.CodeStructure.Extensions;
 
+namespace Steroids.CodeStructure.Analyzers.NodeContainer
+{
     public class MethodNodeContainer : NodeContainerBase<MethodDeclarationSyntax>, ICodeStructureLeaf
     {
         /// <inheritdoc />
