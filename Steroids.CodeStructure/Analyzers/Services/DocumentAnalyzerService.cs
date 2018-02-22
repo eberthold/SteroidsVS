@@ -60,7 +60,8 @@ namespace Steroids.CodeStructure.Analyzers.Services
         {
             var document = _textView.GetDocument();
             AnalyzeCodeStructureAsync(document)
-                .ContinueWith(t => AnalysisFinished?.Invoke(this, EventArgs.Empty), TaskContinuationOptions.OnlyOnRanToCompletion);
+                .ContinueWith(t => AnalysisFinished?.Invoke(this, EventArgs.Empty), TaskContinuationOptions.OnlyOnRanToCompletion)
+                .ConfigureAwait(false);
         }
 
         /// <summary>
@@ -74,9 +75,9 @@ namespace Steroids.CodeStructure.Analyzers.Services
             Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 
             var syntaxAnalyzer = _syntaxWalkerProvider.SyntaxAnalyzer;
-            var rootNode = await document.GetSyntaxRootAsync(CancellationToken.None);
+            var rootNode = await document.GetSyntaxRootAsync(CancellationToken.None).ConfigureAwait(false);
 
-            await syntaxAnalyzer.Analyze(rootNode, CancellationToken.None);
+            await syntaxAnalyzer.Analyze(rootNode, CancellationToken.None).ConfigureAwait(false);
             Nodes = syntaxAnalyzer.NodeList;
 
             // reset thread priority to normal
