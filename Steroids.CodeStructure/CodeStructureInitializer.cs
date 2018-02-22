@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using Steroids.CodeStructure.Resources;
 using Steroids.SharedUI;
 
@@ -9,7 +10,11 @@ namespace Steroids.CodeStructure
         public static void Initialize()
         {
             SharedUiInitializer.Initialize();
-            Application.Current.Resources.MergedDictionaries.Add(new ModuleResourceDictionary());
+
+            if (!Application.Current.Resources.MergedDictionaries.OfType<ModuleResourceDictionary>().Any())
+            {
+                Application.Current.Resources.MergedDictionaries.Add(new ModuleResourceDictionary());
+            }
         }
     }
 }
