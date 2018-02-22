@@ -19,6 +19,8 @@ namespace Steroids.CodeStructure.ViewModels
 {
     public class CodeStructureViewModel : BindableBase
     {
+        private const string HighlightAdornmentTag = "HighlighterAdornment";
+
         private readonly IWpfTextView _textView;
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
@@ -205,7 +207,7 @@ namespace Steroids.CodeStructure.ViewModels
 
             // TODO: that ui stuff has to move to a non view model class.
             // clear adornments
-            _adornmentLayer.RemoveAllAdornments();
+            _adornmentLayer.RemoveAdornmentsByTag(HighlightAdornmentTag);
 
             // create new adornment
             _adornerContent = new SelectionHintControl();
@@ -215,7 +217,7 @@ namespace Steroids.CodeStructure.ViewModels
             _adornerContent.Height = Math.Max(startLine.Height, endLine.Top - startLine.Top);
 
             _adornerContent.Width = Math.Max(0, _textView.ViewportWidth);
-            _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, null, _adornerContent, null);
+            _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, HighlightAdornmentTag, _adornerContent, null);
         }
     }
 }
