@@ -6,13 +6,11 @@
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
-    xmlns:moduleConverters="clr-namespace:Steroids.CodeStructure.Converters"
-    xmlns:converters="clr-namespace:Steroids.CodeStructure.Converters"
-    xmlns:selector="clr-namespace:Steroids.CodeStructure.TemplateSelectors"
+    xmlns:ui="clr-namespace:Steroids.CodeStructure.UI"
     mc:Ignorable="d" 
     x:Class="Steroids.CodeStructure.Resources.ModuleResourceDictionary">
 
-    <moduleConverters:LevelToThicknessConverter x:Key="LevelToThicknessConverter" />
+    <ui:LevelToThicknessConverter x:Key="LevelToThicknessConverter" />
 
     <SolidColorBrush x:Key="ClickableItemContainerHighlightBrush" Color="#44444444" />
 
@@ -184,5 +182,5 @@
         </ContentControl>
     </DataTemplate>
 
-    <selector:NodeContainerTemplateSelector x:Key="NodeContainerTemplateSelector" SectionHeaderTemplate="{StaticResource SectionHeaderTemplate}" NodeContainerTemplate="{StaticResource NodeContainerTemplate}" />
+    <ui:NodeContainerTemplateSelector x:Key="NodeContainerTemplateSelector" SectionHeaderTemplate="{StaticResource SectionHeaderTemplate}" NodeContainerTemplate="{StaticResource NodeContainerTemplate}" />
 </ResourceDictionary>

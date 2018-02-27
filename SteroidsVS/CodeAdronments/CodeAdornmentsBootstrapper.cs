@@ -1,26 +1,28 @@
-﻿using System;
+﻿using Steroids.Contracts.UI;
+using System;
 using Microsoft.VisualStudio.Text.Editor;
 using Steroids.CodeQuality.Adorners;
+using Steroids.CodeQuality.Models;
 using Steroids.CodeQuality.ViewModels;
 using Steroids.CodeStructure.Adorners;
 using Steroids.CodeStructure.Analyzers.Services;
-using Steroids.CodeStructure.ViewModels;
+using Steroids.CodeStructure.UI;
 using Unity;
 using Unity.Lifetime;
 
-namespace SteroidsVS.CodeStructure
+namespace SteroidsVS.CodeAdornments
 {
-    public class CodeStructureBootstrapper : Bootstrapper, IDisposable
+    public class CodeAdornmentsBootstrapper : Bootstrapper, IDisposable
     {
         private IWpfTextView _textView;
 
         private bool _disposed = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CodeStructureBootstrapper"/> class.
+        /// Initializes a new instance of the <see cref="CodeAdornmentsBootstrapper"/> class.
         /// </summary>
         /// <param name="textView">The <see cref="IWpfTextView"/> to analyze.</param>
-        public CodeStructureBootstrapper(IWpfTextView textView)
+        public CodeAdornmentsBootstrapper(IWpfTextView textView)
         {
             _textView = textView;
             Initialize();
@@ -57,12 +59,16 @@ namespace SteroidsVS.CodeStructure
             Container.RegisterInstance(_textView);
             Container.RegisterInstance(_textView.GetAdornmentLayer(nameof(CodeStructureAdorner)));
 
+            Container.RegisterType<IAdornmentSpaceReservation, CodeStructureSpaceReservation>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ISyntaxWalkerProvider, SyntaxWalkerProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureViewModel>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<FloatingDiagnosticHintsAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeQualityHintsViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<CodeStructureViewFactory>(new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<FloatingDiagnosticHintsAdorner>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<CodeHintFactory>(new ContainerControlledLifetimeManager());
         }
     }
 }

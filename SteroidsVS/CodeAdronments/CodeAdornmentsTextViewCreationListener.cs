@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Utilities;
 using Steroids.CodeQuality.Adorners;
 using Steroids.CodeStructure.Adorners;
 
-namespace SteroidsVS.CodeStructure
+namespace SteroidsVS.CodeAdornments
 {
     /// <summary>
     /// Establishes an <see cref="IAdornmentLayer"/> to place the adornment on and exports the <see cref="IWpfTextViewCreationListener"/>
@@ -15,7 +15,7 @@ namespace SteroidsVS.CodeStructure
     [Export(typeof(IWpfTextViewCreationListener))]
     [ContentType("CSharp")]
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
-    internal sealed class CodeStructureAdornerTextViewCreationListener : IWpfTextViewCreationListener
+    internal sealed class CodeAdornmentsTextViewCreationListener : IWpfTextViewCreationListener
     {
         [Export(typeof(AdornmentLayerDefinition))]
         [Name("CodeStructureAdorner")]
@@ -23,7 +23,7 @@ namespace SteroidsVS.CodeStructure
         private readonly AdornmentLayerDefinition _editorAdornmentLayer;
 
         private IWpfTextView _textView;
-        private CodeStructureBootstrapper _bootstrapper;
+        private CodeAdornmentsBootstrapper _bootstrapper;
 
         /// <summary>
         /// Instantiates a CodeStructureAdorner manager when a textView is created.
@@ -32,7 +32,7 @@ namespace SteroidsVS.CodeStructure
         public void TextViewCreated(IWpfTextView textView)
         {
             _textView = textView;
-            _bootstrapper = new CodeStructureBootstrapper(textView);
+            _bootstrapper = new CodeAdornmentsBootstrapper(textView);
 
             var adorner = _bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
             var adorner2 = _bootstrapper.GetService(typeof(FloatingDiagnosticHintsAdorner)) as FloatingDiagnosticHintsAdorner;

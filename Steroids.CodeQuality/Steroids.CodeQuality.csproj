@@ -225,6 +225,7 @@
   <ItemGroup>
     <Compile Include="Adorners\FloatingDiagnosticHintsAdorner.cs" />
     <Compile Include="Controls\FloatingDiagnosticHint.cs" />
+    <Compile Include="Models\CodeHintFactory.cs" />
     <Compile Include="Models\CodeHintLineEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ModuleResourceDictionary.xaml.cs">
