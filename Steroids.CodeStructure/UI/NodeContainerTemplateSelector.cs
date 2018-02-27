@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Steroids.CodeStructure.Analyzers;
 
-namespace Steroids.CodeStructure.TemplateSelectors
+namespace Steroids.CodeStructure.UI
 {
     public class NodeContainerTemplateSelector : DataTemplateSelector
     {

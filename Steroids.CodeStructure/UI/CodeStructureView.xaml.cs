@@ -4,22 +4,30 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Steroids.CodeStructure.ViewModels;
+using Steroids.Contracts.UI;
 
-namespace Steroids.CodeStructure.Views
+namespace Steroids.CodeStructure.UI
 {
     public partial class CodeStructureView : UserControl
     {
+        private readonly IAdornmentSpaceReservation _spaceReservation;
+        private readonly CodeStructureViewModel _viewModel;
+
         private Window _window;
 
-        public CodeStructureView()
+        public CodeStructureView(CodeStructureViewModel viewModel, IAdornmentSpaceReservation spaceReservation)
         {
             InitializeComponent();
+
+            _spaceReservation = spaceReservation ?? throw new ArgumentNullException(nameof(spaceReservation));
+            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+            DataContext = _viewModel;
         }
 
         private void OnThumbDragged(object sender, DragDeltaEventArgs e)
         {
             Width = Math.Max(ActualWidth - e.HorizontalChange, MinWidth);
+            _spaceReservation.ActualWidth = Width;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -60,13 +68,12 @@ namespace Steroids.CodeStructure.Views
                 return;
             }
 
-            var vm = DataContext as CodeStructureViewModel;
-            if (vm == null || vm.IsPinned)
+            if (_viewModel.IsPinned)
             {
                 return;
             }
 
-            vm.IsListVisible = false;
+            HideCodeStructure();
         }
 
         private void OnListSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -78,6 +85,23 @@ namespace Steroids.CodeStructure.Views
             }
 
             list.SelectedItem = null;
+        }
+
+        private void OnIndicatorChecked(object sender, RoutedEventArgs e)
+        {
+            ShowCodeStructure();
+        }
+
+        private void ShowCodeStructure()
+        {
+            _viewModel.IsListVisible = true;
+            _spaceReservation.ActualWidth = Width;
+        }
+
+        private void HideCodeStructure()
+        {
+            _viewModel.IsListVisible = false;
+            _spaceReservation.ActualWidth = 0;
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 using Steroids.Contracts;
+using Steroids.Contracts.UI;
 using Steroids.Core;
 
 namespace Steroids.CodeQuality.Models
@@ -16,6 +18,7 @@ namespace Steroids.CodeQuality.Models
         private readonly IWpfTextView _textView;
         private readonly ITrackingSpan _trackingSpan;
         private readonly bool _isActive;
+        private readonly IAdornmentSpaceReservation _spaceReservation;
 
         private double _left;
         private double _width;
@@ -29,10 +32,14 @@ namespace Steroids.CodeQuality.Models
         public CodeHintLineEntry(
             IWpfTextView textView,
             IEnumerable<DiagnosticInfo> lineInfos,
-            int lineNumber)
+            int lineNumber,
+            IAdornmentSpaceReservation spaceReservation)
         {
-            _textView = textView;
-            _lineInfos = lineInfos;
+            _textView = textView ?? throw new ArgumentNullException(nameof(textView));
+            _lineInfos = lineInfos ?? throw new ArgumentNullException(nameof(lineInfos));
+            _spaceReservation = spaceReservation ?? throw new ArgumentNullException(nameof(spaceReservation));
+
+            WeakEventManager<IAdornmentSpaceReservation, EventArgs>.AddHandler(_spaceReservation, nameof(IAdornmentSpaceReservation.ActualWidthChanged), OnAvailableSpaceChanged);
 
             // in some strange cases we are getting diagnostics for lines which aren't available anymore
             if (_textView.TextSnapshot.LineCount <= lineNumber)
@@ -132,7 +139,7 @@ namespace Steroids.CodeQuality.Models
             IsVisible = textViewLine.VisibilityState > VisibilityState.PartiallyVisible;
             Left = Math.Min(textViewLine.TextRight + 10, _textView.ViewportRight - Height) - _textView.ViewportLeft;
 
-            Width = Math.Max(_textView.ViewportWidth - Left, Height);
+            Width = Math.Max(_textView.ViewportWidth - Left - _spaceReservation.ActualWidth, Height);
             Top = textViewLine.TextTop - _textView.ViewportTop + ((textViewLine.Baseline - Height) / 2);
             ScaleFactor = textViewLine.Baseline / Height;
 
@@ -143,6 +150,11 @@ namespace Steroids.CodeQuality.Models
         {
             var factor = 1 - ((textViewLine.TextRight - Left) / 100);
             Opacity = Math.Max(factor, 0.6);
+        }
+
+        private void OnAvailableSpaceChanged(object sender, EventArgs e)
+        {
+            RefreshPositions();
         }
     }
 }

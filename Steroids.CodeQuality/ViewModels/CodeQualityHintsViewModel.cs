@@ -14,6 +14,8 @@ namespace Steroids.CodeQuality.ViewModels
     {
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IWpfTextView _textView;
+        private readonly CodeHintFactory _codeHintFactory;
+
         private IEnumerable<CodeHintLineEntry> _lineDiagnostics = Enumerable.Empty<CodeHintLineEntry>();
 
         /// <summary>
@@ -21,12 +23,15 @@ namespace Steroids.CodeQuality.ViewModels
         /// </summary>
         /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
+        /// <param name="codeHintFactory">The <see cref="CodeHintFactory"/>.</param>
         public CodeQualityHintsViewModel(
             IWpfTextView textView,
-            IDiagnosticProvider diagnosticProvider)
+            IDiagnosticProvider diagnosticProvider,
+            CodeHintFactory codeHintFactory)
         {
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
+            _codeHintFactory = codeHintFactory ?? throw new ArgumentNullException(nameof(codeHintFactory));
 
             WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
             WeakEventManager<ITextView, TextViewLayoutChangedEventArgs>.AddHandler(_textView, nameof(ITextView.LayoutChanged), OnTextViewLayoutChanged);
@@ -45,7 +50,7 @@ namespace Steroids.CodeQuality.ViewModels
                 .Where(x => x.IsActive);
 
             var lineDiagnostics = fileDiagnostics.ToLookup(x => x.Line);
-            QualityHints = lineDiagnostics.Select(x => new CodeHintLineEntry(_textView, x, x.Key)).ToList();
+            QualityHints = lineDiagnostics.Select(x => _codeHintFactory.Create(x, x.Key)).ToList();
         }
 
         private void OnTextViewLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)

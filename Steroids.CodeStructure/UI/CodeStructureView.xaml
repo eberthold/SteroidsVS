@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Steroids.CodeStructure.Views.CodeStructureView"
+﻿<UserControl x:Class="Steroids.CodeStructure.UI.CodeStructureView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +6,7 @@
              xmlns:imageCatalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
              xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:controls="clr-namespace:Steroids.CodeStructure.Controls"
-             xmlns:viewModels="clr-namespace:Steroids.CodeStructure.ViewModels"
+             xmlns:ui="clr-namespace:Steroids.CodeStructure.UI"
              mc:Ignorable="d" 
              MinWidth="150"
              Width="250"
@@ -14,7 +14,7 @@
              Unloaded="OnUnloaded"
              UseLayoutRounding="True"
              SnapsToDevicePixels="True"
-             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=viewModels:CodeStructureViewModel}"
+             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=ui:CodeStructureViewModel}"
              d:DesignHeight="400" d:DesignWidth="250">    
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -78,7 +78,7 @@
                 
                 <Border Background="Transparent" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" BorderThickness="3" Margin="0" CornerRadius="1"/>
             </Border>
-            <controls:IndicatorButton x:Name="PART_Indicator" Margin="2" Content="{Binding LeafCount, Mode=OneWay}" IsChecked="{Binding IsListVisible, Mode=TwoWay}" BorderThickness="1" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" />
+            <controls:IndicatorButton x:Name="PART_Indicator" Margin="2" Content="{Binding LeafCount, Mode=OneWay}" IsChecked="{Binding IsListVisible, Mode=TwoWay}" Checked="OnIndicatorChecked" BorderThickness="1" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" />
         </Grid>
     </Grid>
 </UserControl>

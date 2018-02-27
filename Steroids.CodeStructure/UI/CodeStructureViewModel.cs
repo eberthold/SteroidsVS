@@ -16,7 +16,7 @@ using Steroids.Contracts;
 using Steroids.Core;
 using Steroids.Core.Extensions;
 
-namespace Steroids.CodeStructure.ViewModels
+namespace Steroids.CodeStructure.UI
 {
     public class CodeStructureViewModel : BindableBase
     {
