@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS", "SteroidsVS\SteroidsVS.csproj", "{CE39BD04-12F1-4061-89A0-86154E247132}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeStructure", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Skin", "Steroids.Skin\Steroids.Skin.csproj", "{DEA6534A-406C-409E-802F-9B655BC8E876}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Common", "Steroids.Common\Steroids.Common.csproj", "{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Core", "Steroids.Core\Steroids.Core.csproj", "{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionFiles", ".SolutionFiles", "{12415D6D-27DC-4947-9C17-64F892C1FCB1}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.SharedUI", "Steroids.SharedUI\Steroids.SharedUI.csproj", "{58AC3D8F-294E-4389-8A93-570AE6C45808}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2E07FB3F-3BFE-4EF8-9A10-530B2F7CDEBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeQuality", "Steroids.CodeQuality\Steroids.CodeQuality.csproj", "{8E125506-818B-40E4-ADFB-6238C2A49AC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{58AC3D8F-294E-4389-8A93-570AE6C45808}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58AC3D8F-294E-4389-8A93-570AE6C45808}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58AC3D8F-294E-4389-8A93-570AE6C45808}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E125506-818B-40E4-ADFB-6238C2A49AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E125506-818B-40E4-ADFB-6238C2A49AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E125506-818B-40E4-ADFB-6238C2A49AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E125506-818B-40E4-ADFB-6238C2A49AC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

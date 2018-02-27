@@ -6,8 +6,8 @@ using System.Windows;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
-using Steroids.CodeStructure.Extensions;
-using Steroids.Common.Helpers;
+using Steroids.Core.Extensions;
+using Steroids.Core.Helpers;
 
 namespace Steroids.CodeStructure.Analyzers.Services
 {

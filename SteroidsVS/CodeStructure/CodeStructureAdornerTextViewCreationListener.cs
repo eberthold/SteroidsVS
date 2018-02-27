@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
+using Steroids.CodeQuality.Adorners;
 using Steroids.CodeStructure.Adorners;
 
 namespace SteroidsVS.CodeStructure
