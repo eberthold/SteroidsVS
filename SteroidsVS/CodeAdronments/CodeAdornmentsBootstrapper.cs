@@ -1,5 +1,4 @@
-﻿using Steroids.Contracts.UI;
-using System;
+﻿using System;
 using Microsoft.VisualStudio.Text.Editor;
 using Steroids.CodeQuality.Adorners;
 using Steroids.CodeQuality.Models;
@@ -7,6 +6,7 @@ using Steroids.CodeQuality.ViewModels;
 using Steroids.CodeStructure.Adorners;
 using Steroids.CodeStructure.Analyzers.Services;
 using Steroids.CodeStructure.UI;
+using Steroids.Contracts.UI;
 using Unity;
 using Unity.Lifetime;
 
