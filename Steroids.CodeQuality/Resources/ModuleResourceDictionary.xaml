@@ -99,9 +99,9 @@
                                     <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </Border.RenderTransform>
 
-                                <TextBlock TextTrimming="CharacterEllipsis">
+                                <TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center">
                                     <TextBlock.Foreground>
-                                        <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" Opacity="0.75" />
+                                        <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" />
                                     </TextBlock.Foreground>
                                     
                                     <Run x:Name="PART_Message" Text="{TemplateBinding Code}" FontWeight="SemiBold" /><Run Text=":" />
