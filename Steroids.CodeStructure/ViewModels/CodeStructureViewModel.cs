@@ -12,8 +12,9 @@ using Steroids.CodeStructure.Analyzers;
 using Steroids.CodeStructure.Analyzers.Services;
 using Steroids.CodeStructure.Controls;
 using Steroids.CodeStructure.Extensions;
-using Steroids.Common;
 using Steroids.Contracts;
+using Steroids.Core;
+using Steroids.Core.Extensions;
 
 namespace Steroids.CodeStructure.ViewModels
 {

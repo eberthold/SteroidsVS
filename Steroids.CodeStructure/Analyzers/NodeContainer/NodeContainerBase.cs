@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.Imaging.Interop;
-using Steroids.Common;
+using Steroids.Core;
 
 namespace Steroids.CodeStructure.Analyzers.NodeContainer
 {

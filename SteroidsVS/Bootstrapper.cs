@@ -1,6 +1,7 @@
 ﻿using System;
-using Steroids.CodeStructure.Analyzers.Services;
+using Steroids.CodeQuality.Services;
 using Steroids.Contracts;
+using Steroids.Contracts.Core;
 using SteroidsVS.Contracts;
 using Unity;
 using Unity.Lifetime;

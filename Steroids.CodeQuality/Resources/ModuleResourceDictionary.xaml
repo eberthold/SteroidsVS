@@ -1,0 +1,139 @@
+﻿<ResourceDictionary 
+    x:Class="Steroids.CodeQuality.Resources.ModuleResourceDictionary"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog" 
+    xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0" 
+    xmlns:models="clr-namespace:Steroids.CodeQuality.Models"
+    xmlns:controls="clr-namespace:Steroids.CodeQuality.Controls"
+    mc:Ignorable="d" >
+    
+    <DrawingBrush x:Key="InfoDrawingBrush" Stretch="Uniform">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#1AA1E2">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry RadiusX="5" RadiusY="5" Center="5,6" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#FFFFFF">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FFFFFF" Thickness="0.5" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry Figures="M4.5,2.5 4.5,3.5 5.5,3.5 5.5,2.5Z M4.5,5 4.5,9 5.5,9 5.5,5Z" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <DrawingBrush x:Key="WarningDrawingBrush" Stretch="Uniform">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#FFCC00">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry Figures="M0.5,10 Q0,10 0,9.5 L4.5,0.5 Q5,-0.5 5.5,0.5 L10,9.5 Q10,10 9.5,10Z" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#000000">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#000000" Thickness="0.5" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry Figures="M4.5,2.5 4.5,6.5 5.5,6.5 5.5,2.5Z M4.5,8 4.5,9 5.5,9 5.5,8Z" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <DrawingBrush x:Key="ErrorDrawingBrush" Stretch="Uniform">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#E41300">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry RadiusX="5" RadiusY="5" Center="5,6" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#FFFFFF">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry Figures="M1.5,3.5 2.5,2.5 5,5 7.5,2.5 8.5,3.5 6,6 8.5,8.5 7.5,9.5 5,7 2.5,9.5 1.5,8.5 4,6Z" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <Style TargetType="{x:Type controls:FloatingDiagnosticHint}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="0, 2" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:FloatingDiagnosticHint}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <!--<imaging:CrispImage x:Name="PART_Moniker" Margin="{TemplateBinding Padding}" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderTransformOrigin="0, 0.5">
+                                <imaging:CrispImage.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </imaging:CrispImage.RenderTransform>
+                            </imaging:CrispImage>-->
+
+                            <Rectangle x:Name="PART_Indicator" Margin="{TemplateBinding Padding}" VerticalAlignment="Stretch" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" RenderTransformOrigin="0.5, 0.5" ToolTip="{TemplateBinding Message}">
+                                <Rectangle.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+
+                            <Border Margin="4, 0" Grid.Column="2" HorizontalAlignment="Right" RenderTransformOrigin="1, 0.5" MaxWidth="450" Background="Transparent" ToolTip="{TemplateBinding Message}">
+                                <Border.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </Border.RenderTransform>
+
+                                <TextBlock TextTrimming="CharacterEllipsis">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" Opacity="0.75" />
+                                    </TextBlock.Foreground>
+                                    
+                                    <Run x:Name="PART_Message" Text="{TemplateBinding Code}" FontWeight="SemiBold" /><Run Text=":" />
+                                    <Run Text="{TemplateBinding Message}" />
+                                </TextBlock>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Info -->
+                        <Trigger Property="Severity" Value="1">
+                            <Setter TargetName="PART_Indicator" Property="Fill" Value="{StaticResource InfoDrawingBrush}" />
+                            <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource DiagnosticsInfoBrush}" />
+                        </Trigger>
+                        <!-- Warning -->
+                        <Trigger Property="Severity" Value="2">
+                            <Setter TargetName="PART_Indicator" Property="Fill" Value="{StaticResource WarningDrawingBrush}" />
+                            <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource DiagnosticsWarningBrush}" />
+                        </Trigger>
+                        <!-- Error -->
+                        <Trigger Property="Severity" Value="3">
+                            <Setter TargetName="PART_Indicator" Property="Fill" Value="{StaticResource ErrorDrawingBrush}" />
+                            <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource DiagnosticsErrorBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <DataTemplate DataType="{x:Type models:CodeHintLineEntry}">
+        <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Opacity="{Binding Opacity}" Code="{Binding Code}" Message="{Binding Message}" ScaleFactor="{Binding ScaleFactor}" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    </DataTemplate>
+</ResourceDictionary>

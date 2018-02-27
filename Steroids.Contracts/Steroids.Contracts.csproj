@@ -155,10 +155,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IModuleInitializer.cs" />
     <Compile Include="Diagnostics\DiagnosticInfo.cs" />
     <Compile Include="Diagnostics\DiagnosticsChangedEventArgs.cs" />
     <Compile Include="Diagnostics\IDiagnosticProvider.cs" />
-    <Compile Include="IBootstrapper.cs" />
+    <Compile Include="Core\IBootstrapper.cs" />
     <Compile Include="IWorkspaceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

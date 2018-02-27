@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Steroids.CodeStructure;
+using CodeQualityModule = Steroids.CodeQuality;
+using CodeStructureModule = Steroids.CodeStructure;
+using SharedUiModule = Steroids.SharedUI;
 
 namespace SteroidsVS
 {
@@ -41,7 +45,9 @@ namespace SteroidsVS
 
             base.Initialize();
 
-            CodeStructureInitializer.Initialize();
+            InitializeDictionary<SharedUiModule.Resources.ModuleResourceDictionary>();
+            InitializeDictionary<CodeQualityModule.Resources.ModuleResourceDictionary>();
+            InitializeDictionary<CodeStructureModule.Resources.ModuleResourceDictionary>();
 
             var componentModel = (IComponentModel)GetGlobalService(typeof(SComponentModel));
             Workspace = componentModel.GetService<VisualStudioWorkspace>();
@@ -49,6 +55,15 @@ namespace SteroidsVS
 
             var root = new Bootstrapper();
             root.Initialize(this);
+        }
+
+        private static void InitializeDictionary<T>()
+            where T : ResourceDictionary, new()
+        {
+            if (!Application.Current.Resources.MergedDictionaries.OfType<T>().Any())
+            {
+                Application.Current.Resources.MergedDictionaries.Add(new T());
+            }
         }
     }
 }
