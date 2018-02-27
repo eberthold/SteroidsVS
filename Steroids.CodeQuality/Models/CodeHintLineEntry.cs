@@ -137,7 +137,7 @@ namespace Steroids.CodeQuality.Models
             var textViewLine = _textView.GetTextViewLineContainingBufferPosition(endPoint);
 
             IsVisible = textViewLine.VisibilityState > VisibilityState.PartiallyVisible;
-            Left = Math.Min(textViewLine.TextRight + 10, _textView.ViewportRight - Height) - _textView.ViewportLeft;
+            Left = Math.Min(textViewLine.TextRight + 10, _textView.ViewportRight - Height - _spaceReservation.ActualWidth) - _textView.ViewportLeft;
 
             Width = Math.Max(_textView.ViewportWidth - Left - _spaceReservation.ActualWidth, Height);
             Top = textViewLine.TextTop - _textView.ViewportTop + ((textViewLine.Baseline - Height) / 2);
@@ -148,8 +148,8 @@ namespace Steroids.CodeQuality.Models
 
         private void CalculateOpacity(IWpfTextViewLine textViewLine)
         {
-            var factor = 1 - ((textViewLine.TextRight - Left) / 100);
-            Opacity = Math.Max(factor, 0.6);
+            var factor = 0.6 + ((textViewLine.TextRight - _textView.ViewportLeft - Left) / 100);
+             Opacity = Math.Max(factor, 0.6);
         }
 
         private void OnAvailableSpaceChanged(object sender, EventArgs e)
