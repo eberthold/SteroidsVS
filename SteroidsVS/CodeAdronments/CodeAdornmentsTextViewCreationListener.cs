@@ -17,10 +17,14 @@ namespace SteroidsVS.CodeAdornments
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
     internal sealed class CodeAdornmentsTextViewCreationListener : IWpfTextViewCreationListener
     {
+#pragma warning disable RCS1213 // Remove unused member declaration.
+#pragma warning disable CS0169 // The field 'CodeAdornmentsTextViewCreationListener._editorAdornmentLayer' is never used
         [Export(typeof(AdornmentLayerDefinition))]
         [Name("CodeStructureAdorner")]
         [Order(After = PredefinedAdornmentLayers.Caret)]
         private readonly AdornmentLayerDefinition _editorAdornmentLayer;
+#pragma warning restore CS0169 // The field 'CodeAdornmentsTextViewCreationListener._editorAdornmentLayer' is never used
+#pragma warning restore RCS1213 // Remove unused member declaration.
 
         private IWpfTextView _textView;
         private CodeAdornmentsBootstrapper _bootstrapper;
