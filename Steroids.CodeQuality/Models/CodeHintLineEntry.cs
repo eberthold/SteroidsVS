@@ -134,6 +134,12 @@ namespace Steroids.CodeQuality.Models
             }
 
             var endPoint = _trackingSpan.GetEndPoint(_textView.TextSnapshot);
+            if (!_textView.TextViewLines.ContainsBufferPosition(endPoint))
+            {
+                IsVisible = false;
+                return;
+            }
+
             var textViewLine = _textView.GetTextViewLineContainingBufferPosition(endPoint);
 
             IsVisible = textViewLine.VisibilityState > VisibilityState.PartiallyVisible;
