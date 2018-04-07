@@ -20,7 +20,7 @@ namespace Steroids.CodeQuality.ViewModels
         private readonly IOutliningManager _outliningManager;
 
         private IEnumerable<CodeHintLineEntry> _lineDiagnostics = Enumerable.Empty<CodeHintLineEntry>();
-        private List<DiagnosticInfo> _lastDiagnostics;
+        private List<DiagnosticInfo> _lastDiagnostics = new List<DiagnosticInfo>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeQualityHintsViewModel"/> class.
