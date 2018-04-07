@@ -37,6 +37,12 @@ namespace Steroids.Core.Extensions
             return textView.TextSnapshot.GetLineFromLineNumber(lineNumber);
         }
 
+        /// <summary>
+        /// Extracts the <see cref="DiagnosticInfo"/> Elements which are related to this document.
+        /// </summary>
+        /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
+        /// <param name="diagnostics">The list of all <see cref="DiagnosticInfo"/>.</param>
+        /// <returns>All related <see cref="DiagnosticInfo"/>.</returns>
         public static IEnumerable<DiagnosticInfo> ExtractRelatedDiagnostics(this IWpfTextView textView, IEnumerable<DiagnosticInfo> diagnostics)
         {
             var path = textView.GetDocument()?.FilePath;
