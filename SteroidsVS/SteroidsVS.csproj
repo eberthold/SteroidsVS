@@ -57,8 +57,8 @@
     <CodeAnalysisRuleSet>..\SteroidsVS.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CodeAdronments\CodeAdornmentsTextViewCreationListener.cs" />
-    <Compile Include="CodeAdronments\CodeAdornmentsBootstrapper.cs" />
+    <Compile Include="CodeAdornments\CodeAdornmentsTextViewCreationListener.cs" />
+    <Compile Include="CodeAdornments\CodeAdornmentsBootstrapper.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Contracts\WorkspaceManager.cs" />
     <Compile Include="IVsPackageServices.cs" />

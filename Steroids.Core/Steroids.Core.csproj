@@ -188,9 +188,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindableBase.cs" />
-    <Compile Include="Extensions\WpfTextViewExtensions.cs" />
+    <Compile Include="Extensions\IWpfTextViewExtensions.cs" />
     <Compile Include="Helpers\Debouncer.cs" />
-    <Compile Include="Extensions\IWpfTextViewHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

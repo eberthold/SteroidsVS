@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Steroids.Contracts;
 using Steroids.Contracts.UI;
@@ -17,9 +18,9 @@ namespace Steroids.CodeQuality.Models
             _spaceReservation = spaceReservation ?? throw new ArgumentNullException(nameof(spaceReservation));
         }
 
-        public CodeHintLineEntry Create(IEnumerable<DiagnosticInfo> infos, int lineNuber)
+        public CodeHintLineEntry Create(IEnumerable<DiagnosticInfo> infos, SnapshotSpan line)
         {
-            return new CodeHintLineEntry(_textView, infos, lineNuber, _spaceReservation);
+            return new CodeHintLineEntry(_textView, infos, line, _spaceReservation);
         }
     }
 }

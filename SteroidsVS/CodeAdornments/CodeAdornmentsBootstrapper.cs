@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Text.Outlining;
 using Steroids.CodeQuality.Adorners;
 using Steroids.CodeQuality.Models;
 using Steroids.CodeQuality.ViewModels;
@@ -56,8 +57,13 @@ namespace SteroidsVS.CodeAdornments
         private void Initialize()
         {
             Container = RootContainer.CreateChildContainer();
+
+            var outliningManagerService = RootContainer.Resolve<IOutliningManagerService>();
+            var outliningManager = outliningManagerService.GetOutliningManager(_textView);
+
             Container.RegisterInstance(_textView);
             Container.RegisterInstance(_textView.GetAdornmentLayer(nameof(CodeStructureAdorner)));
+            Container.RegisterInstance(outliningManager);
 
             Container.RegisterType<IAdornmentSpaceReservation, CodeStructureSpaceReservation>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new ContainerControlledLifetimeManager());
