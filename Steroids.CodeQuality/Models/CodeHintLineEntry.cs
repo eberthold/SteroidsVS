@@ -32,7 +32,7 @@ namespace Steroids.CodeQuality.Models
         public CodeHintLineEntry(
             IWpfTextView textView,
             IEnumerable<DiagnosticInfo> lineInfos,
-            int lineNumber,
+            SnapshotSpan line,
             IAdornmentSpaceReservation spaceReservation)
         {
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
@@ -41,16 +41,9 @@ namespace Steroids.CodeQuality.Models
 
             WeakEventManager<IAdornmentSpaceReservation, EventArgs>.AddHandler(_spaceReservation, nameof(IAdornmentSpaceReservation.ActualWidthChanged), OnAvailableSpaceChanged);
 
-            // in some strange cases we are getting diagnostics for lines which aren't available anymore
-            if (_textView.TextSnapshot.LineCount <= lineNumber)
-            {
-                return;
-            }
+            _trackingSpan = _textView.TextSnapshot.CreateTrackingSpan(line, SpanTrackingMode.EdgeExclusive);
 
-            var line = _textView.TextSnapshot.GetLineFromLineNumber(lineNumber);
-            _trackingSpan = _textView.TextSnapshot.CreateTrackingSpan(line.Extent, SpanTrackingMode.EdgeExclusive);
-
-            var highestDiagnostic = lineInfos.OrderByDescending(x => x.Severity).ThenBy(x => x.Column).First();
+            var highestDiagnostic = lineInfos.OrderByDescending(x => x.Severity).ThenBy(x => x.Line).ThenBy(x => x.Column).First();
             Code = highestDiagnostic.ErrorCode;
             Message = highestDiagnostic.Message;
             Severity = highestDiagnostic.Severity;
@@ -134,6 +127,8 @@ namespace Steroids.CodeQuality.Models
             }
 
             var endPoint = _trackingSpan.GetEndPoint(_textView.TextSnapshot);
+
+            // perf tweak, because GetTextViewLineContainingBufferPosition is rather expensive, so we need to quit early here.
             if (!_textView.TextViewLines.ContainsBufferPosition(endPoint))
             {
                 IsVisible = false;
@@ -158,6 +153,11 @@ namespace Steroids.CodeQuality.Models
              Opacity = Math.Max(factor, 0.6);
         }
 
+        /// <summary>
+        /// Handles changes of the space that is used by other elements in the same adornment layer.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/>.</param>
         private void OnAvailableSpaceChanged(object sender, EventArgs e)
         {
             RefreshPositions();

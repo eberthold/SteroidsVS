@@ -38,8 +38,8 @@ namespace SteroidsVS.CodeAdornments
             _textView = textView;
             _bootstrapper = new CodeAdornmentsBootstrapper(textView);
 
-            var adorner = _bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
-            var adorner2 = _bootstrapper.GetService(typeof(FloatingDiagnosticHintsAdorner)) as FloatingDiagnosticHintsAdorner;
+            var codeStructure = _bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
+            var diagnosticHints = _bootstrapper.GetService(typeof(FloatingDiagnosticHintsAdorner)) as FloatingDiagnosticHintsAdorner;
 
             WeakEventManager<ITextView, EventArgs>.AddHandler(textView, nameof(ITextView.Closed), OnClosed);
         }

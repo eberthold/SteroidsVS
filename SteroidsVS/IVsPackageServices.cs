@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Text.Outlining;
 
 namespace SteroidsVS
 {
@@ -8,5 +9,7 @@ namespace SteroidsVS
         VisualStudioWorkspace Workspace { get; }
 
         IErrorList ErrorList { get; }
+
+        IOutliningManagerService OutliningManagerService { get; }
     }
 }

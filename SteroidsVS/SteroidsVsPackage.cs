@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Text.Outlining;
 using CodeQualityModule = Steroids.CodeQuality;
 using CodeStructureModule = Steroids.CodeStructure;
 using SharedUiModule = Steroids.SharedUI;
@@ -24,15 +25,14 @@ namespace SteroidsVS
 
         private bool _initialized;
 
-        public VisualStudioWorkspace Workspace
-        {
-            get; private set;
-        }
+        /// <inheritdoc />
+        public VisualStudioWorkspace Workspace { get; private set; }
 
-        public IErrorList ErrorList
-        {
-            get; private set;
-        }
+        /// <inheritdoc />
+        public IErrorList ErrorList { get; private set; }
+
+        /// <inheritdoc />
+        public IOutliningManagerService OutliningManagerService { get; private set; }
 
         protected override void Initialize()
         {
@@ -52,6 +52,7 @@ namespace SteroidsVS
             var componentModel = (IComponentModel)GetGlobalService(typeof(SComponentModel));
             Workspace = componentModel.GetService<VisualStudioWorkspace>();
             ErrorList = GetService(typeof(SVsErrorList)) as IErrorList;
+            OutliningManagerService = componentModel.GetService<IOutliningManagerService>();
 
             var root = new Bootstrapper();
             root.Initialize(this);

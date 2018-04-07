@@ -21,6 +21,7 @@ namespace SteroidsVS
 
             Container.RegisterInstance(services.Workspace);
             Container.RegisterInstance(services.ErrorList);
+            Container.RegisterInstance(services.OutliningManagerService);
 
             Container.RegisterType<IWorkspaceManager, WorkspaceManager>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
