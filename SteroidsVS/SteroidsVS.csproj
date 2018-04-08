@@ -60,7 +60,6 @@
     <Compile Include="CodeAdornments\CodeAdornmentsTextViewCreationListener.cs" />
     <Compile Include="CodeAdornments\CodeAdornmentsBootstrapper.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Contracts\IQualityTextView.cs" />
     <Compile Include="Contracts\WorkspaceManager.cs" />
     <Compile Include="IVsPackageServices.cs" />
     <Compile Include="Models\TextViewWrapper.cs" />

@@ -8,6 +8,8 @@ using Steroids.CodeStructure.Adorners;
 using Steroids.CodeStructure.Analyzers.Services;
 using Steroids.CodeStructure.UI;
 using Steroids.Contracts.UI;
+using Steroids.Core.Diagnostics.Contracts;
+using SteroidsVS.Models;
 using Unity;
 using Unity.Lifetime;
 
@@ -61,6 +63,8 @@ namespace SteroidsVS.CodeAdornments
             var outliningManagerService = RootContainer.Resolve<IOutliningManagerService>();
             var outliningManager = outliningManagerService.GetOutliningManager(_textView);
 
+            var textViewWrapper = new TextViewWrapper(_textView);
+            Container.RegisterInstance<IQualityTextView>(textViewWrapper);
             Container.RegisterInstance(_textView);
             Container.RegisterInstance(_textView.GetAdornmentLayer(nameof(CodeStructureAdorner)));
             Container.RegisterInstance(outliningManager);
