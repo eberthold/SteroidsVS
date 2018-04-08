@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Text.Outlining;
 using Steroids.CodeQuality.Models;
 using Steroids.Contracts;
 using Steroids.Core;
+using Steroids.Core.Diagnostics.Contracts;
 using Steroids.Core.Extensions;
 
 namespace Steroids.CodeQuality.ViewModels
@@ -15,7 +16,7 @@ namespace Steroids.CodeQuality.ViewModels
     public class CodeQualityHintsViewModel : BindableBase
     {
         private readonly IDiagnosticProvider _diagnosticProvider;
-        private readonly IWpfTextView _textView;
+        private readonly IQualityTextView _textView;
         private readonly CodeHintFactory _codeHintFactory;
         private readonly IOutliningManager _outliningManager;
 
@@ -25,12 +26,12 @@ namespace Steroids.CodeQuality.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeQualityHintsViewModel"/> class.
         /// </summary>
-        /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
+        /// <param name="textView">The <see cref="IQualityTextView"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         /// <param name="codeHintFactory">The <see cref="CodeHintFactory"/>.</param>
         /// <param name="outliningManager">THe <see cref="IOutliningManager"/> for the <paramref name="textView"/>.</param>
         public CodeQualityHintsViewModel(
-            IWpfTextView textView,
+            IQualityTextView textView,
             IDiagnosticProvider diagnosticProvider,
             CodeHintFactory codeHintFactory,
             IOutliningManager outliningManager)
@@ -41,7 +42,7 @@ namespace Steroids.CodeQuality.ViewModels
             _outliningManager = outliningManager ?? throw new ArgumentNullException(nameof(outliningManager));
 
             WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
-            WeakEventManager<ITextView, TextViewLayoutChangedEventArgs>.AddHandler(_textView, nameof(ITextView.LayoutChanged), OnTextViewLayoutChanged);
+            WeakEventManager<ITextView, TextViewLayoutChangedEventArgs>.AddHandler(_textView.TextView, nameof(ITextView.LayoutChanged), OnTextViewLayoutChanged);
             WeakEventManager<IOutliningManager, RegionsExpandedEventArgs>.AddHandler(_outliningManager, nameof(IOutliningManager.RegionsExpanded), OnRegionsExpanded);
             WeakEventManager<IOutliningManager, RegionsCollapsedEventArgs>.AddHandler(_outliningManager, nameof(IOutliningManager.RegionsCollapsed), OnRegionsCollapsed);
         }
@@ -76,7 +77,7 @@ namespace Steroids.CodeQuality.ViewModels
         {
             var lineDiagnostics = fileDiagnostics.ToLookup(x =>
             {
-                var line = _textView.GetSpanForLineNumber(x.Line);
+                var line = _textView.TextView.GetSpanForLineNumber(x.Line);
                 return GetSpanForLine(line);
             });
 
@@ -93,7 +94,7 @@ namespace Steroids.CodeQuality.ViewModels
 
             // I assume that the longest collapsed region is the outermost
             return region
-                .Select(x => x.Extent.GetSpan(_textView.TextSnapshot))
+                .Select(x => x.Extent.GetSpan(_textView.TextView.TextSnapshot))
                 .ToDictionary(x => x.Length)
                 .OrderByDescending(x => x.Key)
                 .First()
