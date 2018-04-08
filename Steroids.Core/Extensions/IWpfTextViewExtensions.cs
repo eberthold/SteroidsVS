@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Steroids.Contracts;
+using Steroids.Core.Diagnostics.Contracts;
 
 namespace Steroids.Core.Extensions
 {
@@ -43,9 +44,9 @@ namespace Steroids.Core.Extensions
         /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
         /// <param name="diagnostics">The list of all <see cref="DiagnosticInfo"/>.</param>
         /// <returns>All related <see cref="DiagnosticInfo"/>.</returns>
-        public static IEnumerable<DiagnosticInfo> ExtractRelatedDiagnostics(this IWpfTextView textView, IEnumerable<DiagnosticInfo> diagnostics)
+        public static IEnumerable<DiagnosticInfo> ExtractRelatedDiagnostics(this IQualityTextView textView, IEnumerable<DiagnosticInfo> diagnostics)
         {
-            var path = textView.GetDocument()?.FilePath;
+            var path = textView.Path;
             if (string.IsNullOrWhiteSpace(path))
             {
                 return Enumerable.Empty<DiagnosticInfo>();
