@@ -4,6 +4,8 @@
         <Identity Id="97188178-f68c-49a6-9e5e-5fb99661bf09" Version="0.2.28" Language="en-US" Publisher="Erik Berthold" />
         <DisplayName>SteroidsVS</DisplayName>
         <Description xml:space="preserve">Adds useful features to Visual Studio e.g. a nice code structure view.</Description>
+        <Icon>Assets\SteroidsVS_icon.png</Icon>
+        <PreviewImage>Assets\SteroidsVS_preview.png</PreviewImage>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,16.0)" />
