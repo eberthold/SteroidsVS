@@ -86,19 +86,28 @@ namespace Steroids.CodeQuality.ViewModels
 
         private SnapshotSpan GetSpanForLine(ITextSnapshotLine line)
         {
-            var region = _outliningManager.GetCollapsedRegions(line.Extent);
-            if (!region.Any())
+            try
             {
+                var region = _outliningManager.GetCollapsedRegions(line.Extent);
+                if (!region.Any())
+                {
+                    return line.Extent;
+                }
+
+                // I assume that the longest collapsed region is the outermost
+                return region
+                    .Select(x => x.Extent.GetSpan(_textView.TextView.TextSnapshot))
+                    .ToDictionary(x => x.Length)
+                    .OrderByDescending(x => x.Key)
+                    .First()
+                    .Value;
+            }
+            catch (ObjectDisposedException)
+            {
+                // I assume that this case seems to happen, if the TextView gets closed and we receive a
+                // DiagnosticChanged event right in the timeframe before we dispose the whole container graph.
                 return line.Extent;
             }
-
-            // I assume that the longest collapsed region is the outermost
-            return region
-                .Select(x => x.Extent.GetSpan(_textView.TextView.TextSnapshot))
-                .ToDictionary(x => x.Length)
-                .OrderByDescending(x => x.Key)
-                .First()
-                .Value;
         }
 
         /// <summary>
