@@ -21,7 +21,7 @@ namespace SteroidsVS.Models
         }
 
         /// <inheritdoc />
-        public string Path => TextView.GetDocument()?.FilePath ?? string.Empty;
+        public string Path => TextView?.GetDocument()?.FilePath ?? string.Empty;
 
         /// <inheritdoc />
         public IWpfTextView TextView { get; }

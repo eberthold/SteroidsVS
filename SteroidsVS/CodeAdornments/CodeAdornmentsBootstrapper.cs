@@ -19,7 +19,7 @@ namespace SteroidsVS.CodeAdornments
     {
         private IWpfTextView _textView;
 
-        private bool _disposed = false;
+        private bool _disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeAdornmentsBootstrapper"/> class.
@@ -40,17 +40,19 @@ namespace SteroidsVS.CodeAdornments
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (_disposed)
             {
-                if (disposing)
-                {
-                    Container.Dispose();
-                    Container = null;
-                    _textView = null;
-                }
-
-                _disposed = true;
+                return;
             }
+
+            if (disposing)
+            {
+                Container.Dispose();
+                Container = null;
+                _textView = null;
+            }
+
+            _disposed = true;
         }
 
         /// <summary>
@@ -60,14 +62,13 @@ namespace SteroidsVS.CodeAdornments
         {
             Container = RootContainer.CreateChildContainer();
 
-            var outliningManagerService = RootContainer.Resolve<IOutliningManagerService>();
-            var outliningManager = outliningManagerService.GetOutliningManager(_textView);
-
             var textViewWrapper = new TextViewWrapper(_textView);
             Container.RegisterInstance<IQualityTextView>(textViewWrapper);
             Container.RegisterInstance(_textView);
             Container.RegisterInstance(_textView.GetAdornmentLayer(nameof(CodeStructureAdorner)));
-            Container.RegisterInstance(outliningManager);
+
+            var outliningManagerService = RootContainer.Resolve<IOutliningManagerService>();
+            Container.RegisterInstance(outliningManagerService);
 
             Container.RegisterType<IAdornmentSpaceReservation, CodeStructureSpaceReservation>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new ContainerControlledLifetimeManager());
