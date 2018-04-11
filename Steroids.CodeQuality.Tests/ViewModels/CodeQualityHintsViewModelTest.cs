@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.Text;
@@ -11,7 +11,6 @@ using Steroids.CodeQuality.ViewModels;
 using Steroids.Contracts;
 using Steroids.Contracts.UI;
 using Steroids.Core.Diagnostics.Contracts;
-using Steroids.Core.Extensions;
 
 namespace Steroids.CodeQuality.Tests
 {
@@ -24,6 +23,7 @@ namespace Steroids.CodeQuality.Tests
         private readonly IQualityTextView _textView = A.Fake<IQualityTextView>();
         private readonly IDiagnosticProvider _diagnosticsProvider = A.Fake<IDiagnosticProvider>();
         private readonly IAdornmentSpaceReservation _spaceReservationManager = A.Fake<IAdornmentSpaceReservation>();
+        private readonly IOutliningManagerService _outliningManagerService = A.Fake<IOutliningManagerService>();
         private readonly IOutliningManager _outliningManager = A.Fake<IOutliningManager>();
 
         private CodeHintFactory _codeHintFactory;
@@ -48,11 +48,7 @@ namespace Steroids.CodeQuality.Tests
             var sut = CreateSut();
 
             // TODO: That much arranging work should be reduced by better seams for mocking...
-            A.CallTo(() => _textView.Path).Returns(FilePath);
-            var line = A.Fake<ITextSnapshotLine>();
-            A.CallTo(() => _textView.TextView.TextSnapshot.LineCount).Returns(5);
-            A.CallTo(() => _textView.TextView.TextSnapshot.GetLineFromLineNumber(0)).Returns(line);
-            A.CallTo(_outliningManager).WithReturnType<IEnumerable<ICollapsible>>().Returns(Enumerable.Empty<ICollapsible>());
+            SetupDiagnosticPrerequisites();
             _diagnosticsProvider.DiagnosticsChanged += Raise.With(new DiagnosticsChangedEventArgs
             (
                 new List<DiagnosticInfo>
@@ -72,8 +68,43 @@ namespace Steroids.CodeQuality.Tests
             Assert.AreEqual(1, result.Count());
         }
 
+        [TestMethod]
+        public void UpdateDiagnostics_OutliningManagerDisposed_NoExceptionThrown()
+        {
+            // Arrange
+            var sut = CreateSut();
+            SetupDiagnosticPrerequisites();
+            A.CallTo(_outliningManager).Throws(o => new ObjectDisposedException("OutliningManager"));
+
+            // Act
+            _diagnosticsProvider.DiagnosticsChanged += Raise.With(new DiagnosticsChangedEventArgs
+            (
+                new List<DiagnosticInfo>
+                {
+                    new DiagnosticInfo
+                    {
+                        Path = FilePath,
+                        IsActive = true
+                    }
+                }.AsReadOnly()
+            ));
+
+            // Assert
+            A.CallTo(_outliningManager).MustHaveHappened();
+        }
+
+        private void SetupDiagnosticPrerequisites()
+        {
+            A.CallTo(() => _textView.Path).Returns(FilePath);
+            var line = A.Fake<ITextSnapshotLine>();
+            A.CallTo(() => _textView.TextView.TextSnapshot.LineCount).Returns(5);
+            A.CallTo(() => _textView.TextView.TextSnapshot.GetLineFromLineNumber(0)).Returns(line);
+            A.CallTo(_outliningManager).WithReturnType<IEnumerable<ICollapsible>>().Returns(Enumerable.Empty<ICollapsible>());
+        }
+
         private CodeQualityHintsViewModel CreateSut()
         {
+            A.CallTo(() => _outliningManagerService.GetOutliningManager(_wpfTextView)).Returns(_outliningManager);
             A.CallTo(() => _textView.TextView).Returns(_wpfTextView);
             _codeHintFactory = new CodeHintFactory(_textView.TextView, _spaceReservationManager);
 
@@ -81,7 +112,7 @@ namespace Steroids.CodeQuality.Tests
                 _textView,
                 _diagnosticsProvider,
                 _codeHintFactory,
-                _outliningManager);
+                _outliningManagerService);
         }
     }
 }

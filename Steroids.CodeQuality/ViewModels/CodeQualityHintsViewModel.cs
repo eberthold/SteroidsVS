@@ -13,7 +13,7 @@ using Steroids.Core.Extensions;
 
 namespace Steroids.CodeQuality.ViewModels
 {
-    public class CodeQualityHintsViewModel : BindableBase
+    public sealed class CodeQualityHintsViewModel : BindableBase, IDisposable
     {
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IQualityTextView _textView;
@@ -22,6 +22,7 @@ namespace Steroids.CodeQuality.ViewModels
 
         private IEnumerable<CodeHintLineEntry> _lineDiagnostics = Enumerable.Empty<CodeHintLineEntry>();
         private List<DiagnosticInfo> _lastDiagnostics = new List<DiagnosticInfo>();
+        private bool _disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeQualityHintsViewModel"/> class.
@@ -29,22 +30,23 @@ namespace Steroids.CodeQuality.ViewModels
         /// <param name="textView">The <see cref="IQualityTextView"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         /// <param name="codeHintFactory">The <see cref="CodeHintFactory"/>.</param>
-        /// <param name="outliningManager">THe <see cref="IOutliningManager"/> for the <paramref name="textView"/>.</param>
+        /// <param name="outliningManagerService">THe <see cref="IOutliningManagerService"/> for the <paramref name="textView"/>.</param>
         public CodeQualityHintsViewModel(
             IQualityTextView textView,
             IDiagnosticProvider diagnosticProvider,
             CodeHintFactory codeHintFactory,
-            IOutliningManager outliningManager)
+            IOutliningManagerService outliningManagerService)
         {
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
             _codeHintFactory = codeHintFactory ?? throw new ArgumentNullException(nameof(codeHintFactory));
-            _outliningManager = outliningManager ?? throw new ArgumentNullException(nameof(outliningManager));
+            _outliningManager = outliningManagerService.GetOutliningManager(_textView.TextView);
 
             WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
             WeakEventManager<ITextView, TextViewLayoutChangedEventArgs>.AddHandler(_textView.TextView, nameof(ITextView.LayoutChanged), OnTextViewLayoutChanged);
-            WeakEventManager<IOutliningManager, RegionsExpandedEventArgs>.AddHandler(_outliningManager, nameof(IOutliningManager.RegionsExpanded), OnRegionsExpanded);
-            WeakEventManager<IOutliningManager, RegionsCollapsedEventArgs>.AddHandler(_outliningManager, nameof(IOutliningManager.RegionsCollapsed), OnRegionsCollapsed);
+
+            _outliningManager.RegionsExpanded += OnRegionsExpanded;
+            _outliningManager.RegionsCollapsed += OnRegionsCollapsed;
         }
 
         /// <summary>
@@ -54,6 +56,20 @@ namespace Steroids.CodeQuality.ViewModels
         {
             get { return _lineDiagnostics; }
             private set { Set(ref _lineDiagnostics, value); }
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _outliningManager.RegionsExpanded -= OnRegionsExpanded;
+            _outliningManager.RegionsCollapsed -= OnRegionsCollapsed;
+
+            _disposed = true;
         }
 
         /// <summary>
@@ -88,7 +104,7 @@ namespace Steroids.CodeQuality.ViewModels
         {
             try
             {
-                var region = _outliningManager.GetCollapsedRegions(line.Extent);
+                var region = _outliningManager?.GetCollapsedRegions(line.Extent) ?? Enumerable.Empty<ICollapsible>();
                 if (!region.Any())
                 {
                     return line.Extent;
@@ -102,8 +118,13 @@ namespace Steroids.CodeQuality.ViewModels
                     .First()
                     .Value;
             }
-            catch (ObjectDisposedException)
+            catch (ObjectDisposedException ex)
             {
+                if (ex.ObjectName == "OutliningMnger")
+                {
+                    // TODO: when we have a logger service add logging
+                }
+
                 // I assume that this case seems to happen, if the TextView gets closed and we receive a
                 // DiagnosticChanged event right in the timeframe before we dispose the whole container graph.
                 return line.Extent;
