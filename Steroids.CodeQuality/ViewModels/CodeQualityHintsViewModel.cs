@@ -104,6 +104,12 @@ namespace Steroids.CodeQuality.ViewModels
         {
             try
             {
+                if (line == null)
+                {
+                    var firstPoint = new SnapshotPoint(_textView.TextView.TextSnapshot, 0);
+                    return _textView.TextView.GetTextElementSpan(firstPoint);
+                }
+
                 var region = _outliningManager?.GetCollapsedRegions(line.Extent) ?? Enumerable.Empty<ICollapsible>();
                 if (!region.Any())
                 {
