@@ -93,6 +93,29 @@ namespace Steroids.CodeQuality.Tests
             A.CallTo(_outliningManager).MustHaveHappened();
         }
 
+        [TestMethod]
+        public void UpdateDiagnostics_LineIsNull_NoExceptionThrown()
+        {
+            // Arrange
+            var sut = CreateSut();
+            SetupDiagnosticPrerequisites();
+            A.CallTo(_outliningManager).Throws(o => new ObjectDisposedException("OutliningManager"));
+
+            // Act
+            _diagnosticsProvider.DiagnosticsChanged += Raise.With(new DiagnosticsChangedEventArgs
+            (
+                new List<DiagnosticInfo>
+                {
+                    new DiagnosticInfo
+                    {
+                        Path = FilePath,
+                        IsActive = true,
+                        Line = 9000
+                    }
+                }.AsReadOnly()
+            ));
+        }
+
         private void SetupDiagnosticPrerequisites()
         {
             A.CallTo(() => _textView.Path).Returns(FilePath);
