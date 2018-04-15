@@ -20,7 +20,7 @@ namespace SteroidsVS.CodeAdornments
 #pragma warning disable RCS1213 // Remove unused member declaration.
 #pragma warning disable CS0169 // The field 'CodeAdornmentsTextViewCreationListener._editorAdornmentLayer' is never used
         [Export(typeof(AdornmentLayerDefinition))]
-        [Name("CodeStructureAdorner")]
+        [Name(nameof(CodeStructureAdorner))]
         [Order(After = PredefinedAdornmentLayers.Caret)]
         private readonly AdornmentLayerDefinition _editorAdornmentLayer;
 #pragma warning restore CS0169 // The field 'CodeAdornmentsTextViewCreationListener._editorAdornmentLayer' is never used

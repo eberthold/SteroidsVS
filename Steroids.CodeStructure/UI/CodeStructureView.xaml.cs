@@ -24,6 +24,12 @@ namespace Steroids.CodeStructure.UI
             DataContext = _viewModel;
         }
 
+        public void ShowCodeStructure()
+        {
+            _viewModel.IsListVisible = true;
+            _spaceReservation.ActualWidth = Width;
+        }
+
         private void OnThumbDragged(object sender, DragDeltaEventArgs e)
         {
             Width = Math.Max(ActualWidth - e.HorizontalChange, MinWidth);
@@ -90,12 +96,6 @@ namespace Steroids.CodeStructure.UI
         private void OnIndicatorChecked(object sender, RoutedEventArgs e)
         {
             ShowCodeStructure();
-        }
-
-        private void ShowCodeStructure()
-        {
-            _viewModel.IsListVisible = true;
-            _spaceReservation.ActualWidth = Width;
         }
 
         private void HideCodeStructure()
