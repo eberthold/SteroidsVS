@@ -175,6 +175,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IActiveTextViewProvider.cs" />
     <Compile Include="Core\IModuleInitializer.cs" />
     <Compile Include="Diagnostics\DiagnosticInfo.cs" />
     <Compile Include="Diagnostics\DiagnosticsChangedEventArgs.cs" />

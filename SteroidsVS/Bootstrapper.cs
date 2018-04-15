@@ -1,7 +1,9 @@
 ﻿using System;
+using Microsoft.VisualStudio.Shell;
 using Steroids.CodeQuality.Services;
 using Steroids.Contracts;
 using Steroids.Contracts.Core;
+using SteroidsVS.CodeAdornments;
 using SteroidsVS.Contracts;
 using Unity;
 using Unity.Lifetime;
@@ -14,17 +16,25 @@ namespace SteroidsVS
 
         protected virtual IUnityContainer Container { get; set; }
 
-        public void Initialize(IVsPackageServices services)
+        public void Run(SteroidsVsPackage package)
         {
             RootContainer = new UnityContainer();
             Container = RootContainer;
 
-            Container.RegisterInstance(services.Workspace);
-            Container.RegisterInstance(services.ErrorList);
-            Container.RegisterInstance(services.OutliningManagerService);
+            Container.RegisterInstance<Package>(package);
+            Container.RegisterInstance(package.Workspace);
+            Container.RegisterInstance(package.ErrorList);
+            Container.RegisterInstance(package.OutliningManagerService);
+            Container.RegisterInstance(package.ComponentModel);
+            Container.RegisterInstance(package.EditorAdapterFactory);
+            Container.RegisterInstance(new ActiveTextViewProvider(package.VsTextManager, package.EditorAdapterFactory));
 
             Container.RegisterType<IWorkspaceManager, WorkspaceManager>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IActiveTextViewProvider, ActiveTextViewProvider>(new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<CodeStructureOpenCommand>(new ContainerControlledLifetimeManager());
+            Container.Resolve<CodeStructureOpenCommand>();
         }
 
         /// <inheritdoc />
