@@ -74,7 +74,14 @@ namespace SteroidsVS.CodeAdornments
                 return;
             }
 
-            codeStructure.ShowCodeStructure();
+            if (codeStructure.IsOpen)
+            {
+                codeStructure.HideCodeStructure();
+            }
+            else
+            {
+                codeStructure.ShowCodeStructure();
+            }
         }
     }
 }

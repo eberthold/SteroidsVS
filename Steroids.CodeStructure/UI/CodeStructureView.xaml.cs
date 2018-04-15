@@ -24,10 +24,21 @@ namespace Steroids.CodeStructure.UI
             DataContext = _viewModel;
         }
 
+        public bool IsOpen
+        {
+            get { return _viewModel.IsListVisible; }
+        }
+
         public void ShowCodeStructure()
         {
             _viewModel.IsListVisible = true;
             _spaceReservation.ActualWidth = Width;
+        }
+
+        public void HideCodeStructure()
+        {
+            _viewModel.IsListVisible = false;
+            _spaceReservation.ActualWidth = 0;
         }
 
         private void OnThumbDragged(object sender, DragDeltaEventArgs e)
@@ -96,12 +107,6 @@ namespace Steroids.CodeStructure.UI
         private void OnIndicatorChecked(object sender, RoutedEventArgs e)
         {
             ShowCodeStructure();
-        }
-
-        private void HideCodeStructure()
-        {
-            _viewModel.IsListVisible = false;
-            _spaceReservation.ActualWidth = 0;
         }
     }
 }
