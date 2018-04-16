@@ -165,7 +165,7 @@
     </Style>
 
     <DataTemplate x:Key="NodeContainerTemplate">
-        <ContentControl Style="{StaticResource MouseOverControl}" Padding="{Binding IndentLevel, Converter={StaticResource LevelToThicknessConverter}}" theming:ImageThemingUtilities.ImageBackgroundColor="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource BrushToColorConverter}}">
+        <ContentControl Style="{StaticResource MouseOverControl}" Focusable="False" Padding="{Binding IndentLevel, Converter={StaticResource LevelToThicknessConverter}}" theming:ImageThemingUtilities.ImageBackgroundColor="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource BrushToColorConverter}}">
             <StackPanel Orientation="Horizontal" Margin="0, 2">
                 <imaging:CrispImage Width="16" Height="16" Moniker="{Binding Moniker}" Margin="0, 0, 6, 0" />
                 <TextBlock Text="{Binding Name}" Foreground="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextBrushKey}}" VerticalAlignment="Center" Style="{StaticResource CodeStructureTextBlock}" />
@@ -174,7 +174,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="SectionHeaderTemplate">
-        <ContentControl Style="{StaticResource ExpandableControl}" Padding="{Binding IndentLevel, Converter={StaticResource LevelToThicknessConverter}}" theming:ImageThemingUtilities.ImageBackgroundColor="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource BrushToColorConverter}}">
+        <ContentControl Style="{StaticResource ExpandableControl}" Focusable="False" Padding="{Binding IndentLevel, Converter={StaticResource LevelToThicknessConverter}}" theming:ImageThemingUtilities.ImageBackgroundColor="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource BrushToColorConverter}}">
             <StackPanel Orientation="Horizontal" Margin="0, 2">
                 <imaging:CrispImage Width="16" Height="16" Moniker="{Binding Moniker}" Margin="0, 0, 6, 0" />
                 <TextBlock Text="{Binding Name}" Foreground="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextBrushKey}}" VerticalAlignment="Center" Style="{StaticResource CodeStructureTextBlock}" />

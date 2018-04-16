@@ -1,21 +1,21 @@
-﻿using Microsoft.VisualStudio.LanguageServices;
+﻿using Microsoft.VisualStudio.ComponentModelHost;
+using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text.Outlining;
 using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace SteroidsVS
 {
-    public interface IVsPackageServices
+    public interface IVsServiceProvider
     {
-        VisualStudioWorkspace Workspace { get; }
+        IComponentModel ComponentModel { get; }
 
         IErrorList ErrorList { get; }
 
         IOutliningManagerService OutliningManagerService { get; }
 
-        /// <summary>
-        /// Gets the <see cref="IVsTextManager"/>.
-        /// </summary>
         IVsTextManager VsTextManager { get; }
+
+        IVsEditorAdaptersFactoryService EditorAdapterFactory { get; }
     }
 }

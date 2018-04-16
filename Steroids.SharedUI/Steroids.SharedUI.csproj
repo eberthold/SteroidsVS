@@ -176,6 +176,14 @@
       <Project>{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}</Project>
       <Name>Steroids.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Steroids.Controls\Steroids.Controls.csproj">
+      <Project>{f431c218-50d4-426b-a1cb-4c21af3e7008}</Project>
+      <Name>Steroids.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Steroids.Skin\Steroids.Skin.csproj">
+      <Project>{dea6534a-406c-409e-802f-9b655bc8e876}</Project>
+      <Name>Steroids.Skin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
