@@ -379,6 +379,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Steroids.Controls\Steroids.Controls.csproj">
+      <Project>{f431c218-50d4-426b-a1cb-4c21af3e7008}</Project>
+      <Name>Steroids.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Steroids.Core\Steroids.Core.csproj">
       <Project>{d43c1a42-a6b0-4f1b-8637-79daacaae487}</Project>
       <Name>Steroids.Core</Name>
@@ -390,6 +394,10 @@
     <ProjectReference Include="..\Steroids.SharedUI\Steroids.SharedUI.csproj">
       <Project>{58AC3D8F-294E-4389-8A93-570AE6C45808}</Project>
       <Name>Steroids.SharedUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Steroids.Skin\Steroids.Skin.csproj">
+      <Project>{dea6534a-406c-409e-802f-9b655bc8e876}</Project>
+      <Name>Steroids.Skin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

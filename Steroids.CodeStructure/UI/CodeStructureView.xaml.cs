@@ -4,10 +4,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using Steroids.CodeStructure.Analyzers;
 using Steroids.Contracts.UI;
 
 namespace Steroids.CodeStructure.UI
 {
+    // TODO: This file is dirty and mixing viewmodel calls with ui stuff, clean up here
     public partial class CodeStructureView : UserControl
     {
         private readonly IAdornmentSpaceReservation _spaceReservation;
@@ -33,12 +35,34 @@ namespace Steroids.CodeStructure.UI
         {
             _viewModel.IsListVisible = true;
             _spaceReservation.ActualWidth = Width;
+
+            Activate();
         }
 
         public void HideCodeStructure()
         {
             _viewModel.IsListVisible = false;
             _spaceReservation.ActualWidth = 0;
+
+            Deactivate();
+        }
+
+        protected override void OnPreviewKeyUp(KeyEventArgs e)
+        {
+            base.OnPreviewKeyUp(e);
+
+            if (e.Key != Key.Escape)
+            {
+                return;
+            }
+
+            Deactivate();
+        }
+
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            base.OnGotFocus(e);
+            Activate();
         }
 
         private void OnThumbDragged(object sender, DragDeltaEventArgs e)
@@ -82,31 +106,61 @@ namespace Steroids.CodeStructure.UI
         {
             if (PART_ListBorder.IsMouseOver)
             {
+                Activate();
                 return;
             }
 
             if (_viewModel.IsPinned)
             {
+                Deactivate();
                 return;
             }
 
             HideCodeStructure();
         }
 
-        private void OnListSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnIndicatorChecked(object sender, RoutedEventArgs e)
         {
-            var list = sender as ListView;
-            if (list?.SelectedItem == null)
+            ShowCodeStructure();
+        }
+
+        private void OnListItemClicked(object sender, EventArgs e)
+        {
+            _viewModel.SelectedNode = sender as ICodeStructureNodeContainer;
+        }
+
+        private void Activate()
+        {
+            if (InputManager.Current.IsInMenuMode)
             {
                 return;
             }
 
-            list.SelectedItem = null;
+            var presentationSource = PresentationSource.FromVisual(this);
+            if (presentationSource == null)
+            {
+                return;
+            }
+
+            InputManager.Current.PushMenuMode(presentationSource);
+            VisualStateManager.GoToState(this, "Activated", false);
         }
 
-        private void OnIndicatorChecked(object sender, RoutedEventArgs e)
+        private void Deactivate()
         {
-            ShowCodeStructure();
+            if (!InputManager.Current.IsInMenuMode)
+            {
+                return;
+            }
+
+            var presentationSource = PresentationSource.FromVisual(this);
+            if (presentationSource == null)
+            {
+                return;
+            }
+
+            InputManager.Current.PopMenuMode(presentationSource);
+            VisualStateManager.GoToState(this, "Deactivated", false);
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Steroids.Contracts.Core;
 
-namespace SteroidsVS.Contracts
+namespace SteroidsVS.Services
 {
     public class ActiveTextViewProvider : IActiveTextViewProvider
     {

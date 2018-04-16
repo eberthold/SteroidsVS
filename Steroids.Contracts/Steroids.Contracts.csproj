@@ -182,7 +182,6 @@
     <Compile Include="Diagnostics\IDiagnosticProvider.cs" />
     <Compile Include="Core\IBootstrapper.cs" />
     <Compile Include="Diagnostics\IQualityTextView.cs" />
-    <Compile Include="IWorkspaceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\IAdornmentSpaceReservation.cs" />
     <Compile Include="UI\ReservationLocation.cs" />

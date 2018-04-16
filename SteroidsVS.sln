@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Core.Tests", "Ster
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeQuality.Tests", "Steroids.CodeQuality.Tests\Steroids.CodeQuality.Tests.csproj", "{2FE84F47-9450-4701-80A4-D24104D3D504}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Controls", "Steroids.Controls\Steroids.Controls.csproj", "{F431C218-50D4-426B-A1CB-4C21AF3E7008}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{2FE84F47-9450-4701-80A4-D24104D3D504}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FE84F47-9450-4701-80A4-D24104D3D504}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FE84F47-9450-4701-80A4-D24104D3D504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F431C218-50D4-426B-A1CB-4C21AF3E7008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F431C218-50D4-426B-A1CB-4C21AF3E7008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F431C218-50D4-426B-A1CB-4C21AF3E7008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F431C218-50D4-426B-A1CB-4C21AF3E7008}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

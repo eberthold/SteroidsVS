@@ -7,6 +7,7 @@
              xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:controls="clr-namespace:Steroids.CodeStructure.Controls"
              xmlns:ui="clr-namespace:Steroids.CodeStructure.UI"
+             xmlns:commonControls="clr-namespace:Steroids.Controls;assembly=Steroids.Controls"
              mc:Ignorable="d" 
              MinWidth="150"
              Width="250"
@@ -23,7 +24,10 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border x:Name="PART_ListBorder" Grid.Row="0" Cursor="Arrow" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.ScrollBarArrowGlyphPressedBrushKey}}" BorderThickness="0, 1, 1, 1" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=PART_Indicator, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Border x:Name="PART_ListBorder" Grid.Row="0" Cursor="Arrow" BorderThickness="0, 1, 1, 1" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=PART_Indicator, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border.BorderBrush>
+                <SolidColorBrush x:Name="PART_ListBorderBrush" Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ScrollBarArrowGlyphPressedColorKey}}" />
+            </Border.BorderBrush>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -31,9 +35,12 @@
                 </Grid.ColumnDefinitions>
 
                 <Thumb DragDelta="OnThumbDragged" Cursor="SizeWE">
+                    <Thumb.Background>
+                        <SolidColorBrush x:Name="PART_ThumbBackground" Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ScrollBarArrowGlyphPressedColorKey}}" />
+                    </Thumb.Background>
                     <Thumb.Template>
                         <ControlTemplate TargetType="{x:Type Thumb}">
-                            <Grid Grid.Column="0" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ScrollBarArrowGlyphPressedBrushKey}}">
+                            <Grid Grid.Column="0" Background="{TemplateBinding Background}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1"/>
                                     <ColumnDefinition Width="Auto" />
@@ -60,8 +67,9 @@
                             <CheckBox Focusable="False" Content="{x:Static imageCatalog:KnownMonikers.Pin}" IsChecked="{Binding IsPinned, Mode=TwoWay}" Style="{StaticResource MonikerCheckBox}"/>
                         </StackPanel>
                     </Border>
-                    
-                    <ListView Focusable="False" Grid.Row="1" x:Name="PART_List" SelectionMode="Single" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" BorderThickness="0" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedNode, Mode=TwoWay}" SelectionChanged="OnListSelectionChanged"/>
+
+                    <!--SelectedItem="{Binding SelectedNode, Mode=TwoWay}" SelectionChanged="OnListSelectionChanged"-->
+                    <commonControls:ClickableItemsControl Focusable="False" Grid.Row="1" x:Name="PART_List" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" ItemClicked="OnListItemClicked" BorderThickness="0" HorizontalAlignment="Stretch" />
                 </Grid>
             </Grid>
         </Border>
@@ -80,5 +88,17 @@
             </Border>
             <controls:IndicatorButton x:Name="PART_Indicator" Margin="2" Content="{Binding LeafCount, Mode=OneWay}" IsChecked="{Binding IsListVisible, Mode=TwoWay}" Checked="OnIndicatorChecked" BorderThickness="1" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" />
         </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup Name="ActivationStates">
+                <VisualState Name="Activated" />
+                <VisualState Name="Deactivated">
+                    <Storyboard>
+                        <ColorAnimation Storyboard.TargetName="PART_ListBorderBrush" Storyboard.TargetProperty="Color" To="LightGray" Duration="0:0:0.1"/>
+                        <ColorAnimation Storyboard.TargetName="PART_ThumbBackground" Storyboard.TargetProperty="Color" To="LightGray" Duration="0:0:0.1"/>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>
