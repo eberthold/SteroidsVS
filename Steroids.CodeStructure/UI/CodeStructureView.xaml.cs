@@ -9,44 +9,60 @@ using Steroids.Contracts.UI;
 
 namespace Steroids.CodeStructure.UI
 {
-    // TODO: This file is dirty and mixing viewmodel calls with ui stuff, clean up here
     public partial class CodeStructureView : UserControl
     {
-        private readonly IAdornmentSpaceReservation _spaceReservation;
-        private readonly CodeStructureViewModel _viewModel;
+        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false, OnIsOpenChanged));
+        public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register("IsPinned", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false));
+        public static readonly DependencyProperty SelectedNodeContainerProperty = DependencyProperty.Register("SelectedNodeContainer", typeof(ICodeStructureNodeContainer), typeof(CodeStructureView), new PropertyMetadata(null));
+        public static readonly DependencyProperty SpaceReservationProperty = DependencyProperty.Register("SpaceReservation", typeof(IAdornmentSpaceReservation), typeof(CodeStructureView), new PropertyMetadata(null));
 
         private Window _window;
 
-        public CodeStructureView(CodeStructureViewModel viewModel, IAdornmentSpaceReservation spaceReservation)
+        public CodeStructureView()
         {
             InitializeComponent();
-
-            _spaceReservation = spaceReservation ?? throw new ArgumentNullException(nameof(spaceReservation));
-            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-            DataContext = _viewModel;
         }
 
+        /// <summary>
+        /// Gets or sets the space reservation manager.
+        /// </summary>
+        public IAdornmentSpaceReservation SpaceReservation
+        {
+            get { return (IAdornmentSpaceReservation)GetValue(SpaceReservationProperty); }
+            set { SetValue(SpaceReservationProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the last selected node.a
+        /// </summary>
+        public ICodeStructureNodeContainer SelectedNodeContainer
+        {
+            get { return (ICodeStructureNodeContainer)GetValue(SelectedNodeContainerProperty); }
+            set { SetValue(SelectedNodeContainerProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the view is open or not.
+        /// </summary>
         public bool IsOpen
         {
-            get { return _viewModel.IsListVisible; }
+            get { return (bool)GetValue(IsOpenProperty); }
+            set { SetValue(IsOpenProperty, value); }
         }
 
-        public void ShowCodeStructure()
+        /// <summary>
+        /// Gets or sets a value indicating whether the view stays open on loosing focus or not.
+        /// </summary>
+        public bool IsPinned
         {
-            _viewModel.IsListVisible = true;
-            _spaceReservation.ActualWidth = Width;
-
-            Activate();
+            get { return (bool)GetValue(IsPinnedProperty); }
+            set { SetValue(IsPinnedProperty, value); }
         }
 
-        public void HideCodeStructure()
-        {
-            _viewModel.IsListVisible = false;
-            _spaceReservation.ActualWidth = 0;
-
-            Deactivate();
-        }
-
+        /// <summary>
+        /// Handles the prview keyup, to determine if the views needs to be closed or deactivated.
+        /// </summary>
+        /// <param name="e">Th <see cref="KeyEventArgs"/>.</param>
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
             base.OnPreviewKeyUp(e);
@@ -56,19 +72,56 @@ namespace Steroids.CodeStructure.UI
                 return;
             }
 
-            Deactivate();
+            if (!IsPinned)
+            {
+                IsOpen = false;
+            }
+            else
+            {
+                DeactivateKeyboardHandling();
+            }
         }
 
         protected override void OnGotFocus(RoutedEventArgs e)
         {
             base.OnGotFocus(e);
-            Activate();
+            ActivateKeyboardHandling();
+        }
+
+        private static void OnIsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = d as CodeStructureView;
+            if (view == null)
+            {
+                return;
+            }
+
+            if (view.IsOpen)
+            {
+                view.ShowCodeStructure();
+            }
+            else
+            {
+                view.HideCodeStructure();
+            }
+        }
+
+        private void ShowCodeStructure()
+        {
+            SpaceReservation.ActualWidth = Width;
+            ActivateKeyboardHandling();
+        }
+
+        private void HideCodeStructure()
+        {
+            SpaceReservation.ActualWidth = 0;
+            DeactivateKeyboardHandling();
         }
 
         private void OnThumbDragged(object sender, DragDeltaEventArgs e)
         {
             Width = Math.Max(ActualWidth - e.HorizontalChange, MinWidth);
-            _spaceReservation.ActualWidth = Width;
+            SpaceReservation.ActualWidth = Width;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -106,30 +159,28 @@ namespace Steroids.CodeStructure.UI
         {
             if (PART_ListBorder.IsMouseOver)
             {
-                Activate();
+                ActivateKeyboardHandling();
                 return;
             }
 
-            if (_viewModel.IsPinned)
+            if (IsPinned)
             {
-                Deactivate();
+                DeactivateKeyboardHandling();
                 return;
             }
 
-            HideCodeStructure();
-        }
-
-        private void OnIndicatorChecked(object sender, RoutedEventArgs e)
-        {
-            ShowCodeStructure();
+            IsOpen = false;
         }
 
         private void OnListItemClicked(object sender, EventArgs e)
         {
-            _viewModel.SelectedNode = sender as ICodeStructureNodeContainer;
+            SelectedNodeContainer = sender as ICodeStructureNodeContainer;
         }
 
-        private void Activate()
+        /// <summary>
+        /// Activates the view, so it handles keyboard inputs.
+        /// </summary>
+        private void ActivateKeyboardHandling()
         {
             if (InputManager.Current.IsInMenuMode)
             {
@@ -144,9 +195,13 @@ namespace Steroids.CodeStructure.UI
 
             InputManager.Current.PushMenuMode(presentationSource);
             VisualStateManager.GoToState(this, "Activated", false);
+            Keyboard.Focus(PART_List);
         }
 
-        private void Deactivate()
+        /// <summary>
+        /// Deactivates the view, so the main editor handles keyboard inputs again.
+        /// </summary>
+        private void DeactivateKeyboardHandling()
         {
             if (!InputManager.Current.IsInMenuMode)
             {

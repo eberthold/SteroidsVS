@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="Steroids.CodeStructure.UI.CodeStructureView"
+             x:Name="PART_Root"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -64,11 +65,10 @@
 
                     <Border Grid.Column="0" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.CommandBarToolBarBorderBrushKey}}">
                         <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" Margin="4, 2">
-                            <CheckBox Focusable="False" Content="{x:Static imageCatalog:KnownMonikers.Pin}" IsChecked="{Binding IsPinned, Mode=TwoWay}" Style="{StaticResource MonikerCheckBox}"/>
+                            <CheckBox Focusable="False" Content="{x:Static imageCatalog:KnownMonikers.Pin}" IsChecked="{Binding IsPinned, ElementName=PART_Root, Mode=TwoWay}" Style="{StaticResource MonikerCheckBox}"/>
                         </StackPanel>
                     </Border>
 
-                    <!--SelectedItem="{Binding SelectedNode, Mode=TwoWay}" SelectionChanged="OnListSelectionChanged"-->
                     <commonControls:ClickableItemsControl Focusable="False" Grid.Row="1" x:Name="PART_List" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" ItemClicked="OnListItemClicked" BorderThickness="0" HorizontalAlignment="Stretch" />
                 </Grid>
             </Grid>
@@ -86,7 +86,7 @@
                 
                 <Border Background="Transparent" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" BorderThickness="3" Margin="0" CornerRadius="1"/>
             </Border>
-            <controls:IndicatorButton x:Name="PART_Indicator" Margin="2" Content="{Binding LeafCount, Mode=OneWay}" IsChecked="{Binding IsListVisible, Mode=TwoWay}" Checked="OnIndicatorChecked" BorderThickness="1" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" />
+            <controls:IndicatorButton x:Name="PART_Indicator" Margin="2" Content="{Binding LeafCount, Mode=OneWay}" IsChecked="{Binding IsOpen, ElementName=PART_Root, Mode=TwoWay}" BorderThickness="1" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" />
         </Grid>
 
         <VisualStateManager.VisualStateGroups>

@@ -322,7 +322,6 @@
     <Compile Include="Controls\SelectionHintControl.xaml.cs">
       <DependentUpon>SelectionHintControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\CodeStructureViewFactory.cs" />
     <Compile Include="UI\LevelToThicknessConverter.cs" />
     <Compile Include="Extensions\SyntaxNodeExtensions.cs" />
     <Compile Include="Extensions\TextSpanExtensions.cs" />

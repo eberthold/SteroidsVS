@@ -76,7 +76,6 @@ namespace SteroidsVS.CodeAdornments
             Container.RegisterType<CodeStructureAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeQualityHintsViewModel>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<CodeStructureViewFactory>(new ContainerControlledLifetimeManager());
 
             Container.RegisterType<FloatingDiagnosticHintsAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeHintFactory>(new ContainerControlledLifetimeManager());
