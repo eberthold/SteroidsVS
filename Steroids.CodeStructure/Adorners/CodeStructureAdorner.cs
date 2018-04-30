@@ -14,7 +14,7 @@ namespace Steroids.CodeStructure.Adorners
         private const string CodeStructureTag = "CodeStructure";
 
         private readonly IAdornmentLayer _adornmentLayer;
-        private readonly CodeStructureView _indicatorView;
+        private readonly ContentControl _indicatorView = new ContentControl();
         private readonly IWpfTextView _textView;
 
         /// <summary>
@@ -22,19 +22,19 @@ namespace Steroids.CodeStructure.Adorners
         /// </summary>
         /// <param name="textView">The <see cref="IWpfTextView"/> upon which the adornment will be drawn.</param>
         /// <param name="adornmentLayer">The <see cref="IAdornmentLayer"/>.</param>
-        /// <param name="viewFactory">The <see cref="CodeStructureViewFactory"/>.</param>
+        /// <param name="viewModel">The <see cref="CodeStructureViewModel"/>.</param>
         public CodeStructureAdorner(
             IWpfTextView textView,
             IAdornmentLayer adornmentLayer,
-            CodeStructureViewFactory viewFactory)
+            CodeStructureViewModel viewModel)
         {
             _adornmentLayer = adornmentLayer ?? throw new ArgumentNullException(nameof(adornmentLayer));
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
-            _indicatorView = viewFactory.Create();
+            _indicatorView.Content = viewModel;
 
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportWidthChanged), OnSizeChanged);
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportHeightChanged), OnSizeChanged);
-            WeakEventManager<CodeStructureView, EventArgs>.AddHandler(_indicatorView, nameof(FrameworkElement.SizeChanged), OnSizeChanged);
+            WeakEventManager<ContentControl, EventArgs>.AddHandler(_indicatorView, nameof(FrameworkElement.SizeChanged), OnSizeChanged);
 
             ShowAdorner();
         }

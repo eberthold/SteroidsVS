@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Windows.Controls;
 using Microsoft.VisualStudio.Shell;
 using Steroids.CodeStructure.Adorners;
 using Steroids.CodeStructure.UI;
@@ -66,22 +67,16 @@ namespace SteroidsVS.CodeAdornments
                 .ActiveTextView?
                 .GetAdornmentLayer(nameof(CodeStructureAdorner))?
                 .Elements
-                .First(x => x.Adornment is CodeStructureView)?
-                .Adornment as CodeStructureView;
+                .FirstOrDefault(x => x.Adornment is ContentControl)?
+                .Adornment as ContentControl;
 
-            if (codeStructure == null)
+            var viewModel = codeStructure.Content as CodeStructureViewModel;
+            if (viewModel == null)
             {
                 return;
             }
 
-            if (codeStructure.IsOpen)
-            {
-                codeStructure.HideCodeStructure();
-            }
-            else
-            {
-                codeStructure.ShowCodeStructure();
-            }
+            viewModel.IsOpen = !viewModel.IsOpen;
         }
     }
 }

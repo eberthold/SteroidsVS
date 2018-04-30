@@ -13,6 +13,7 @@ using Steroids.CodeStructure.Analyzers.Services;
 using Steroids.CodeStructure.Controls;
 using Steroids.CodeStructure.Extensions;
 using Steroids.Contracts;
+using Steroids.Contracts.UI;
 using Steroids.Core;
 using Steroids.Core.Extensions;
 
@@ -28,7 +29,7 @@ namespace Steroids.CodeStructure.UI
         private readonly IAdornmentLayer _adornmentLayer;
 
         private SelectionHintControl _adornerContent;
-        private bool _isListVisible;
+        private bool _isListOpen;
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
         private ICodeStructureNodeContainer _selectedNode;
@@ -43,12 +44,13 @@ namespace Steroids.CodeStructure.UI
         /// <param name="adornmentLayer">The <see cref="IAdornmentLayer"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         /// <param name="documentAnalyzerService">The <see cref="IDocumentAnalyzerService"/>.</param>
-        /// <param name="diagnosticHintsViewModel">The view model which should display all our diagnostic hints.</param>
+        /// <param name="spaceReservation">The <see cref="IAdornmentSpaceReservation"/>.</param>
         public CodeStructureViewModel(
             IWpfTextView textView,
             IAdornmentLayer adornmentLayer,
             IDiagnosticProvider diagnosticProvider,
-            IDocumentAnalyzerService documentAnalyzerService)
+            IDocumentAnalyzerService documentAnalyzerService,
+            IAdornmentSpaceReservation spaceReservation)
         {
             _textView = textView;
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
@@ -57,6 +59,7 @@ namespace Steroids.CodeStructure.UI
 
             WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
+            SpaceReservation = spaceReservation;
         }
 
         /// <summary>
@@ -89,10 +92,10 @@ namespace Steroids.CodeStructure.UI
         /// <summary>
         /// Gets or sets a value indicating whether the list is opened or not.
         /// </summary>
-        public bool IsListVisible
+        public bool IsOpen
         {
-            get { return _isListVisible; }
-            set { Set(ref _isListVisible, value); }
+            get { return _isListOpen; }
+            set { Set(ref _isListOpen, value); }
         }
 
         /// <summary>
@@ -138,6 +141,11 @@ namespace Steroids.CodeStructure.UI
             get { return _nodeCollection; }
             set { Set(ref _nodeCollection, value); }
         }
+
+        /// <summary>
+        /// Gets the adornment space reservation.
+        /// </summary>
+        public IAdornmentSpaceReservation SpaceReservation { get; }
 
         private void OnAnalysisFinished(object sender, EventArgs args)
         {

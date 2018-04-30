@@ -163,6 +163,10 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <DataTemplate DataType="{x:Type ui:CodeStructureViewModel}">
+        <ui:CodeStructureView IsPinned="{Binding IsPinned, Mode=TwoWay}" IsOpen="{Binding IsOpen, Mode=TwoWay}" SelectedNodeContainer="{Binding SelectedNode, Mode=OneWayToSource}" SpaceReservation="{Binding SpaceReservation, Mode=OneTime}"/>
+    </DataTemplate>
 
     <DataTemplate x:Key="NodeContainerTemplate">
         <ContentControl Style="{StaticResource MouseOverControl}" Focusable="False" Padding="{Binding IndentLevel, Converter={StaticResource LevelToThicknessConverter}}" theming:ImageThemingUtilities.ImageBackgroundColor="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource BrushToColorConverter}}">
