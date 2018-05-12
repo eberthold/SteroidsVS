@@ -10,7 +10,7 @@
     mc:Ignorable="d" 
     x:Class="Steroids.CodeStructure.Resources.ModuleResourceDictionary">
 
-    <ui:LevelToThicknessConverter x:Key="LevelToThicknessConverter" />
+    <ui:LevelToThicknessConverter x:Key="LevelToThicknessConverter" BaseOffset="2"/>
 
     <SolidColorBrush x:Key="ClickableItemContainerHighlightBrush" Color="#44444444" />
 
@@ -133,37 +133,6 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
-    <Style x:Key="ScrollableItemsControl" TargetType="ItemsControl">
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
-        <Setter Property="ScrollViewer.PanningMode" Value="Both" />
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ItemsControl">
-                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="1" SnapsToDevicePixels="true">
-                        <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                        </ScrollViewer>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" TargetName="Bd" Value="0.5" />
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsGrouping" Value="true" />
-                                <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
     <DataTemplate DataType="{x:Type ui:CodeStructureViewModel}">
         <ui:CodeStructureView IsPinned="{Binding IsPinned, Mode=TwoWay}" IsOpen="{Binding IsOpen, Mode=TwoWay}" SelectedNodeContainer="{Binding SelectedNode, Mode=OneWayToSource}" SpaceReservation="{Binding SpaceReservation, Mode=OneTime}"/>
     </DataTemplate>
