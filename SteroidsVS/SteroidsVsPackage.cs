@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using Microsoft.VisualStudio;
@@ -8,6 +9,7 @@ using SteroidsVS.Services;
 using CodeQualityModule = Steroids.CodeQuality;
 using CodeStructureModule = Steroids.CodeStructure;
 using SharedUiModule = Steroids.SharedUI;
+using SkinModule = Steroids.Skin;
 
 namespace SteroidsVS
 {
@@ -38,6 +40,8 @@ namespace SteroidsVS
 
             VsServiceProvider = new VsServiceProvider(this);
 
+            Assembly.Load("Steroids.Controls");
+            InitializeDictionary<SkinModule.Skin>();
             InitializeDictionary<SharedUiModule.Resources.ModuleResourceDictionary>();
             InitializeDictionary<CodeQualityModule.Resources.ModuleResourceDictionary>();
             InitializeDictionary<CodeStructureModule.Resources.ModuleResourceDictionary>();

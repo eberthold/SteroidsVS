@@ -26,6 +26,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2E07FB3F-3BFE-4EF8-9A10-530B2F7CDEBB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeQuality", "Steroids.CodeQuality\Steroids.CodeQuality.csproj", "{8E125506-818B-40E4-ADFB-6238C2A49AC7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DEA6534A-406C-409E-802F-9B655BC8E876} = {DEA6534A-406C-409E-802F-9B655BC8E876}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Core.Tests", "Steroids.Core.Tests\Steroids.Core.Tests.csproj", "{CCA340B5-1BE3-45C6-B108-89B1BFFB36BB}"
 EndProject
