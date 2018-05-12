@@ -94,8 +94,8 @@
                 <VisualState Name="Activated" />
                 <VisualState Name="Deactivated">
                     <Storyboard>
-                        <ColorAnimation Storyboard.TargetName="PART_ListBorderBrush" Storyboard.TargetProperty="Color" To="LightGray" Duration="0:0:0.1"/>
-                        <ColorAnimation Storyboard.TargetName="PART_ThumbBackground" Storyboard.TargetProperty="Color" To="LightGray" Duration="0:0:0.1"/>
+                        <ColorAnimation Storyboard.TargetName="PART_ListBorderBrush" Storyboard.TargetProperty="Color" To="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowBorderColorKey}}" Duration="0:0:0.1"/>
+                        <ColorAnimation Storyboard.TargetName="PART_ThumbBackground" Storyboard.TargetProperty="Color" To="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowBorderColorKey}}" Duration="0:0:0.1"/>
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>

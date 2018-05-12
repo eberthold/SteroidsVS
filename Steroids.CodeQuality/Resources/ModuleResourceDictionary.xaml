@@ -83,12 +83,6 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
-                            <!--<imaging:CrispImage x:Name="PART_Moniker" Margin="{TemplateBinding Padding}" Moniker="{x:Static catalog:KnownMonikers.StatusWarning}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderTransformOrigin="0, 0.5">
-                                <imaging:CrispImage.RenderTransform>
-                                    <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
-                                </imaging:CrispImage.RenderTransform>
-                            </imaging:CrispImage>-->
-
                             <Rectangle x:Name="PART_Indicator" Margin="{TemplateBinding Padding}" VerticalAlignment="Stretch" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" RenderTransformOrigin="0.5, 0.5" ToolTip="{TemplateBinding Message}">
                                 <Rectangle.RenderTransform>
                                     <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
@@ -100,12 +94,12 @@
                                     <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </Border.RenderTransform>
 
-                                <TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center">
+                                <TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="14">
                                     <TextBlock.Foreground>
                                         <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" />
                                     </TextBlock.Foreground>
                                     
-                                    <Run x:Name="PART_Message" Text="{TemplateBinding Code}" FontWeight="SemiBold" /><Run Text=":" />
+                                    <Run x:Name="PART_Message" Text="{TemplateBinding Code}" FontWeight="Bold" /><Run Text=":" />
                                     <Run Text="{TemplateBinding Message}" />
                                 </TextBlock>
                             </Border>
