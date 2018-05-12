@@ -69,7 +69,7 @@
                         </StackPanel>
                     </Border>
 
-                    <commonControls:ClickableItemsControl Focusable="False" Grid.Row="1" x:Name="PART_List" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" ItemClicked="OnListItemClicked" BorderThickness="0" HorizontalAlignment="Stretch" />
+                    <commonControls:ClickableItemsControl Focusable="True" Grid.Row="1" x:Name="PART_List" IsVisibleChanged="OnListIsVisibleChanged" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" ItemClicked="OnListItemClicked" BorderThickness="0" HorizontalAlignment="Stretch" />
                 </Grid>
             </Grid>
         </Border>

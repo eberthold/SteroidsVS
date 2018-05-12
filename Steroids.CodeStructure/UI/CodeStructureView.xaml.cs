@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -11,7 +12,7 @@ namespace Steroids.CodeStructure.UI
 {
     public partial class CodeStructureView : UserControl
     {
-        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false, OnIsOpenChanged));
+        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false));
         public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register("IsPinned", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false));
         public static readonly DependencyProperty SelectedNodeContainerProperty = DependencyProperty.Register("SelectedNodeContainer", typeof(ICodeStructureNodeContainer), typeof(CodeStructureView), new PropertyMetadata(null));
         public static readonly DependencyProperty SpaceReservationProperty = DependencyProperty.Register("SpaceReservation", typeof(IAdornmentSpaceReservation), typeof(CodeStructureView), new PropertyMetadata(null));
@@ -86,24 +87,6 @@ namespace Steroids.CodeStructure.UI
         {
             base.OnGotFocus(e);
             ActivateKeyboardHandling();
-        }
-
-        private static void OnIsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var view = d as CodeStructureView;
-            if (view == null)
-            {
-                return;
-            }
-
-            if (view.IsOpen)
-            {
-                view.ShowCodeStructure();
-            }
-            else
-            {
-                view.HideCodeStructure();
-            }
         }
 
         private void ShowCodeStructure()
@@ -195,7 +178,7 @@ namespace Steroids.CodeStructure.UI
 
             InputManager.Current.PushMenuMode(presentationSource);
             VisualStateManager.GoToState(this, "Activated", false);
-            Keyboard.Focus(PART_List);
+            PART_List.Focus();
         }
 
         /// <summary>
@@ -216,6 +199,19 @@ namespace Steroids.CodeStructure.UI
 
             InputManager.Current.PopMenuMode(presentationSource);
             VisualStateManager.GoToState(this, "Deactivated", false);
+            Keyboard.ClearFocus();
+        }
+
+        private void OnListIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (PART_List.IsVisible)
+            {
+                ShowCodeStructure();
+            }
+            else
+            {
+                HideCodeStructure();
+            }
         }
     }
 }
