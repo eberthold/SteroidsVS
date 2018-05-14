@@ -1,5 +1,7 @@
 An extension which aims to make your developer live a bit easier.
 
+[![BuildStatus](https://eberthold.visualstudio.com/_apis/public/build/definitions/0f1c8361-a5d4-46c1-aa83-c190f5b2c74b/2/badge)](https://eberthold.visualstudio.com/_apis/public/build/definitions/0f1c8361-a5d4-46c1-aa83-c190f5b2c74b/2/badge)
+
 # Features
 
 __Code Quality Hints__
