@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
@@ -26,8 +27,7 @@ namespace SteroidsVS.CodeAdornments
 #pragma warning restore CS0169 // The field 'CodeAdornmentsTextViewCreationListener._editorAdornmentLayer' is never used
 #pragma warning restore RCS1213 // Remove unused member declaration.
 
-        private IWpfTextView _textView;
-        private CodeAdornmentsBootstrapper _bootstrapper;
+        private readonly Dictionary<IWpfTextView, CodeAdornmentsBootstrapper> _cleanupMap = new Dictionary<IWpfTextView, CodeAdornmentsBootstrapper>();
 
         /// <summary>
         /// Instantiates a CodeStructureAdorner manager when a textView is created.
@@ -35,21 +35,43 @@ namespace SteroidsVS.CodeAdornments
         /// <param name="textView">The <see cref="IWpfTextView"/> upon which the adornment should be placed</param>
         public void TextViewCreated(IWpfTextView textView)
         {
-            _textView = textView;
-            _bootstrapper = new CodeAdornmentsBootstrapper(textView);
+            var bootstrapper = new CodeAdornmentsBootstrapper(textView);
+            if (_cleanupMap.ContainsKey(textView))
+            {
+                return;
+            }
 
-            var codeStructure = _bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
-            var diagnosticHints = _bootstrapper.GetService(typeof(FloatingDiagnosticHintsAdorner)) as FloatingDiagnosticHintsAdorner;
+            _cleanupMap.Add(textView, bootstrapper);
+
+            var codeStructure = bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
+            var diagnosticHints = bootstrapper.GetService(typeof(FloatingDiagnosticHintsAdorner)) as FloatingDiagnosticHintsAdorner;
 
             WeakEventManager<ITextView, EventArgs>.AddHandler(textView, nameof(ITextView.Closed), OnClosed);
         }
 
+        /// <summary>
+        /// Cleaning up our resources.
+        /// </summary>
+        /// <param name="sender">The sender, which should always be an <see cref="IWpfTextView"/>.</param>
+        /// <param name="e">The <see cref="EventArgs"/>.</param>
         private void OnClosed(object sender, EventArgs e)
         {
-            _textView?.GetAdornmentLayer(nameof(CodeStructureAdorner))?.RemoveAllAdornments();
-            _textView = null;
-            _bootstrapper?.Dispose();
-            _bootstrapper = null;
+            var textView = sender as IWpfTextView;
+            if (textView == null)
+            {
+                return;
+            }
+
+            textView.GetAdornmentLayer(nameof(CodeStructureAdorner))?.RemoveAllAdornments();
+            if (!_cleanupMap.ContainsKey(textView))
+            {
+                return;
+            }
+
+            var bootstrapper = _cleanupMap[textView];
+            bootstrapper?.Dispose();
+
+            _cleanupMap.Remove(textView);
         }
     }
 }
