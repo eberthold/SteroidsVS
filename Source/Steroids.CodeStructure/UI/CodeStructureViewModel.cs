@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
@@ -33,7 +31,7 @@ namespace Steroids.CodeStructure.UI
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
         private ICodeStructureNodeContainer _selectedNode;
-        private ICollectionView _nodeCollection;
+        private IEnumerable<ICodeStructureNodeContainer> _nodeCollection;
         private bool _isPinned;
         private DiagnosticSeverity _currentDiagnosticLevel;
 
@@ -136,7 +134,7 @@ namespace Steroids.CodeStructure.UI
             set { Set(ref _currentDiagnosticLevel, value); }
         }
 
-        public ICollectionView NodeCollection
+        public IEnumerable<ICodeStructureNodeContainer> NodeCollection
         {
             get { return _nodeCollection; }
             set { Set(ref _nodeCollection, value); }
@@ -173,7 +171,7 @@ namespace Steroids.CodeStructure.UI
         private void RefreshUi()
         {
             RaisePropertyChanged(nameof(LeafCount));
-            NodeCollection = CollectionViewSource.GetDefaultView(_documentAnalyzerService?.Nodes ?? new List<ICodeStructureNodeContainer>());
+            NodeCollection = _documentAnalyzerService?.Nodes ?? new List<ICodeStructureNodeContainer>();
         }
 
         /// <summary>

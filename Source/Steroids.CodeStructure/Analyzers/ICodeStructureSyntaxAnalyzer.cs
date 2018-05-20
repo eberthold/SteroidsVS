@@ -7,7 +7,7 @@ namespace Steroids.CodeStructure.Analyzers
 {
     public interface ICodeStructureSyntaxAnalyzer
     {
-        List<ICodeStructureNodeContainer> NodeList { get; }
+        IEnumerable<ICodeStructureNodeContainer> NodeList { get; }
 
         Task Analyze(SyntaxNode node, CancellationToken token);
     }

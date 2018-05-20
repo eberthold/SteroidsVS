@@ -30,6 +30,7 @@ namespace SteroidsVS
 
             Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IActiveTextViewProvider, ActiveTextViewProvider>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IDispatcherService, DispatcherService>(new ContainerControlledLifetimeManager());
 
             Container.RegisterType<CodeStructureOpenCommand>(new ContainerControlledLifetimeManager());
             Container.Resolve<CodeStructureOpenCommand>();
