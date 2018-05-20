@@ -1,59 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Steroids.CodeStructure.Analyzers.NodeContainer;
 using Steroids.CodeStructure.Analyzers.SectionHeader;
+using Steroids.Contracts.Core;
 
 namespace Steroids.CodeStructure.Analyzers
 {
     public class TypeGroupedSyntaxAnalyzer : CSharpSyntaxWalker, ICodeStructureSyntaxAnalyzer
     {
         private readonly List<TypeGroupedSyntaxAnalyzer> _subWalkers = new List<TypeGroupedSyntaxAnalyzer>();
-        private readonly FileSectionHeader _file = new FileSectionHeader();
         private readonly FieldsSectionHeader _fields = new FieldsSectionHeader();
         private readonly ConstructorsSectionHeader _constructors = new ConstructorsSectionHeader();
         private readonly MethodsSectionHeader _methods = new MethodsSectionHeader();
         private readonly PropertiesSectionHeader _properties = new PropertiesSectionHeader();
         private readonly EventsSectionHeader _events = new EventsSectionHeader();
+        private readonly IDispatcherService _dispatcherService;
+        private readonly ICollection<ICodeStructureNodeContainer> _nodeList;
+        private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
 
         private CancellationToken _token;
         private Guid _analyzeId;
-        private SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeGroupedSyntaxAnalyzer"/> class.
         /// </summary>
-        public TypeGroupedSyntaxAnalyzer()
+        /// <param name="dispatcherService">The <see cref="IDispatcherService"/>.</param>
+        public TypeGroupedSyntaxAnalyzer(IDispatcherService dispatcherService)
         {
+            _dispatcherService = dispatcherService ?? throw new ArgumentNullException(nameof(dispatcherService));
+
             RootNode = new FileSectionHeader
             {
                 AbsoluteIndex = -1,
             };
 
-            NodeList = new List<ICodeStructureNodeContainer>();
-            var view = CollectionViewSource.GetDefaultView(NodeList);
-            view.SortDescriptions.Add(new SortDescription(nameof(ICodeStructureNodeContainer.AbsoluteIndex), ListSortDirection.Ascending));
-
+            _nodeList = new List<ICodeStructureNodeContainer>();
+            NodeList = _nodeList.OrderBy(x => x.AbsoluteIndex);
             TreeId = Guid.NewGuid();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeGroupedSyntaxAnalyzer"/> class.
         /// </summary>
+        /// <param name="dispatcherService">The <see cref="IDispatcherService"/>.</param>
         /// <param name="analyzeId">An id to identify current analysis run.</param>
         /// <param name="nodeList">The node list of the root syntax walker.</param>
         /// <param name="rootNode">The <see cref="ICodeStructureNodeContainer">root node</see> for this walker.</param>
-        private TypeGroupedSyntaxAnalyzer(Guid analyzeId, List<ICodeStructureNodeContainer> nodeList, ICodeStructureSectionHeader rootNode)
+        private TypeGroupedSyntaxAnalyzer(
+            IDispatcherService dispatcherService,
+            Guid analyzeId,
+            ICollection<ICodeStructureNodeContainer> nodeList,
+            ICodeStructureSectionHeader rootNode)
         {
-            NodeList = nodeList;
+            _dispatcherService = dispatcherService ?? throw new ArgumentNullException(nameof(dispatcherService));
+
+            _nodeList = nodeList;
             _analyzeId = analyzeId;
             RootNode = rootNode;
 
@@ -94,7 +101,7 @@ namespace Steroids.CodeStructure.Analyzers
         /// <summary>
         /// Gets the node list.
         /// </summary>
-        public List<ICodeStructureNodeContainer> NodeList
+        public IEnumerable<ICodeStructureNodeContainer> NodeList
         {
             get;
         }
@@ -132,7 +139,6 @@ namespace Steroids.CodeStructure.Analyzers
 
                 await AnalyzeCore(node, token);
                 RootNode.RefreshIndexes();
-                SortNodes();
             }
             finally
             {
@@ -287,7 +293,7 @@ namespace Steroids.CodeStructure.Analyzers
             var subWalker = _subWalkers.FirstOrDefault(x => x.RootNode.Id == rootOfSubtree.Id);
             if (subWalker == null)
             {
-                subWalker = new TypeGroupedSyntaxAnalyzer(_analyzeId, NodeList, rootOfSubtree);
+                subWalker = new TypeGroupedSyntaxAnalyzer(_dispatcherService, _analyzeId, _nodeList, rootOfSubtree);
                 _subWalkers.Add(subWalker);
             }
 
@@ -372,29 +378,21 @@ namespace Steroids.CodeStructure.Analyzers
                 return Task.FromResult(0);
             }
 
-            Application.Current.Dispatcher.Invoke(() =>
+            _dispatcherService.Dispatch(() =>
             {
                 var tree = RootNode.AllTreeItems.ToList();
                 foreach (var unused in NodeList.Where(x => !tree.Contains(x)).ToList())
                 {
-                    NodeList.Remove(unused);
+                    _nodeList.Remove(unused);
                 }
 
                 foreach (var added in tree.Where(x => !NodeList.Contains(x)).ToList())
                 {
-                    NodeList.Add(added);
+                    _nodeList.Add(added);
                 }
             });
 
             return Task.FromResult(0);
-        }
-
-        /// <summary>
-        /// Sorts the nodes by its index.
-        /// </summary>
-        private void SortNodes()
-        {
-            Application.Current.Dispatcher.Invoke(() => CollectionViewSource.GetDefaultView(NodeList).Refresh());
         }
     }
 }

@@ -1,13 +1,16 @@
-﻿namespace Steroids.CodeStructure.Analyzers.Services
+﻿using Steroids.Contracts.Core;
+
+namespace Steroids.CodeStructure.Analyzers.Services
 {
     public class SyntaxWalkerProvider : ISyntaxWalkerProvider
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SyntaxWalkerProvider"/> class.
         /// </summary>
-        public SyntaxWalkerProvider()
+        /// <param name="dispatcherService">The <see cref="IDispatcherService"/>.</param>
+        public SyntaxWalkerProvider(IDispatcherService dispatcherService)
         {
-            SyntaxAnalyzer = new TypeGroupedSyntaxAnalyzer();
+            SyntaxAnalyzer = new TypeGroupedSyntaxAnalyzer(dispatcherService);
         }
 
         /// <inheritdoc />
