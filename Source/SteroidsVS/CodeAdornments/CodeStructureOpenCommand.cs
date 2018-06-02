@@ -2,9 +2,11 @@
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Windows.Controls;
+using Microsoft.VisualStudio.Shell;
 using Steroids.CodeStructure.Adorners;
 using Steroids.CodeStructure.UI;
 using Steroids.Contracts.Core;
+using Threading = System.Threading.Tasks;
 
 namespace SteroidsVS.CodeAdornments
 {
@@ -34,6 +36,13 @@ namespace SteroidsVS.CodeAdornments
             {
                 throw new ArgumentNullException(nameof(vsServiceProvider));
             }
+
+            RegisterCommandAsync(vsServiceProvider).ConfigureAwait(false);
+        }
+
+        private async Threading.Task RegisterCommandAsync(IVsServiceProvider vsServiceProvider)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
             var commandService = vsServiceProvider.MenuCommandService;
             if (commandService != null)

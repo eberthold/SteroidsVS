@@ -20,6 +20,7 @@ namespace SteroidsVS
             RootContainer = new UnityContainer();
             Container = RootContainer;
 
+            Container.RegisterInstance(vsServiceProvider);
             Container.RegisterInstance(vsServiceProvider.ErrorList);
             Container.RegisterInstance(vsServiceProvider.OutliningManagerService);
             Container.RegisterInstance(vsServiceProvider.ComponentModel);

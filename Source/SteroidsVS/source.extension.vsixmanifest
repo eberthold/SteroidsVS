@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="97188178-f68c-49a6-9e5e-5fb99661bf09" Version="0.2.34" Language="en-US" Publisher="Erik Berthold" />
+        <Identity Id="97188178-f68c-49a6-9e5e-5fb99661bf09" Version="0.2.35" Language="en-US" Publisher="Erik Berthold" />
         <DisplayName>SteroidsVS</DisplayName>
         <Description xml:space="preserve">Adds useful features to Visual Studio e.g. a nice code structure view.</Description>
         <Icon>Assets\SteroidsVS_icon.png</Icon>
