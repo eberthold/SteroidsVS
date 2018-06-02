@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.VisualStudio.Shell;
 using Steroids.CodeQuality.Services;
 using Steroids.Contracts;
 using Steroids.Contracts.Core;
@@ -16,17 +15,16 @@ namespace SteroidsVS
 
         protected virtual IUnityContainer Container { get; set; }
 
-        public void Run(SteroidsVsPackage package)
+        public void Run(IVsServiceProvider vsServiceProvider)
         {
             RootContainer = new UnityContainer();
             Container = RootContainer;
 
-            Container.RegisterInstance<Package>(package);
-            Container.RegisterInstance(package.VsServiceProvider.ErrorList);
-            Container.RegisterInstance(package.VsServiceProvider.OutliningManagerService);
-            Container.RegisterInstance(package.VsServiceProvider.ComponentModel);
-            Container.RegisterInstance(package.VsServiceProvider.EditorAdapterFactory);
-            Container.RegisterInstance(new ActiveTextViewProvider(package.VsServiceProvider.VsTextManager, package.VsServiceProvider.EditorAdapterFactory));
+            Container.RegisterInstance(vsServiceProvider.ErrorList);
+            Container.RegisterInstance(vsServiceProvider.OutliningManagerService);
+            Container.RegisterInstance(vsServiceProvider.ComponentModel);
+            Container.RegisterInstance(vsServiceProvider.EditorAdapterFactory);
+            Container.RegisterInstance(new ActiveTextViewProvider(vsServiceProvider.VsTextManager, vsServiceProvider.EditorAdapterFactory));
 
             Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IActiveTextViewProvider, ActiveTextViewProvider>(new ContainerControlledLifetimeManager());

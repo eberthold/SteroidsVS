@@ -2,7 +2,6 @@
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Windows.Controls;
-using Microsoft.VisualStudio.Shell;
 using Steroids.CodeStructure.Adorners;
 using Steroids.CodeStructure.UI;
 using Steroids.Contracts.Core;
@@ -18,39 +17,30 @@ namespace SteroidsVS.CodeAdornments
 
         public static readonly Guid CommandSet = new Guid("56a7aec5-9a93-44ca-9c9f-1f6166ebbbfd");
 
-        private readonly Package _package;
         private readonly IActiveTextViewProvider _textViewProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureOpenCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
-        /// <param name="package">Owner package, not null.</param>
+        /// <param name="vsServiceProvider">The <see cref="IVsServiceProvider"/>.</param>
         /// <param name="textViewProvider">The <see cref="IActiveTextViewProvider"/>.</param>
         public CodeStructureOpenCommand(
-            Package package,
+            IVsServiceProvider vsServiceProvider,
             IActiveTextViewProvider textViewProvider)
         {
-            _package = package ?? throw new ArgumentNullException(nameof(package));
             _textViewProvider = textViewProvider ?? throw new ArgumentNullException(nameof(textViewProvider));
+            if (vsServiceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(vsServiceProvider));
+            }
 
-            var commandService = ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            var commandService = vsServiceProvider.MenuCommandService;
             if (commandService != null)
             {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
                 var menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
                 commandService.AddCommand(menuItem);
-            }
-        }
-
-        /// <summary>
-        /// Gets the service provider from the owner package.
-        /// </summary>
-        private IServiceProvider ServiceProvider
-        {
-            get
-            {
-                return _package;
             }
         }
 

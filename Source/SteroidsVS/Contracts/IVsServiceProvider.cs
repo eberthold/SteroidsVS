@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.ComponentModelHost;
+﻿using System.ComponentModel.Design;
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text.Outlining;
@@ -17,5 +18,7 @@ namespace SteroidsVS
         IVsTextManager VsTextManager { get; }
 
         IVsEditorAdaptersFactoryService EditorAdapterFactory { get; }
+
+        IMenuCommandService MenuCommandService { get; }
     }
 }
