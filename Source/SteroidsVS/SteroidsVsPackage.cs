@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using SteroidsVS.Services;
 using CodeQualityModule = Steroids.CodeQuality;
 using CodeStructureModule = Steroids.CodeStructure;
@@ -24,8 +25,23 @@ namespace SteroidsVS
     public sealed class SteroidsVsPackage : AsyncPackage
     {
         public const string PackageGuidString = "9ac11e28-22b5-4c3c-a40f-ab2c9bdd18d6";
+        public static readonly Guid PackageGuid = Guid.Parse("9ac11e28-22b5-4c3c-a40f-ab2c9bdd18d6");
 
         private bool _initialized;
+
+        public static async Threading.Task EnsurePackageLoadedAsync()
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+            var shell = GetGlobalService(typeof(SVsShell)) as IVsShell;
+            var shell7 = GetGlobalService(typeof(SVsShell)) as IVsShell7;
+            if (shell.IsPackageLoaded(PackageGuid, out _) == VSConstants.S_OK)
+            {
+                return;
+            }
+
+            await shell7.LoadPackageAsync(PackageGuid);
+        }
 
         protected async override Threading.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {

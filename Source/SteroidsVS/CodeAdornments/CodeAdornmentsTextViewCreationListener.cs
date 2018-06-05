@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
@@ -35,18 +37,25 @@ namespace SteroidsVS.CodeAdornments
         /// <param name="textView">The <see cref="IWpfTextView"/> upon which the adornment should be placed</param>
         public void TextViewCreated(IWpfTextView textView)
         {
-            var bootstrapper = new CodeAdornmentsBootstrapper(textView);
-            if (_cleanupMap.ContainsKey(textView))
-            {
-                return;
-            }
+            SteroidsVsPackage.EnsurePackageLoadedAsync().ContinueWith(
+                t =>
+                {
+                    var bootstrapper = new CodeAdornmentsBootstrapper(textView);
+                    if (_cleanupMap.ContainsKey(textView))
+                    {
+                        return;
+                    }
 
-            _cleanupMap.Add(textView, bootstrapper);
+                    _cleanupMap.Add(textView, bootstrapper);
 
-            var codeStructure = bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
-            var diagnosticHints = bootstrapper.GetService(typeof(FloatingDiagnosticHintsAdorner)) as FloatingDiagnosticHintsAdorner;
+                    var codeStructure = bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
+                    var diagnosticHints = bootstrapper.GetService(typeof(FloatingDiagnosticHintsAdorner)) as FloatingDiagnosticHintsAdorner;
 
-            WeakEventManager<ITextView, EventArgs>.AddHandler(textView, nameof(ITextView.Closed), OnClosed);
+                    WeakEventManager<ITextView, EventArgs>.AddHandler(textView, nameof(ITextView.Closed), OnClosed);
+                },
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
         }
 
         /// <summary>
