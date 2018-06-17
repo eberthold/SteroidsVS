@@ -19,7 +19,7 @@ namespace SteroidsVS
     [ProvideAutoLoad(VSConstants.UICONTEXT.ShellInitialized_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [InstalledProductRegistration("SteroidsVS", "Extension for VisualStudio", "1.0", IconResourceID = 400)] // Info on this package for Help/About
+    [InstalledProductRegistration("SteroidsVS", "Multi-purpose extension for VisualStudio", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [Guid(PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class SteroidsVsPackage : AsyncPackage
@@ -29,6 +29,10 @@ namespace SteroidsVS
 
         private bool _initialized;
 
+        /// <summary>
+        /// Checks if this <see cref="Package"/> has been loaded, and loads it asynchronously if not loaded.
+        /// </summary>
+        /// <returns>The <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Threading.Task EnsurePackageLoadedAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -43,6 +47,7 @@ namespace SteroidsVS
             await shell7.LoadPackageAsync(PackageGuid);
         }
 
+        /// <inheritdoc />
         protected async override Threading.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             if (_initialized)
