@@ -5,7 +5,7 @@ using System.Windows.Media.Animation;
 namespace Steroids.CodeStructure.Controls
 {
     /// <summary>
-    /// Interaction logic for SelectionHintControl.xaml
+    /// Interaction logic for SelectionHintControl.xaml.
     /// </summary>
     public partial class SelectionHintControl : UserControl
     {

@@ -13,7 +13,7 @@ namespace SteroidsVS.CodeAdornments
 {
     /// <summary>
     /// Establishes an <see cref="IAdornmentLayer"/> to place the adornment on and exports the <see cref="IWpfTextViewCreationListener"/>
-    /// that instantiates the adornment on the event of a <see cref="IWpfTextView"/>'s creation
+    /// that instantiates the adornment on the event of a <see cref="IWpfTextView"/>'s creation.
     /// </summary>
     [Export(typeof(IWpfTextViewCreationListener))]
     [ContentType("CSharp")]
@@ -34,7 +34,7 @@ namespace SteroidsVS.CodeAdornments
         /// <summary>
         /// Instantiates a CodeStructureAdorner manager when a textView is created.
         /// </summary>
-        /// <param name="textView">The <see cref="IWpfTextView"/> upon which the adornment should be placed</param>
+        /// <param name="textView">The <see cref="IWpfTextView"/> upon which the adornment should be placed.</param>
         public void TextViewCreated(IWpfTextView textView)
         {
             SteroidsVsPackage.EnsurePackageLoadedAsync().ContinueWith(

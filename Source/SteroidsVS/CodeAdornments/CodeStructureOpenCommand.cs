@@ -11,7 +11,7 @@ using Threading = System.Threading.Tasks;
 namespace SteroidsVS.CodeAdornments
 {
     /// <summary>
-    /// Command handler
+    /// Command handler.
     /// </summary>
     internal sealed class CodeStructureOpenCommand
     {
@@ -23,7 +23,7 @@ namespace SteroidsVS.CodeAdornments
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureOpenCommand"/> class.
-        /// Adds our command handlers for menu (commands must exist in the command table file)
+        /// Adds our command handlers for menu (commands must exist in the command table file).
         /// </summary>
         /// <param name="vsServiceProvider">The <see cref="IVsServiceProvider"/>.</param>
         /// <param name="textViewProvider">The <see cref="IActiveTextViewProvider"/>.</param>

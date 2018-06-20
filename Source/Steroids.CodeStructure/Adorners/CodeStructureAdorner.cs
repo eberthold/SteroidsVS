@@ -42,8 +42,8 @@ namespace Steroids.CodeStructure.Adorners
         /// <summary>
         /// Event handler for viewport layout changed event. Adds adornment at the top right corner of the viewport.
         /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Event arguments.</param>
         private void OnSizeChanged(object sender, EventArgs e)
         {
             SetPosition();
