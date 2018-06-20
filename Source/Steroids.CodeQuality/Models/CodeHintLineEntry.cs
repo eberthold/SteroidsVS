@@ -150,7 +150,7 @@ namespace Steroids.CodeQuality.Models
         private void CalculateOpacity(IWpfTextViewLine textViewLine)
         {
             var factor = 0.6 + ((textViewLine.TextRight - _textView.ViewportLeft - Left) / 100);
-             Opacity = Math.Max(factor, 0.6);
+            Opacity = Math.Max(factor, 0.6);
         }
 
         /// <summary>

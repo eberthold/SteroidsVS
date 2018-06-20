@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionFiles", ".Solution
 	ProjectSection(SolutionItems) = preProject
 		SteroidsVS.ruleset = SteroidsVS.ruleset
 		SteroidsVs.snk = SteroidsVs.snk
+		SteroidsVS.Test.ruleset = SteroidsVS.Test.ruleset
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Contracts", "Steroids.Contracts\Steroids.Contracts.csproj", "{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}"
