@@ -94,7 +94,7 @@ namespace Steroids.CodeStructure.Analyzers.NodeContainer
         public virtual int LastAbsoluteIndex => AbsoluteIndex;
 
         /// <summary>
-        /// Gets the <see cref="ICodeStructureNodeContainer.Moniker"/>
+        /// Gets the <see cref="ICodeStructureNodeContainer.Moniker"/>.
         /// </summary>
         public ImageMoniker Moniker
         {
@@ -115,7 +115,7 @@ namespace Steroids.CodeStructure.Analyzers.NodeContainer
         }
 
         /// <summary>
-        /// Gets the <see cref="ICodeStructureNodeContainer.Name"/>
+        /// Gets the <see cref="ICodeStructureNodeContainer.Name"/>.
         /// </summary>
         public string Name
         {
@@ -228,7 +228,7 @@ namespace Steroids.CodeStructure.Analyzers.NodeContainer
         }
 
         /// <summary>
-        /// Gets the <see cref="ICodeStructureNodeContainer.Type"/>
+        /// Gets the <see cref="ICodeStructureNodeContainer.Type"/>.
         /// </summary>
         public string Type
         {

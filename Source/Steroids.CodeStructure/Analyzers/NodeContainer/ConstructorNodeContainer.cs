@@ -26,7 +26,7 @@ namespace Steroids.CodeStructure.Analyzers.NodeContainer
         }
 
         /// <summary>
-        /// Gets the <see cref="ICodeStructureNodeContainer.Parameters"/>
+        /// Gets the <see cref="ICodeStructureNodeContainer.Parameters"/>.
         /// </summary>
         /// <returns>The types of the parameters given to this constructor.</returns>
         protected override string GetParameters()

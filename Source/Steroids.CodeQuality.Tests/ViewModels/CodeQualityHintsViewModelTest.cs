@@ -15,7 +15,7 @@ using Steroids.Core.Diagnostics.Contracts;
 namespace Steroids.CodeQuality.Tests
 {
     [TestClass]
-    public class CodeQualityHintsViewModelTests
+    public class CodeQualityHintsViewModelTest
     {
         private const string FilePath = @"c:\file.cs";
 
@@ -49,8 +49,7 @@ namespace Steroids.CodeQuality.Tests
 
             // TODO: That much arranging work should be reduced by better seams for mocking...
             SetupDiagnosticPrerequisites();
-            _diagnosticsProvider.DiagnosticsChanged += Raise.With(new DiagnosticsChangedEventArgs
-            (
+            _diagnosticsProvider.DiagnosticsChanged += Raise.With(new DiagnosticsChangedEventArgs(
                 new List<DiagnosticInfo>
                 {
                     new DiagnosticInfo
@@ -58,8 +57,7 @@ namespace Steroids.CodeQuality.Tests
                         Path = FilePath,
                         IsActive = true
                     }
-                }.AsReadOnly()
-            ));
+                }.AsReadOnly()));
 
             // Act
             var result = sut.QualityHints;
@@ -77,8 +75,7 @@ namespace Steroids.CodeQuality.Tests
             A.CallTo(_outliningManager).Throws(o => new ObjectDisposedException("OutliningManager"));
 
             // Act
-            _diagnosticsProvider.DiagnosticsChanged += Raise.With(new DiagnosticsChangedEventArgs
-            (
+            _diagnosticsProvider.DiagnosticsChanged += Raise.With(new DiagnosticsChangedEventArgs(
                 new List<DiagnosticInfo>
                 {
                     new DiagnosticInfo
@@ -86,8 +83,7 @@ namespace Steroids.CodeQuality.Tests
                         Path = FilePath,
                         IsActive = true
                     }
-                }.AsReadOnly()
-            ));
+                }.AsReadOnly()));
 
             // Assert
             A.CallTo(_outliningManager).MustHaveHappened();
@@ -102,8 +98,7 @@ namespace Steroids.CodeQuality.Tests
             A.CallTo(_outliningManager).Throws(o => new ObjectDisposedException("OutliningManager"));
 
             // Act
-            _diagnosticsProvider.DiagnosticsChanged += Raise.With(new DiagnosticsChangedEventArgs
-            (
+            _diagnosticsProvider.DiagnosticsChanged += Raise.With(new DiagnosticsChangedEventArgs(
                 new List<DiagnosticInfo>
                 {
                     new DiagnosticInfo
@@ -112,8 +107,7 @@ namespace Steroids.CodeQuality.Tests
                         IsActive = true,
                         Line = 9000
                     }
-                }.AsReadOnly()
-            ));
+                }.AsReadOnly()));
         }
 
         private void SetupDiagnosticPrerequisites()

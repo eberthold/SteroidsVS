@@ -12,7 +12,7 @@ using Steroids.Contracts.Core;
 
 namespace Steroids.CodeStructure.Analyzers
 {
-    public class TypeGroupedSyntaxAnalyzer : CSharpSyntaxWalker, ICodeStructureSyntaxAnalyzer
+    public sealed class TypeGroupedSyntaxAnalyzer : CSharpSyntaxWalker, ICodeStructureSyntaxAnalyzer, IDisposable
     {
         private readonly List<TypeGroupedSyntaxAnalyzer> _subWalkers = new List<TypeGroupedSyntaxAnalyzer>();
         private readonly FieldsSectionHeader _fields = new FieldsSectionHeader();
@@ -26,6 +26,7 @@ namespace Steroids.CodeStructure.Analyzers
 
         private CancellationToken _token;
         private Guid _analyzeId;
+        private bool _isDisposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeGroupedSyntaxAnalyzer"/> class.
@@ -91,7 +92,7 @@ namespace Steroids.CodeStructure.Analyzers
         }
 
         /// <summary>
-        /// Gets an unique id to indentify this instance.
+        /// Gets an unique id to identify this instance.
         /// </summary>
         public Guid TreeId
         {
@@ -109,9 +110,21 @@ namespace Steroids.CodeStructure.Analyzers
         /// <summary>
         /// Gets or sets the <see cref="ICodeStructureNodeContainer">root node</see> of this instance.
         /// </summary>
-        protected ICodeStructureSectionHeader RootNode
+        private ICodeStructureSectionHeader RootNode
         {
-            get; set;
+            get;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _isDisposed = true;
+            _locker.Dispose();
         }
 
         /// <summary>
@@ -149,7 +162,7 @@ namespace Steroids.CodeStructure.Analyzers
         /// <summary>
         /// Called when the visitor visits a ClassDeclarationSyntax node.
         /// </summary>
-        /// <param name="node">The sivited node.</param>
+        /// <param name="node">The visited node.</param>
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
             var sectionHeader = new ClassSectionHeader
@@ -165,7 +178,7 @@ namespace Steroids.CodeStructure.Analyzers
         /// <summary>
         /// Called when the visitor visits a InterfaceDeclarationSyntax node.
         /// </summary>
-        /// <param name="node">The sivited node.</param>
+        /// <param name="node">The visited node.</param>
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
         {
             var sectionHeader = new InterfaceSectionHeader
@@ -181,7 +194,7 @@ namespace Steroids.CodeStructure.Analyzers
         /// <summary>
         /// Called when the visitor visits a StructDeclarationSyntax node.
         /// </summary>
-        /// <param name="node">The sivited node.</param>
+        /// <param name="node">The visited node.</param>
         public override void VisitStructDeclaration(StructDeclarationSyntax node)
         {
             var sectionHeader = new StructSectionHeader
@@ -197,7 +210,7 @@ namespace Steroids.CodeStructure.Analyzers
         /// <summary>
         /// Called when the visitor visits a EnumDeclarationSyntax node.
         /// </summary>
-        /// <param name="node">The sivited node.</param>
+        /// <param name="node">The visited node.</param>
         public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
         {
             var sectionHeader = new EnumSectionHeader
@@ -273,7 +286,7 @@ namespace Steroids.CodeStructure.Analyzers
         /// <summary>
         /// Analyzes a single section in separate walker.
         /// </summary>
-        /// <param name="node">The node </param>
+        /// <param name="node">The node. </param>
         /// <param name="rootOfSubtree">The <see cref="ICodeStructureSectionHeader"/>.</param>
         private async void VisitSectionDeclaration(SyntaxNode node, ICodeStructureSectionHeader rootOfSubtree)
         {
@@ -288,7 +301,7 @@ namespace Steroids.CodeStructure.Analyzers
             }
 
             // We assume that in most cases the main structure doesn't change that much,
-            // so the subwalkers should always be visited in same order
+            // so the sub-walkers should always be visited in same order
             // otherwise we need some smarter matching to reuse the same walker for same tree parts.
             var subWalker = _subWalkers.FirstOrDefault(x => x.RootNode.Id == rootOfSubtree.Id);
             if (subWalker == null)
@@ -306,8 +319,8 @@ namespace Steroids.CodeStructure.Analyzers
         /// Internal generic implementation of VisitDeclaration overrides.
         /// </summary>
         /// <typeparam name="T">The type of the node container.</typeparam>
-        /// <param name="node">sdfgsdg</param>
-        /// <param name="section">sdfgsdfg</param>
+        /// <param name="node">The <see cref="SyntaxNode"/>.</param>
+        /// <param name="section">The <see cref="SectionHeaderBase"/>.</param>
         private void VisitMemberDeclaration<T>(SyntaxNode node, SectionHeaderBase section)
             where T : class, ICodeStructureNodeContainer, new()
         {
@@ -371,7 +384,7 @@ namespace Steroids.CodeStructure.Analyzers
                 }
             }
 
-            // remove all subwalkers which where not touched in analysis
+            // remove all sub-walkers which where not touched in analysis
             _subWalkers.RemoveAll(x => x._analyzeId != _analyzeId);
             if (onlySubNodes)
             {

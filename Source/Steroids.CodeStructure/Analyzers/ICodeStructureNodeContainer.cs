@@ -7,12 +7,12 @@ namespace Steroids.CodeStructure.Analyzers
     public interface ICodeStructureNodeContainer
     {
         /// <summary>
-        /// Gets the level of indentation
+        /// Gets the level of indentation.
         /// </summary>
         int IndentLevel { get; }
 
         /// <summary>
-        /// Gets the access modifier of this node (e.g. public, private)
+        /// Gets the access modifier of this node (e.g. public, private).
         /// </summary>
         string AccessModifier { get; }
 
@@ -27,7 +27,7 @@ namespace Steroids.CodeStructure.Analyzers
         int LastAbsoluteIndex { get; }
 
         /// <summary>
-        /// Gets the name of this node
+        /// Gets the name of this node.
         /// </summary>
         string Name { get; }
 

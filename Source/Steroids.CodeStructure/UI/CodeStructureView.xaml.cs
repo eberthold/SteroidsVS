@@ -33,7 +33,7 @@ namespace Steroids.CodeStructure.UI
         }
 
         /// <summary>
-        /// Gets or sets the last selected node.a
+        /// Gets or sets the last selected node.a.
         /// </summary>
         public ICodeStructureNodeContainer SelectedNodeContainer
         {

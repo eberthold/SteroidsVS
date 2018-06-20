@@ -54,13 +54,11 @@ namespace Steroids.CodeStructure.Tests.Analyzers
 
         private SyntaxNode GetFileAsSyntaxNode(string resourceName)
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+            using (var reader = new StreamReader(stream))
             {
-                using (var reader = new StreamReader(stream))
-                {
-                    var syntaxTree = CSharpSyntaxTree.ParseText(reader.ReadToEnd());
-                    return syntaxTree.GetRoot();
-                }
+                var syntaxTree = CSharpSyntaxTree.ParseText(reader.ReadToEnd());
+                return syntaxTree.GetRoot();
             }
         }
     }

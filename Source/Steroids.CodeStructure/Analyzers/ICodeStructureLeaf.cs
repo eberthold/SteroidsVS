@@ -6,7 +6,7 @@
     public interface ICodeStructureLeaf
     {
         /// <summary>
-        /// Gets the name of this node
+        /// Gets the name of this node.
         /// </summary>
         string Name { get; }
 

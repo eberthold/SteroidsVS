@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Steroids.CodeStructure.Analyzers
 {
     /// <summary>
-    /// Empty sub-interface to distinguish headers and nodes
+    /// Empty sub-interface to distinguish headers and nodes.
     /// </summary>
     public interface ICodeStructureSectionHeader : ICodeStructureNodeContainer
     {
@@ -26,12 +26,12 @@ namespace Steroids.CodeStructure.Analyzers
         int SectionTypeOrderIndex { get; }
 
         /// <summary>
-        /// Gets the children of this section
+        /// Gets the children of this section.
         /// </summary>
         List<ICodeStructureNodeContainer> Items { get; }
 
         /// <summary>
-        /// Gets the children of this section
+        /// Gets the children of this section.
         /// </summary>
         List<ICodeStructureNodeContainer> AllTreeItems { get; }
 

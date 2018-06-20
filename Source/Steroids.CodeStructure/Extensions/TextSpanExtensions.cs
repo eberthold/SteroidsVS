@@ -16,7 +16,7 @@ namespace Steroids.CodeStructure.Extensions
         }
 
         /// <summary>
-        /// Convert a <see cref="TextSpan"/> to a <see cref="SnapshotSpan"/> on the given <see cref="ITextSnapshot"/> instance
+        /// Convert a <see cref="TextSpan"/> to a <see cref="SnapshotSpan"/> on the given <see cref="ITextSnapshot"/> instance.
         /// </summary>
         /// <param name="textSpan">The <see cref="TextSpan"/>.</param>
         /// <param name="snapshot">The <see cref="ITextSnapshot"/>.</param>

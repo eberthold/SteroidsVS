@@ -15,7 +15,7 @@ namespace Steroids.Contracts.UI
         ReservationLocation Location { get; }
 
         /// <summary>
-        /// Gets or sets the current actual width of the reservation
+        /// Gets or sets the current actual width of the reservation.
         /// </summary>
         double ActualWidth { get; set; }
     }
