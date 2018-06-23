@@ -136,8 +136,13 @@ namespace Steroids.CodeQuality.Services
         {
             List<ITableEntry> entries = CreateTabelEntriesFromSnapshot(factory);
 
+            if (!_knownDiagnostics.ContainsKey(factory))
+            {
+                AddFactory(factory);
+            }
+
             var diagnostics = entries.Select(x => x.ToDiagnosticInfo());
-            var knownFactoryDiagnostics = _knownDiagnostics.First(x => x.Key == factory).Value;
+            var knownFactoryDiagnostics = _knownDiagnostics.FirstOrDefault(x => x.Key == factory).Value ?? new List<DiagnosticInfo>();
             MergeDiagnostics(knownFactoryDiagnostics, diagnostics);
 
             RaiseDiagnosticsChanged();
