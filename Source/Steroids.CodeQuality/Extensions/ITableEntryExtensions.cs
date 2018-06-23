@@ -1,50 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using Microsoft.CodeAnalysis;
-using Microsoft.VisualStudio.Shell;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell.TableControl;
 using Microsoft.VisualStudio.Shell.TableManager;
 using Steroids.Contracts;
 
-namespace Steroids.CodeQuality.Services
+namespace Steroids.CodeQuality.Extensions
 {
     /// <summary>
-    /// Provides <see cref="DiagnosticInfo"/> by crawling the ErrorList UI directly.
+    /// Extensions for <see cref="ITableEntry"/> objects.
     /// </summary>
-    [Obsolete("Unused, because the \"Build Only\" filter in the error list UI filters in a way we can't get around. Use TableManagerDiagnosticsProvider instead.")]
-    public class ErrorListDiagnosticProvider : IDiagnosticProvider
+    public static class ITableEntryExtensions
     {
         private const string SuppressionState = "suppressionstate";
         private const string NotSuppressed = "Active";
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ErrorListDiagnosticProvider"/> class.
-        /// </summary>
-        /// <param name="errorList">The <see cref="IErrorList"/>.</param>
-        public ErrorListDiagnosticProvider(IErrorList errorList)
-        {
-            if (errorList == null)
-            {
-                throw new ArgumentNullException(nameof(errorList));
-            }
-
-            WeakEventManager<IWpfTableControl, EntriesChangedEventArgs>.AddHandler(errorList.TableControl, nameof(IWpfTableControl.EntriesChanged), OnErrorListEntriesChanged);
-        }
-
-        /// <inheritdoc />
-        public event EventHandler<DiagnosticsChangedEventArgs> DiagnosticsChanged;
-
-        /// <inheritdoc />
-        public IReadOnlyCollection<DiagnosticInfo> CurrentDiagnostics { get; private set; } = new List<DiagnosticInfo>();
 
         /// <summary>
         /// Creates a <see cref="DiagnosticInfo"/> from a <see cref="ITableEntriesHandle"/>.
         /// </summary>
         /// <param name="entry">The <see cref="ITableEntryHandle"/>.</param>
         /// <returns>The created <see cref="DiagnosticInfo"/>.</returns>
-        private static DiagnosticInfo CreateDiagnosticInfoFromTableEntry(ITableEntryHandle entry)
+        public static DiagnosticInfo ToDiagnosticInfo(this ITableEntry entry)
         {
             if (!entry.TryGetValue(StandardTableKeyNames.ErrorSeverity, out __VSERRORCATEGORY errorCategory))
             {
@@ -90,21 +64,6 @@ namespace Steroids.CodeQuality.Services
                 Column = column,
                 IsActive = suppressionState == NotSuppressed
             };
-        }
-
-        private void OnErrorListEntriesChanged(object sender, EntriesChangedEventArgs args)
-        {
-            var diagnostics = new List<DiagnosticInfo>();
-
-            foreach (var entry in args.AllEntries)
-            {
-                DiagnosticInfo diagnosticInfo = CreateDiagnosticInfoFromTableEntry(entry);
-
-                diagnostics.Add(diagnosticInfo);
-            }
-
-            CurrentDiagnostics = diagnostics;
-            DiagnosticsChanged?.Invoke(this, new DiagnosticsChangedEventArgs(diagnostics));
         }
     }
 }

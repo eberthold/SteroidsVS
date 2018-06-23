@@ -225,6 +225,7 @@
   <ItemGroup>
     <Compile Include="Adorners\FloatingDiagnosticHintsAdorner.cs" />
     <Compile Include="Controls\FloatingDiagnosticHint.cs" />
+    <Compile Include="Extensions\ITableEntryExtensions.cs" />
     <Compile Include="Models\CodeHintFactory.cs" />
     <Compile Include="Models\CodeHintLineEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -232,6 +233,7 @@
       <DependentUpon>ModuleResourceDictionary.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ErrorListDiagnosticProvider.cs" />
+    <Compile Include="Services\TableManagerDiagnosticsProvider.cs" />
     <Compile Include="ViewModels\CodeQualityHintsViewModel.cs" />
     <Compile Include="Views\FloatingDiagnosticHintsView.xaml.cs">
       <DependentUpon>FloatingDiagnosticHintsView.xaml</DependentUpon>
