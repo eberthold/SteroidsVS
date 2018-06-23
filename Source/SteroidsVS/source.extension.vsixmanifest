@@ -3,9 +3,13 @@
     <Metadata>
         <Identity Id="97188178-f68c-49a6-9e5e-5fb99661bf09" Version="0.2.37" Language="en-US" Publisher="Erik Berthold" />
         <DisplayName>SteroidsVS</DisplayName>
-        <Description xml:space="preserve">Adds useful features to Visual Studio e.g. a nice code structure view.</Description>
+        <Description xml:space="preserve">Improves visibility of roslyn analyzer warnings and errors in documents.
+Includes an overall file quality indicator (bottom right corner, glows in specific color).
+Adds code structure view as code adornment.</Description>
+        <MoreInfo>https://github.com/eberthold/SteroidsVS</MoreInfo>
         <Icon>Assets\SteroidsVS_icon.png</Icon>
         <PreviewImage>Assets\SteroidsVS_preview.png</PreviewImage>
+        <Tags>roslyn code quality warning error structure map</Tags>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,16.0)" />
