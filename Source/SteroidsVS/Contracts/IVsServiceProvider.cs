@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.TableManager;
 using Microsoft.VisualStudio.Text.Outlining;
 using Microsoft.VisualStudio.TextManager.Interop;
 
@@ -20,5 +21,7 @@ namespace SteroidsVS
         IVsEditorAdaptersFactoryService EditorAdapterFactory { get; }
 
         IMenuCommandService MenuCommandService { get; }
+
+        ITableManagerProvider TableManagerProvider { get; }
     }
 }
