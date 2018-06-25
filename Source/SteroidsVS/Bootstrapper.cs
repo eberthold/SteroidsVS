@@ -28,7 +28,7 @@ namespace SteroidsVS
             Container.RegisterInstance(vsServiceProvider.TableManagerProvider);
             Container.RegisterInstance(new ActiveTextViewProvider(vsServiceProvider.VsTextManager, vsServiceProvider.EditorAdapterFactory));
 
-            Container.RegisterType<IDiagnosticProvider, TableManagerDiagnosticsProvider>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IActiveTextViewProvider, ActiveTextViewProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDispatcherService, DispatcherService>(new ContainerControlledLifetimeManager());
 

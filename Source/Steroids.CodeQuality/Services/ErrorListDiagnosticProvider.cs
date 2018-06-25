@@ -13,7 +13,6 @@ namespace Steroids.CodeQuality.Services
     /// <summary>
     /// Provides <see cref="DiagnosticInfo"/> by crawling the ErrorList UI directly.
     /// </summary>
-    [Obsolete("Unused, because the \"Build Only\" filter in the error list UI filters in a way we can't get around. Use TableManagerDiagnosticsProvider instead.")]
     public class ErrorListDiagnosticProvider : IDiagnosticProvider
     {
         private const string SuppressionState = "suppressionstate";
