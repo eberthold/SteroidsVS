@@ -129,9 +129,16 @@ namespace Steroids.CodeQuality.Models
             var endPoint = _trackingSpan.GetEndPoint(_textView.TextSnapshot);
 
             // perf tweak, because GetTextViewLineContainingBufferPosition is rather expensive, so we need to quit early here.
-            if (!_textView.TextViewLines.ContainsBufferPosition(endPoint))
+            try
             {
-                IsVisible = false;
+                if (!_textView.TextViewLines.ContainsBufferPosition(endPoint))
+                {
+                    IsVisible = false;
+                    return;
+                }
+            }
+            catch (InvalidOperationException)
+            {
                 return;
             }
 
