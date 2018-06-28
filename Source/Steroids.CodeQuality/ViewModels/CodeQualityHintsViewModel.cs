@@ -93,7 +93,7 @@ namespace Steroids.CodeQuality.ViewModels
         {
             var lineDiagnostics = fileDiagnostics.ToLookup(x =>
             {
-                var line = _textView.TextView.GetSpanForLineNumber(x.Line);
+                var line = _textView.TextView.GetSnapshotForLineNumber(x.LineNumber);
                 return GetSpanForLine(line);
             });
 

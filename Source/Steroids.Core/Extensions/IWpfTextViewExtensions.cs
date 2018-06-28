@@ -28,7 +28,7 @@ namespace Steroids.Core.Extensions
         /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
         /// <param name="lineNumber">The line number.</param>
         /// <returns>The corresponding <see cref="ITextSnapshotLine"/> or null.</returns>
-        public static ITextSnapshotLine GetSpanForLineNumber(this IWpfTextView textView, int lineNumber)
+        public static ITextSnapshotLine GetSnapshotForLineNumber(this IWpfTextView textView, int lineNumber)
         {
             if (textView.TextSnapshot.LineCount <= lineNumber)
             {

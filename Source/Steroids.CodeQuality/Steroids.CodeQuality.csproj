@@ -234,6 +234,9 @@
     </Compile>
     <Compile Include="Services\ErrorListDiagnosticProvider.cs" />
     <Compile Include="Services\TableManagerDiagnosticsProvider.cs" />
+    <Compile Include="UI\DiagnosticInfoLinePanel.cs" />
+    <Compile Include="UI\DiagnosticInfoPlacementCalculator.cs" />
+    <Compile Include="UI\DiagnosticInfoLine.cs" />
     <Compile Include="ViewModels\CodeQualityHintsViewModel.cs" />
     <Compile Include="Views\FloatingDiagnosticHintsView.xaml.cs">
       <DependentUpon>FloatingDiagnosticHintsView.xaml</DependentUpon>

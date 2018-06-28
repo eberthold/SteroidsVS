@@ -20,7 +20,7 @@ namespace Steroids.Core.Test.Extensions
             A.CallTo(() => sut.TextSnapshot.LineCount).Returns(15);
 
             // Act
-            var result = sut.GetSpanForLineNumber(20);
+            var result = sut.GetSnapshotForLineNumber(20);
 
             // Assert
             Assert.IsNull(result);
@@ -36,7 +36,7 @@ namespace Steroids.Core.Test.Extensions
             A.CallTo(() => sut.TextSnapshot.GetLineFromLineNumber(20)).Returns(expected);
 
             // Act
-            var result = sut.GetSpanForLineNumber(20);
+            var result = sut.GetSnapshotForLineNumber(20);
 
             // Assert
             Assert.AreSame(expected, result);
