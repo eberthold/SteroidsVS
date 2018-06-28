@@ -85,7 +85,7 @@ namespace Steroids.CodeQuality.Services
                 Message = fullText,
                 ErrorCode = errorCode,
                 HelpUriRaw = helpLink,
-                Line = line,
+                LineNumber = line,
                 Column = column,
                 IsActive = suppressionState == NotSuppressed
             };

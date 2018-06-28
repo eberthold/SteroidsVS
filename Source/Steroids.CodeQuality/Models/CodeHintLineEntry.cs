@@ -43,7 +43,7 @@ namespace Steroids.CodeQuality.Models
 
             _trackingSpan = _textView.TextSnapshot.CreateTrackingSpan(line, SpanTrackingMode.EdgeExclusive);
 
-            var highestDiagnostic = lineInfos.OrderByDescending(x => x.Severity).ThenBy(x => x.Line).ThenBy(x => x.Column).First();
+            var highestDiagnostic = lineInfos.OrderByDescending(x => x.Severity).ThenBy(x => x.LineNumber).ThenBy(x => x.Column).First();
             Code = highestDiagnostic.ErrorCode;
             Message = highestDiagnostic.Message;
             Severity = highestDiagnostic.Severity;

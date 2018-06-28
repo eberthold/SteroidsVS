@@ -105,7 +105,7 @@ namespace Steroids.CodeQuality.Tests
                     {
                         Path = FilePath,
                         IsActive = true,
-                        Line = 9000
+                        LineNumber = 9000
                     }
                 }.AsReadOnly()));
         }

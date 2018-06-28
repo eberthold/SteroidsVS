@@ -36,7 +36,12 @@ namespace Steroids.Contracts
         /// <summary>
         /// The line on which this diagnostic is found.
         /// </summary>
-        public int Line { get; set; }
+        public int LineNumber { get; set; }
+
+        /// <summary>
+        /// The computed line number which also respects regions.
+        /// </summary>
+        public int ComputedLineNumber { get; set; }
 
         /// <summary>
         /// The column on which this diagnostic starts.
@@ -75,7 +80,7 @@ namespace Steroids.Contracts
         /// </remarks>
         public int CompareTo(DiagnosticInfo other)
         {
-            var line = Line - other.Line;
+            var line = LineNumber - other.LineNumber;
             if (line != 0)
             {
                 return line;
@@ -109,7 +114,7 @@ namespace Steroids.Contracts
         {
             var hash = 17;
             hash += 23 + Path.GetHashCode();
-            hash += 23 + Line.GetHashCode();
+            hash += 23 + LineNumber.GetHashCode();
             hash += 23 + Severity.GetHashCode();
             hash += 23 + Column.GetHashCode();
             hash += 23 + ErrorCode.GetHashCode();
