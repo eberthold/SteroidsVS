@@ -7,10 +7,15 @@
     xmlns:converters="clr-namespace:Steroids.SharedUI.Converters"
     mc:Ignorable="d">
 
-    <SolidColorBrush x:Key="DiagnosticsNoneBrush" Color="#33BB33" />
-    <SolidColorBrush x:Key="DiagnosticsInfoBrush" Color="#1AA1E2" />
-    <SolidColorBrush x:Key="DiagnosticsWarningBrush" Color="#FFCC00" />
-    <SolidColorBrush x:Key="DiagnosticsErrorBrush" Color="#E41300" />
+    <Color x:Key="DiagnosticsNoneColor">#33BB33</Color>
+    <Color x:Key="DiagnosticsInfoColor">#1AA1E2</Color>
+    <Color x:Key="DiagnosticsWarningColor">#FFCC00</Color>
+    <Color x:Key="DiagnosticsErrorColor">#E41300</Color>
+    
+    <SolidColorBrush x:Key="DiagnosticsNoneBrush" Color="{StaticResource DiagnosticsNoneColor}" />
+    <SolidColorBrush x:Key="DiagnosticsInfoBrush" Color="{StaticResource DiagnosticsInfoColor}" />
+    <SolidColorBrush x:Key="DiagnosticsWarningBrush" Color="{StaticResource DiagnosticsWarningColor}" />
+    <SolidColorBrush x:Key="DiagnosticsErrorBrush" Color="{StaticResource DiagnosticsErrorColor}" />
 
     <!-- Converters -->
     <converters:DiagnosticLevelToBrushConverter x:Key="DiagnosticLevelToBrushConverter" None="{StaticResource DiagnosticsNoneBrush}" Warning="{StaticResource DiagnosticsWarningBrush}" Error="{StaticResource DiagnosticsErrorBrush}" />
