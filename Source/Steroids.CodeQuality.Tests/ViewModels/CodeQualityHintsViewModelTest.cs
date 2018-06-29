@@ -61,7 +61,7 @@ namespace Steroids.CodeQuality.Tests
                 }.AsReadOnly()));
 
             // Act
-            var result = sut.QualityHints;
+            var result = sut.DiagnosticInfoLines;
 
             // Assert
             Assert.AreEqual(1, result.Count());
