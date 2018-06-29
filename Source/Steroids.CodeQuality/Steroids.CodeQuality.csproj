@@ -234,6 +234,7 @@
     </Compile>
     <Compile Include="Services\ErrorListDiagnosticProvider.cs" />
     <Compile Include="Services\TableManagerDiagnosticsProvider.cs" />
+    <Compile Include="UI\DiagnosticInfoComputedLineComparer.cs" />
     <Compile Include="UI\DiagnosticInfoLinePanel.cs" />
     <Compile Include="UI\DiagnosticInfoPlacementCalculator.cs" />
     <Compile Include="UI\DiagnosticInfoLine.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
+using Microsoft.CodeAnalysis;
 using Steroids.Contracts;
 using Steroids.Core;
 
@@ -11,7 +12,11 @@ namespace Steroids.CodeQuality.UI
     /// </summary>
     public class DiagnosticInfoLine : BindableBase
     {
+        private readonly DiagnosticInfoComputedLineComparer _computedLineComparer = new DiagnosticInfoComputedLineComparer();
+
         private bool _isVisible;
+        private IReadOnlyCollection<DiagnosticInfo> _diagnosticInfos;
+        private DiagnosticInfo _visibleDiagnostic;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DiagnosticInfoLine"/> class.
@@ -21,7 +26,7 @@ namespace Steroids.CodeQuality.UI
         public DiagnosticInfoLine(int lineNumber, IReadOnlyCollection<DiagnosticInfo> diagnosticInfos)
         {
             LineNumber = lineNumber;
-            DiagnosticInfos = new ObservableCollection<DiagnosticInfo>(diagnosticInfos ?? throw new ArgumentNullException(nameof(diagnosticInfos)));
+            DiagnosticInfos = diagnosticInfos ?? throw new ArgumentNullException(nameof(diagnosticInfos));
         }
 
         /// <summary>
@@ -32,7 +37,28 @@ namespace Steroids.CodeQuality.UI
         /// <summary>
         /// All diagnostics belonging to this line.
         /// </summary>
-        public ObservableCollection<DiagnosticInfo> DiagnosticInfos { get; }
+        public IReadOnlyCollection<DiagnosticInfo> DiagnosticInfos
+        {
+            get => _diagnosticInfos;
+            internal set
+            {
+                if (!Set(ref _diagnosticInfos, value))
+                {
+                    return;
+                }
+
+                var highestdiagnostic = _diagnosticInfos.OrderBy(x => x, _computedLineComparer).First();
+                if (highestdiagnostic == _visibleDiagnostic)
+                {
+                    return;
+                }
+
+                _visibleDiagnostic = highestdiagnostic;
+                RaisePropertyChanged(nameof(Severity));
+                RaisePropertyChanged(nameof(ErrorCode));
+                RaisePropertyChanged(nameof(Message));
+            }
+        }
 
         /// <summary>
         /// Tells if the line is currently visible or not.
@@ -43,5 +69,20 @@ namespace Steroids.CodeQuality.UI
             get => _isVisible;
             set => Set(ref _isVisible, value);
         }
+
+        /// <summary>
+        /// The severity of the most important diagnostic.
+        /// </summary>
+        public DiagnosticSeverity Severity => _visibleDiagnostic?.Severity ?? DiagnosticSeverity.Hidden;
+
+        /// <summary>
+        /// The error code of the most important diagnostic.
+        /// </summary>
+        public string ErrorCode => _visibleDiagnostic.ErrorCode;
+
+        /// <summary>
+        /// The message of the most important diagnostic.
+        /// </summary>
+        public string Message => _visibleDiagnostic.Message;
     }
 }

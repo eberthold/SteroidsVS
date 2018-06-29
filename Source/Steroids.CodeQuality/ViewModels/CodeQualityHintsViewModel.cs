@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Outlining;
 using Steroids.CodeQuality.Models;
+using Steroids.CodeQuality.UI;
 using Steroids.Contracts;
+using Steroids.Contracts.UI;
 using Steroids.Core;
 using Steroids.Core.Diagnostics.Contracts;
 using Steroids.Core.Extensions;
@@ -16,9 +17,8 @@ namespace Steroids.CodeQuality.ViewModels
     public sealed class CodeQualityHintsViewModel : BindableBase, IDisposable
     {
         private readonly IDiagnosticProvider _diagnosticProvider;
-        private readonly IQualityTextView _textView;
+
         private readonly CodeHintFactory _codeHintFactory;
-        private readonly IOutliningManager _outliningManager;
 
         private IEnumerable<CodeHintLineEntry> _lineDiagnostics = Enumerable.Empty<CodeHintLineEntry>();
         private List<DiagnosticInfo> _lastDiagnostics = new List<DiagnosticInfo>();
@@ -31,23 +31,27 @@ namespace Steroids.CodeQuality.ViewModels
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         /// <param name="codeHintFactory">The <see cref="CodeHintFactory"/>.</param>
         /// <param name="outliningManagerService">THe <see cref="IOutliningManagerService"/> for the <paramref name="textView"/>.</param>
+        /// <param name="adornmentSpaceReservation">The <see cref="IAdornmentSpaceReservation"/>.</param>
         public CodeQualityHintsViewModel(
             IQualityTextView textView,
             IDiagnosticProvider diagnosticProvider,
             CodeHintFactory codeHintFactory,
-            IOutliningManagerService outliningManagerService)
+            IOutliningManagerService outliningManagerService,
+            IAdornmentSpaceReservation adornmentSpaceReservation)
         {
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
-            _textView = textView ?? throw new ArgumentNullException(nameof(textView));
             _codeHintFactory = codeHintFactory ?? throw new ArgumentNullException(nameof(codeHintFactory));
-            _outliningManager = outliningManagerService.GetOutliningManager(_textView.TextView);
+            TextView = textView ?? throw new ArgumentNullException(nameof(textView));
+            AdornmentSpaceReservation = adornmentSpaceReservation ?? throw new ArgumentNullException(nameof(adornmentSpaceReservation));
+            OutliningManager = outliningManagerService.GetOutliningManager(TextView.TextView);
 
             WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
-            WeakEventManager<ITextView, TextViewLayoutChangedEventArgs>.AddHandler(_textView.TextView, nameof(ITextView.LayoutChanged), OnTextViewLayoutChanged);
 
-            _outliningManager.RegionsExpanded += OnRegionsExpanded;
-            _outliningManager.RegionsCollapsed += OnRegionsCollapsed;
+            OutliningManager.RegionsExpanded += OnRegionsExpanded;
+            OutliningManager.RegionsCollapsed += OnRegionsCollapsed;
         }
+
+        public IOutliningManager OutliningManager { get; private set; }
 
         /// <summary>
         /// Gets all current relevant hints.
@@ -58,6 +62,16 @@ namespace Steroids.CodeQuality.ViewModels
             private set { Set(ref _lineDiagnostics, value); }
         }
 
+        /// <summary>
+        /// The list of current <see cref="DiagnosticInfoLine"/>.
+        /// </summary>
+        public ObservableCollection<DiagnosticInfoLine> DiagnosticInfoLines { get; }
+            = new ObservableCollection<DiagnosticInfoLine>();
+
+        public IAdornmentSpaceReservation AdornmentSpaceReservation { get; }
+
+        public IQualityTextView TextView { get; private set; }
+
         /// <inheritdoc />
         public void Dispose()
         {
@@ -66,8 +80,8 @@ namespace Steroids.CodeQuality.ViewModels
                 return;
             }
 
-            _outliningManager.RegionsExpanded -= OnRegionsExpanded;
-            _outliningManager.RegionsCollapsed -= OnRegionsCollapsed;
+            OutliningManager.RegionsExpanded -= OnRegionsExpanded;
+            OutliningManager.RegionsCollapsed -= OnRegionsCollapsed;
 
             _disposed = true;
         }
@@ -80,7 +94,7 @@ namespace Steroids.CodeQuality.ViewModels
         private void OnDiagnosticsChanged(object sender, DiagnosticsChangedEventArgs args)
         {
             // TODO: only recreate non existing hints and remove resolved hints.
-            var fileDiagnostics = _textView
+            var fileDiagnostics = TextView
                 .ExtractRelatedDiagnostics(args.Diagnostics)
                 .Where(x => x.IsActive)
                 .ToList();
@@ -89,64 +103,44 @@ namespace Steroids.CodeQuality.ViewModels
             UpdateDiagnostics(fileDiagnostics);
         }
 
-        private void UpdateDiagnostics(List<DiagnosticInfo> fileDiagnostics)
+        private void UpdateDiagnostics(IReadOnlyCollection<DiagnosticInfo> fileDiagnostics)
         {
-            var lineDiagnostics = fileDiagnostics.ToLookup(x =>
-            {
-                var line = _textView.TextView.GetSnapshotForLineNumber(x.LineNumber);
-                return GetSpanForLine(line);
-            });
+            var lineMap = fileDiagnostics
+                .Select(x => x.LineNumber)
+                .Distinct()
+                .ToDictionary(x => x, x => DiagnosticInfoPlacementCalculator.GetRealLineNumber(TextView.TextView, x, OutliningManager));
 
-            QualityHints = lineDiagnostics.Select(x => _codeHintFactory.Create(x, x.Key)).ToList();
-        }
-
-        private SnapshotSpan GetSpanForLine(ITextSnapshotLine line)
-        {
-            try
+            foreach (var diagnostic in fileDiagnostics)
             {
-                if (line == null)
+                if (!lineMap.ContainsKey(diagnostic.LineNumber))
                 {
-                    var firstPoint = new SnapshotPoint(_textView.TextView.TextSnapshot, 0);
-                    return _textView.TextView.GetTextElementSpan(firstPoint);
+                    diagnostic.ComputedLineNumber = diagnostic.LineNumber;
+                    continue;
                 }
 
-                var region = _outliningManager?.GetCollapsedRegions(line.Extent) ?? Enumerable.Empty<ICollapsible>();
-                if (!region.Any())
-                {
-                    return line.Extent;
-                }
-
-                // I assume that the longest collapsed region is the outermost
-                return region
-                    .Select(x => x.Extent.GetSpan(_textView.TextView.TextSnapshot))
-                    .ToDictionary(x => x.Length)
-                    .OrderByDescending(x => x.Key)
-                    .First()
-                    .Value;
+                diagnostic.ComputedLineNumber = lineMap[diagnostic.LineNumber];
             }
-            catch (ObjectDisposedException ex)
-            {
-                if (ex.ObjectName == "OutliningMnger")
-                {
-                    // TODO: when we have a logger service add logging
-                }
 
-                // I assume that this case seems to happen, if the TextView gets closed and we receive a
-                // DiagnosticChanged event right in the timeframe before we dispose the whole container graph.
-                return line.Extent;
+            // remove unused lines
+            foreach (var line in DiagnosticInfoLines.Where(x => !lineMap.Values.Contains(x.LineNumber)).ToList())
+            {
+                DiagnosticInfoLines.Remove(line);
             }
-        }
 
-        /// <summary>
-        /// Ensures correct positioning of all existing hints.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="TextViewLayoutChangedEventArgs"/>.</param>
-        private void OnTextViewLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
-        {
-            foreach (var hint in QualityHints.ToList())
+            // update existing lines or add new ones
+            foreach (var lineDiagnostics in fileDiagnostics.GroupBy(x => x.ComputedLineNumber))
             {
-                hint.RefreshPositions();
+                var line = DiagnosticInfoLines.FirstOrDefault(x => x.LineNumber == lineDiagnostics.Key)
+                    ?? new DiagnosticInfoLine(lineDiagnostics.Key, lineDiagnostics.ToList());
+
+                if (!DiagnosticInfoLines.Contains(line))
+                {
+                    DiagnosticInfoLines.Add(line);
+                }
+                else
+                {
+                    line.DiagnosticInfos = lineDiagnostics.ToList();
+                }
             }
         }
 

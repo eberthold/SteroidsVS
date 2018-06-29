@@ -7,9 +7,10 @@
     xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog" 
     xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0" 
     xmlns:models="clr-namespace:Steroids.CodeQuality.Models"
+    xmlns:ui="clr-namespace:Steroids.CodeQuality.UI"
     xmlns:controls="clr-namespace:Steroids.CodeQuality.Controls"
     mc:Ignorable="d" >
-    
+
     <DrawingBrush x:Key="InfoDrawingBrush" Stretch="Uniform">
         <DrawingBrush.Drawing>
             <DrawingGroup>
@@ -70,39 +71,34 @@
     <Style TargetType="{x:Type controls:FloatingDiagnosticHint}">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Padding" Value="0, 2" />
-        <Setter Property="Height" Value="20" />
         <Setter Property="Focusable" Value="False" />
+        <Setter Property="Padding" Value="0, 1" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:FloatingDiagnosticHint}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Margin="{TemplateBinding Padding}" VerticalAlignment="Stretch">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
-                            <Rectangle x:Name="PART_Indicator" Margin="{TemplateBinding Padding}" VerticalAlignment="Stretch" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" RenderTransformOrigin="0.5, 0.5" ToolTip="{TemplateBinding Message}">
-                                <Rectangle.RenderTransform>
-                                    <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
+                            <Rectangle x:Name="PART_Indicator" Margin="{TemplateBinding Padding}" VerticalAlignment="Stretch" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" ToolTip="{TemplateBinding Message}" />
 
-                            <Border Margin="4, 0" Grid.Column="2" HorizontalAlignment="Right" RenderTransformOrigin="1, 0.5" MaxWidth="450" Background="Transparent" ToolTip="{TemplateBinding Message}">
-                                <Border.RenderTransform>
-                                    <ScaleTransform ScaleX="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" ScaleY="{Binding ScaleFactor, RelativeSource={RelativeSource TemplatedParent}}" />
-                                </Border.RenderTransform>
-
-                                <TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="14">
-                                    <TextBlock.Foreground>
-                                        <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" />
-                                    </TextBlock.Foreground>
+                            <Viewbox Margin="4, 0" Grid.Column="2" Stretch="Uniform" Height="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                                <Border Background="Transparent" ToolTip="{TemplateBinding Message}" MaxWidth="450">
+                                    <TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Stretch">
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" />
+                                        </TextBlock.Foreground>
                                     
-                                    <Run x:Name="PART_Message" Text="{TemplateBinding Code}" FontWeight="Bold" /><Run Text=":" />
+                                    <Run x:Name="PART_Message" Text="{TemplateBinding Code}" FontWeight="SemiBold" /><Run Text=":" />
                                     <Run Text="{TemplateBinding Message}" />
-                                </TextBlock>
-                            </Border>
+                                    </TextBlock>
+                                </Border>
+                            </Viewbox>
                         </Grid>
                     </Border>
 
@@ -127,8 +123,12 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <DataTemplate DataType="{x:Type models:CodeHintLineEntry}">
         <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Opacity="{Binding Opacity}" Code="{Binding Code}" Message="{Binding Message}" ScaleFactor="{Binding ScaleFactor}" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ui:DiagnosticInfoLine}">
+        <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Code="{Binding ErrorCode}" Message="{Binding Message}" />
     </DataTemplate>
 </ResourceDictionary>

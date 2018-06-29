@@ -33,10 +33,18 @@ namespace Steroids.CodeQuality.UI
             "TextView",
             typeof(IWpfTextView),
             typeof(DiagnosticInfoLinePanel),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, OnTextViewChanged));
 
         private readonly List<ContentControl> _containerPool = new List<ContentControl>();
         private readonly Dictionary<DiagnosticInfoLine, Rect> _placementMap = new Dictionary<DiagnosticInfoLine, Rect>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DiagnosticInfoLinePanel"/> class.
+        /// </summary>
+        public DiagnosticInfoLinePanel()
+        {
+            Unloaded += OnUnloaded;
+        }
 
         /// <summary>
         /// The space reservation needed for placement calculations.
@@ -68,6 +76,12 @@ namespace Steroids.CodeQuality.UI
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
+            if (Items == null)
+            {
+                _placementMap.Clear();
+                return availableSize;
+            }
+
             foreach (var item in Items.ToList())
             {
                 var placement = DiagnosticInfoPlacementCalculator.CalculatePlacementRect(TextView, item, AdornmentSpaceReservation);
@@ -81,6 +95,11 @@ namespace Steroids.CodeQuality.UI
                 }
             }
 
+            foreach (var placement in _placementMap.Keys.Where(x => !Items.Contains(x)).ToList())
+            {
+                _placementMap.Remove(placement);
+            }
+
             return availableSize;
         }
 
@@ -88,8 +107,8 @@ namespace Steroids.CodeQuality.UI
         protected override Size ArrangeOverride(Size finalSize)
         {
             // make unused items available again in pool
-            var childs = Children.Cast<ContentControl>();
-            foreach (var child in childs.Where(x => _placementMap[x.Content as DiagnosticInfoLine] == Rect.Empty))
+            var childs = Children.Cast<ContentControl>().ToList();
+            foreach (var child in childs.Where(x => !IsChildPositionable(x)).ToList())
             {
                 Children.Remove(child);
                 child.Content = null;
@@ -112,6 +131,7 @@ namespace Steroids.CodeQuality.UI
                     Children.Add(container);
                 }
 
+                container.Content = item.Key;
                 container.Arrange(item.Value);
             }
 
@@ -143,12 +163,86 @@ namespace Steroids.CodeQuality.UI
         }
 
         /// <summary>
+        /// Handles changes of the <see cref="TextView"/> property.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="DependencyPropertyChangedEventArgs"/>.</param>
+        private static void OnTextViewChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var panel = sender as DiagnosticInfoLinePanel;
+            if (panel == null)
+            {
+                return;
+            }
+
+            if (args.OldValue is IWpfTextView oldTextview)
+            {
+                oldTextview.LayoutChanged -= panel.OnTextViewLayoutChanged;
+            }
+
+            if (args.NewValue is IWpfTextView newTextView)
+            {
+                newTextView.LayoutChanged += panel.OnTextViewLayoutChanged;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the child has the correct content and is positionable.
+        /// </summary>
+        /// <param name="child">The <see cref="ContentControl"/>.</param>
+        /// <returns><see langword="true"/> if the child is positionable, otherwise <see langword="false"/>.</returns>
+        private bool IsChildPositionable(ContentControl child)
+        {
+            var diagnosticInfoLine = child.Content as DiagnosticInfoLine;
+            if (diagnosticInfoLine == null)
+            {
+                return false;
+            }
+
+            if (!_placementMap.ContainsKey(diagnosticInfoLine))
+            {
+                return false;
+            }
+
+            return _placementMap[diagnosticInfoLine] != Rect.Empty;
+        }
+
+        /// <summary>
+        /// Handles unloading of this instance.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/>.</param>
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            if (TextView != null)
+            {
+                TextView.LayoutChanged -= OnTextViewLayoutChanged;
+            }
+
+            if (Items != null)
+            {
+                Items.CollectionChanged -= OnItemsCollectionChanged;
+            }
+        }
+
+        /// <summary>
         /// Triggered when the <see cref="Items"/> collection changed.
         /// Triggers a new layout of the panel.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            InvalidateMeasure();
+        }
+
+        /// <summary>
+        /// Invalidates measure if the layout of the <see cref="TextView"/> changed.
+        /// This is triggered if the user scrolls or type.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="TextViewLayoutChangedEventArgs"/>.</param>
+        private void OnTextViewLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
             InvalidateMeasure();
         }
