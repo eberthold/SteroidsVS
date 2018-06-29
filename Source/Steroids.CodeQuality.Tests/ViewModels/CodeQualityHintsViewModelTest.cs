@@ -25,6 +25,7 @@ namespace Steroids.CodeQuality.Tests
         private readonly IAdornmentSpaceReservation _spaceReservationManager = A.Fake<IAdornmentSpaceReservation>();
         private readonly IOutliningManagerService _outliningManagerService = A.Fake<IOutliningManagerService>();
         private readonly IOutliningManager _outliningManager = A.Fake<IOutliningManager>();
+        private readonly IAdornmentSpaceReservation _adornmentSpaceReservation = A.Fake<IAdornmentSpaceReservation>();
 
         private CodeHintFactory _codeHintFactory;
 
@@ -129,7 +130,8 @@ namespace Steroids.CodeQuality.Tests
                 _textView,
                 _diagnosticsProvider,
                 _codeHintFactory,
-                _outliningManagerService);
+                _outliningManagerService,
+                _adornmentSpaceReservation);
         }
     }
 }
