@@ -51,10 +51,10 @@ namespace Steroids.CodeQuality.UI
 
             var reservedWidth = adornmentSpaceReservation?.ActualWidth ?? 0.0;
 
-            var height = textViewLine.TextHeight;
+            var height = textViewLine.TextBottom - textViewLine.TextTop;
             var left = Math.Min(textViewLine.TextRight + 10, textView.ViewportRight - height - reservedWidth) - textView.ViewportLeft;
             var width = Math.Max(textView.ViewportWidth - left - reservedWidth, height);
-            var top = textViewLine.TextTop - textView.ViewportTop + ((textViewLine.Baseline - height) / 2);
+            var top = textViewLine.Top - textView.ViewportTop + ((textViewLine.Bottom - textViewLine.Top - height) / 2);
 
             return new Rect(left, top, width, height);
         }

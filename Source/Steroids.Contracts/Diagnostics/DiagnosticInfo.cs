@@ -80,6 +80,11 @@ namespace Steroids.Contracts
         /// </remarks>
         public int CompareTo(DiagnosticInfo other)
         {
+            if (ReferenceEquals(other, null))
+            {
+                return -1;
+            }
+
             var line = LineNumber - other.LineNumber;
             if (line != 0)
             {

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Steroids.CodeQuality.ViewModels"
+             xmlns:controls="clr-namespace:Steroids.CodeQuality.UI"
              mc:Ignorable="d" 
              BorderThickness="0"
              UseLayoutRounding="True" 
@@ -11,18 +12,5 @@
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=viewModels:CodeQualityHintsViewModel, IsDesignTimeCreatable=False}">
 
-    <ItemsControl ItemsSource="{Binding QualityHints}" BorderThickness="0">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <Canvas />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemContainerStyle>
-            <Style TargetType="{x:Type ContentPresenter}" BasedOn="{StaticResource {x:Type ContentPresenter}}">
-                <Setter Property="Canvas.Left" Value="{Binding Left, Mode=OneWay}" />
-                <Setter Property="Canvas.Top" Value="{Binding Top, Mode=OneWay}" />
-                <Setter Property="Width" Value="{Binding Width, Mode=OneWay}" />
-            </Style>
-        </ItemsControl.ItemContainerStyle>
-    </ItemsControl>
+    <controls:DiagnosticInfoLinePanel Items="{Binding DiagnosticInfoLines}" TextView="{Binding TextView.TextView}" AdornmentSpaceReservation="{Binding AdornmentSpaceReservation}"/>
 </UserControl>
