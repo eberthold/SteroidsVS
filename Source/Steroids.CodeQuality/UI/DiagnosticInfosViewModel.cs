@@ -4,32 +4,29 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Outlining;
-using Steroids.CodeQuality.Models;
-using Steroids.CodeQuality.UI;
 using Steroids.Contracts;
 using Steroids.Contracts.UI;
 using Steroids.Core;
 using Steroids.Core.Diagnostics.Contracts;
 using Steroids.Core.Extensions;
 
-namespace Steroids.CodeQuality.ViewModels
+namespace Steroids.CodeQuality.UI
 {
-    public sealed class CodeQualityHintsViewModel : BindableBase, IDisposable
+    public sealed class DiagnosticInfosViewModel : BindableBase, IDisposable
     {
         private readonly IDiagnosticProvider _diagnosticProvider;
 
-        private IEnumerable<CodeHintLineEntry> _lineDiagnostics = Enumerable.Empty<CodeHintLineEntry>();
         private List<DiagnosticInfo> _lastDiagnostics = new List<DiagnosticInfo>();
         private bool _disposed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CodeQualityHintsViewModel"/> class.
+        /// Initializes a new instance of the <see cref="DiagnosticInfosViewModel"/> class.
         /// </summary>
         /// <param name="textView">The <see cref="IQualityTextView"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         /// <param name="outliningManagerService">THe <see cref="IOutliningManagerService"/> for the <paramref name="textView"/>.</param>
         /// <param name="adornmentSpaceReservation">The <see cref="IAdornmentSpaceReservation"/>.</param>
-        public CodeQualityHintsViewModel(
+        public DiagnosticInfosViewModel(
             IQualityTextView textView,
             IDiagnosticProvider diagnosticProvider,
             IOutliningManagerService outliningManagerService,
@@ -47,15 +44,6 @@ namespace Steroids.CodeQuality.ViewModels
         }
 
         public IOutliningManager OutliningManager { get; private set; }
-
-        /// <summary>
-        /// Gets all current relevant hints.
-        /// </summary>
-        public IEnumerable<CodeHintLineEntry> QualityHints
-        {
-            get { return _lineDiagnostics; }
-            private set { Set(ref _lineDiagnostics, value); }
-        }
 
         /// <summary>
         /// The list of current <see cref="DiagnosticInfoLine"/>.

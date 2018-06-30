@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Outlining;
-using Steroids.CodeQuality.ViewModels;
+using Steroids.CodeQuality.UI;
 using Steroids.Contracts;
 using Steroids.Contracts.UI;
 using Steroids.Core.Diagnostics.Contracts;
@@ -14,7 +14,7 @@ using Steroids.Core.Diagnostics.Contracts;
 namespace Steroids.CodeQuality.Tests
 {
     [TestClass]
-    public class CodeQualityHintsViewModelTest
+    public class DiagnosticInfosViewModelTest
     {
         private const string FilePath = @"c:\file.cs";
 
@@ -32,7 +32,7 @@ namespace Steroids.CodeQuality.Tests
             var sut = CreateSut();
 
             // Act
-            var result = sut.QualityHints;
+            var result = sut.DiagnosticInfoLines;
 
             // Assert
             Assert.IsFalse(result.Any());
@@ -116,12 +116,12 @@ namespace Steroids.CodeQuality.Tests
             A.CallTo(_outliningManager).WithReturnType<IEnumerable<ICollapsible>>().Returns(Enumerable.Empty<ICollapsible>());
         }
 
-        private CodeQualityHintsViewModel CreateSut()
+        private DiagnosticInfosViewModel CreateSut()
         {
             A.CallTo(() => _outliningManagerService.GetOutliningManager(_wpfTextView)).Returns(_outliningManager);
             A.CallTo(() => _textView.TextView).Returns(_wpfTextView);
 
-            return new CodeQualityHintsViewModel(
+            return new DiagnosticInfosViewModel(
                 _textView,
                 _diagnosticsProvider,
                 _outliningManagerService,

@@ -199,7 +199,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewModels\CodeQualityHintsViewModelTest.cs" />
+    <Compile Include="ViewModels\DiagnosticInfosViewModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

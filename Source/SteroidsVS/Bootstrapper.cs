@@ -1,5 +1,5 @@
 ﻿using System;
-using Steroids.CodeQuality.Services;
+using Steroids.CodeQuality.Diagnostic;
 using Steroids.Contracts;
 using Steroids.Contracts.Core;
 using SteroidsVS.CodeAdornments;

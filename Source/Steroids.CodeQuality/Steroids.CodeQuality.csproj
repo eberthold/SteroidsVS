@@ -223,24 +223,22 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adorners\FloatingDiagnosticHintsAdorner.cs" />
-    <Compile Include="Controls\FloatingDiagnosticHint.cs" />
-    <Compile Include="Extensions\ITableEntryExtensions.cs" />
-    <Compile Include="Models\CodeHintFactory.cs" />
-    <Compile Include="Models\CodeHintLineEntry.cs" />
+    <Compile Include="DiagnosticInfoAdorner.cs" />
+    <Compile Include="UI\DiagnosticInfoControl.cs" />
+    <Compile Include="Diagnostic\ITableEntryExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ModuleResourceDictionary.xaml.cs">
       <DependentUpon>ModuleResourceDictionary.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\ErrorListDiagnosticProvider.cs" />
-    <Compile Include="Services\TableManagerDiagnosticsProvider.cs" />
+    <Compile Include="Diagnostic\ErrorListDiagnosticProvider.cs" />
+    <Compile Include="Diagnostic\TableManagerDiagnosticsProvider.cs" />
     <Compile Include="UI\DiagnosticInfoComputedLineComparer.cs" />
     <Compile Include="UI\DiagnosticInfoLinePanel.cs" />
     <Compile Include="UI\DiagnosticInfoPlacementCalculator.cs" />
     <Compile Include="UI\DiagnosticInfoLine.cs" />
-    <Compile Include="ViewModels\CodeQualityHintsViewModel.cs" />
-    <Compile Include="Views\FloatingDiagnosticHintsView.xaml.cs">
-      <DependentUpon>FloatingDiagnosticHintsView.xaml</DependentUpon>
+    <Compile Include="UI\DiagnosticInfosViewModel.cs" />
+    <Compile Include="UI\DiagnosticInfosView.xaml.cs">
+      <DependentUpon>DiagnosticInfosView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -269,7 +267,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FloatingDiagnosticHintsView.xaml">
+    <Page Include="UI\DiagnosticInfosView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -284,9 +282,7 @@
       <Name>Steroids.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.VisualStudio.SDK.EmbedInteropTypes.15.0.12\build\Microsoft.VisualStudio.SDK.EmbedInteropTypes.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.SDK.EmbedInteropTypes.15.0.12\build\Microsoft.VisualStudio.SDK.EmbedInteropTypes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

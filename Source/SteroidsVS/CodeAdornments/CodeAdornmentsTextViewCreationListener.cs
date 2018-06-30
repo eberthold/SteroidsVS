@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
-using Steroids.CodeQuality.Adorners;
+using Steroids.CodeQuality;
 using Steroids.CodeStructure.Adorners;
 
 namespace SteroidsVS.CodeAdornments
@@ -49,7 +49,7 @@ namespace SteroidsVS.CodeAdornments
                     _cleanupMap.Add(textView, bootstrapper);
 
                     var codeStructure = bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
-                    var diagnosticHints = bootstrapper.GetService(typeof(FloatingDiagnosticHintsAdorner)) as FloatingDiagnosticHintsAdorner;
+                    var diagnosticHints = bootstrapper.GetService(typeof(DiagnosticInfoAdorner)) as DiagnosticInfoAdorner;
 
                     WeakEventManager<ITextView, EventArgs>.AddHandler(textView, nameof(ITextView.Closed), OnClosed);
                 },
