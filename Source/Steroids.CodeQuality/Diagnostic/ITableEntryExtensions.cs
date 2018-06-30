@@ -39,23 +39,9 @@ namespace Steroids.CodeQuality.Diagnostic
                 fullText = text;
             }
 
-            var severity = DiagnosticSeverity.Hidden;
-            switch (errorCategory)
-            {
-                case __VSERRORCATEGORY.EC_ERROR:
-                    severity = DiagnosticSeverity.Error;
-                    break;
-                case __VSERRORCATEGORY.EC_WARNING:
-                    severity = DiagnosticSeverity.Warning;
-                    break;
-                case __VSERRORCATEGORY.EC_MESSAGE:
-                    severity = DiagnosticSeverity.Info;
-                    break;
-            }
-
             return new DiagnosticInfo
             {
-                Severity = severity,
+                Severity = MapErrorCategoryToSeverity(errorCategory),
                 Path = path,
                 Message = fullText,
                 ErrorCode = errorCode,
@@ -64,6 +50,57 @@ namespace Steroids.CodeQuality.Diagnostic
                 Column = column,
                 IsActive = suppressionState == NotSuppressed
             };
+        }
+
+        /// <summary>
+        /// Calculates the hash code of the <see cref="ITableEntry"/> as if it was already mapped to a diagnostic info instance.
+        /// </summary>
+        /// <param name="entry">The <see cref="ITableEntry"/>.</param>
+        /// <returns>The calculated hash code.</returns>
+        public static int DiagnosticInfoHashCode(this ITableEntry entry)
+        {
+            if (!entry.TryGetValue(StandardTableKeyNames.ErrorSeverity, out __VSERRORCATEGORY errorCategory))
+            {
+                errorCategory = __VSERRORCATEGORY.EC_MESSAGE;
+            }
+
+            entry.TryGetValue(StandardTableKeyNames.DocumentName, out string path);
+            entry.TryGetValue(StandardTableKeyNames.Text, out string text);
+            entry.TryGetValue(StandardTableKeyNames.FullText, out string fullText);
+            entry.TryGetValue(StandardTableKeyNames.ErrorCode, out string errorCode);
+            entry.TryGetValue(StandardTableKeyNames.HelpLink, out string helpLink);
+            entry.TryGetValue(StandardTableKeyNames.Line, out int line);
+            entry.TryGetValue(StandardTableKeyNames.Column, out int column);
+            entry.TryGetValue(SuppressionState, out string suppressionState);
+
+            if (string.IsNullOrWhiteSpace(fullText))
+            {
+                fullText = text;
+            }
+
+            return DiagnosticInfo.GetHashCode(path, line, (int)MapErrorCategoryToSeverity(errorCategory), column, errorCode, fullText);
+        }
+
+        /// <summary>
+        /// Maps the <see cref="__VSERRORCATEGORY"/> to <see cref="DiagnosticSeverity"/>.
+        /// </summary>
+        /// <param name="errorCategory">The <see cref="__VSERRORCATEGORY"/>.</param>
+        /// <returns>The matching <see cref="DiagnosticSeverity"/>. </returns>
+        private static DiagnosticSeverity MapErrorCategoryToSeverity(__VSERRORCATEGORY errorCategory)
+        {
+            switch (errorCategory)
+            {
+                case __VSERRORCATEGORY.EC_ERROR:
+                    return DiagnosticSeverity.Error;
+
+                case __VSERRORCATEGORY.EC_WARNING:
+                    return DiagnosticSeverity.Warning;
+
+                case __VSERRORCATEGORY.EC_MESSAGE:
+                    return DiagnosticSeverity.Info;
+            }
+
+            return DiagnosticSeverity.Hidden;
         }
     }
 }

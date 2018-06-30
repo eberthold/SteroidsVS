@@ -41,6 +41,8 @@ namespace Steroids.CodeQuality.UI
 
             OutliningManager.RegionsExpanded += OnRegionsExpanded;
             OutliningManager.RegionsCollapsed += OnRegionsCollapsed;
+
+            OnDiagnosticsChanged(this, new DiagnosticsChangedEventArgs(_diagnosticProvider.CurrentDiagnostics));
         }
 
         public IOutliningManager OutliningManager { get; private set; }
