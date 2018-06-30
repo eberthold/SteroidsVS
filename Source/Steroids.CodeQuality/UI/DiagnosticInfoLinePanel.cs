@@ -38,11 +38,14 @@ namespace Steroids.CodeQuality.UI
         private readonly List<ContentControl> _containerPool = new List<ContentControl>();
         private readonly Dictionary<DiagnosticInfoLine, Rect> _placementMap = new Dictionary<DiagnosticInfoLine, Rect>();
 
+        private bool _unloaded = false;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DiagnosticInfoLinePanel"/> class.
         /// </summary>
         public DiagnosticInfoLinePanel()
         {
+            Loaded += OnLoaded;
             Unloaded += OnUnloaded;
         }
 
@@ -208,6 +211,29 @@ namespace Steroids.CodeQuality.UI
         }
 
         /// <summary>
+        /// Handles (re)loading of the control.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/>.</param>
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (!_unloaded)
+            {
+                return;
+            }
+
+            if (TextView != null)
+            {
+                TextView.LayoutChanged += OnTextViewLayoutChanged;
+            }
+
+            if (Items != null)
+            {
+                Items.CollectionChanged += OnItemsCollectionChanged;
+            }
+        }
+
+        /// <summary>
         /// Handles unloading of this instance.
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -223,6 +249,8 @@ namespace Steroids.CodeQuality.UI
             {
                 Items.CollectionChanged -= OnItemsCollectionChanged;
             }
+
+            _unloaded = true;
         }
 
         /// <summary>
