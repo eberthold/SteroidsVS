@@ -18,8 +18,6 @@ namespace Steroids.CodeQuality.ViewModels
     {
         private readonly IDiagnosticProvider _diagnosticProvider;
 
-        private readonly CodeHintFactory _codeHintFactory;
-
         private IEnumerable<CodeHintLineEntry> _lineDiagnostics = Enumerable.Empty<CodeHintLineEntry>();
         private List<DiagnosticInfo> _lastDiagnostics = new List<DiagnosticInfo>();
         private bool _disposed;
@@ -29,18 +27,15 @@ namespace Steroids.CodeQuality.ViewModels
         /// </summary>
         /// <param name="textView">The <see cref="IQualityTextView"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
-        /// <param name="codeHintFactory">The <see cref="CodeHintFactory"/>.</param>
         /// <param name="outliningManagerService">THe <see cref="IOutliningManagerService"/> for the <paramref name="textView"/>.</param>
         /// <param name="adornmentSpaceReservation">The <see cref="IAdornmentSpaceReservation"/>.</param>
         public CodeQualityHintsViewModel(
             IQualityTextView textView,
             IDiagnosticProvider diagnosticProvider,
-            CodeHintFactory codeHintFactory,
             IOutliningManagerService outliningManagerService,
             IAdornmentSpaceReservation adornmentSpaceReservation)
         {
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
-            _codeHintFactory = codeHintFactory ?? throw new ArgumentNullException(nameof(codeHintFactory));
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
             AdornmentSpaceReservation = adornmentSpaceReservation ?? throw new ArgumentNullException(nameof(adornmentSpaceReservation));
             OutliningManager = outliningManagerService.GetOutliningManager(TextView.TextView);
@@ -68,8 +63,14 @@ namespace Steroids.CodeQuality.ViewModels
         public ObservableCollection<DiagnosticInfoLine> DiagnosticInfoLines { get; }
             = new ObservableCollection<DiagnosticInfoLine>();
 
+        /// <summary>
+        /// The adornment space reservation to avoid overlapping adornments.
+        /// </summary>
         public IAdornmentSpaceReservation AdornmentSpaceReservation { get; }
 
+        /// <summary>
+        /// The text view for which the diagnostics are evaluated.
+        /// </summary>
         public IQualityTextView TextView { get; private set; }
 
         /// <inheritdoc />
@@ -131,7 +132,7 @@ namespace Steroids.CodeQuality.ViewModels
             foreach (var lineDiagnostics in fileDiagnostics.GroupBy(x => x.ComputedLineNumber))
             {
                 var line = DiagnosticInfoLines.FirstOrDefault(x => x.LineNumber == lineDiagnostics.Key)
-                    ?? new DiagnosticInfoLine(lineDiagnostics.Key, lineDiagnostics.ToList());
+                    ?? new DiagnosticInfoLine(lineDiagnostics.Key, lineDiagnostics.OrderBy(x => x).ToList());
 
                 if (!DiagnosticInfoLines.Contains(line))
                 {
@@ -139,7 +140,7 @@ namespace Steroids.CodeQuality.ViewModels
                 }
                 else
                 {
-                    line.DiagnosticInfos = lineDiagnostics.ToList();
+                    line.DiagnosticInfos = lineDiagnostics.OrderBy(x => x).ToList();
                 }
             }
         }

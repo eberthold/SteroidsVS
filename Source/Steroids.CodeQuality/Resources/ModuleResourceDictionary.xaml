@@ -149,55 +149,48 @@
         <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Opacity="{Binding Opacity}" Code="{Binding Code}" Message="{Binding Message}" ScaleFactor="{Binding ScaleFactor}" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ui:DiagnosticInfoLine}">
-        <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Code="{Binding ErrorCode}" Message="{Binding Message}">
-            <controls:FloatingDiagnosticHint.ToolTip>
-                <ToolTip Placement="Bottom" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBorderBrushKey}}" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBrushKey}}">
-                    <ItemsControl ItemsSource="{Binding DiagnosticInfos}">
-                        <ItemsControl.ItemContainerStyle>
-                            <Style TargetType="{x:Type ContentPresenter}">
-                                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                            </Style>
-                        </ItemsControl.ItemContainerStyle>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type contracts:DiagnosticInfo}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="16" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
+    <DataTemplate x:Key="DiagnosticInfoToolTipTemplate" DataType="{x:Type contracts:DiagnosticInfo}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-                                    <Rectangle x:Name="PART_Indicator" Margin="4, 4, 0, 4" />
+            <Rectangle x:Name="PART_Indicator" Margin="4, 4, 0, 4" />
 
-                                    <TextBlock Margin="4" Grid.Column="1" TextTrimming="CharacterEllipsis" VerticalAlignment="Stretch">
-                                        <TextBlock.Foreground>
-                                            <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipTextColorKey}}"/>
-                                        </TextBlock.Foreground>
+            <TextBlock Margin="4" Grid.Column="1" TextTrimming="CharacterEllipsis" VerticalAlignment="Stretch">
+                <TextBlock.Foreground>
+                    <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipTextColorKey}}"/>
+                </TextBlock.Foreground>
                                     
                                         <Run x:Name="PART_Message" Text="{Binding ErrorCode}" FontWeight="SemiBold" /><Run Text=":" />
                                         <Run Text="{Binding Message}" />
-                                    </TextBlock>
-                                </Grid>
+            </TextBlock>
+        </Grid>
 
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding Severity}" Value="1">
-                                        <Setter TargetName="PART_Indicator" Property="Fill" Value="{StaticResource InfoDrawingBrush}" />
-                                        <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource ThemeInfoBrush}" />
-                                    </DataTrigger>
-                                    <!-- Warning -->
-                                    <DataTrigger Binding="{Binding Severity}" Value="2">
-                                        <Setter TargetName="PART_Indicator" Property="Fill" Value="{StaticResource WarningDrawingBrush}" />
-                                        <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource ThemeWarningBrush}" />
-                                    </DataTrigger>
-                                    <!-- Error -->
-                                    <DataTrigger Binding="{Binding Severity}" Value="3">
-                                        <Setter TargetName="PART_Indicator" Property="Fill" Value="{StaticResource ErrorDrawingBrush}" />
-                                        <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource ThemeErrorBrush}" />
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Severity}" Value="1">
+                <Setter TargetName="PART_Indicator" Property="Fill" Value="{StaticResource InfoDrawingBrush}" />
+                <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource ThemeInfoBrush}" />
+            </DataTrigger>
+            <!-- Warning -->
+            <DataTrigger Binding="{Binding Severity}" Value="2">
+                <Setter TargetName="PART_Indicator" Property="Fill" Value="{StaticResource WarningDrawingBrush}" />
+                <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource ThemeWarningBrush}" />
+            </DataTrigger>
+            <!-- Error -->
+            <DataTrigger Binding="{Binding Severity}" Value="3">
+                <Setter TargetName="PART_Indicator" Property="Fill" Value="{StaticResource ErrorDrawingBrush}" />
+                <Setter TargetName="PART_Message" Property="Foreground" Value="{StaticResource ThemeErrorBrush}" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ui:DiagnosticInfoLine}">
+        <controls:FloatingDiagnosticHint Severity="{Binding Severity}" Code="{Binding ErrorCode}" Message="{Binding Message}" Background="{x:Null}">
+            <controls:FloatingDiagnosticHint.ToolTip>
+                <ToolTip Placement="Bottom" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBorderBrushKey}}" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBrushKey}}">
+                    <ItemsControl ItemsSource="{Binding DiagnosticInfos}" ItemTemplate="{StaticResource DiagnosticInfoToolTipTemplate}"/>
                 </ToolTip>
             </controls:FloatingDiagnosticHint.ToolTip>
         </controls:FloatingDiagnosticHint>
