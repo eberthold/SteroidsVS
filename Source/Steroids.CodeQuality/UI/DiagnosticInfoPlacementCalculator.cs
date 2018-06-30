@@ -24,6 +24,11 @@ namespace Steroids.CodeQuality.UI
         public static Rect CalculatePlacementRect(IWpfTextView textView, DiagnosticInfoLine diagnosticInfoLine, IAdornmentSpaceReservation adornmentSpaceReservation)
         {
             var lineSnapshot = textView.GetSnapshotForLineNumber(diagnosticInfoLine.LineNumber);
+            if (lineSnapshot == null)
+            {
+                return Rect.Empty;
+            }
+
             var snapshotSpan = lineSnapshot.Extent;
             var endPoint = snapshotSpan.End;
 

@@ -54,10 +54,10 @@ namespace Steroids.Contracts
         public bool IsActive { get; set; }
 
         public static bool operator ==(DiagnosticInfo first, DiagnosticInfo second)
-            => first.CompareTo(second) == 0;
+            => first.Equals(second);
 
         public static bool operator !=(DiagnosticInfo first, DiagnosticInfo second)
-            => first.CompareTo(second) != 0;
+            => !first.Equals(second);
 
         public static bool operator <(DiagnosticInfo first, DiagnosticInfo second)
             => first.CompareTo(second) < 0;
@@ -71,6 +71,30 @@ namespace Steroids.Contracts
         public static bool operator >=(DiagnosticInfo first, DiagnosticInfo second)
             => first.CompareTo(second) >= 0;
 
+        /// <summary>
+        /// Calculates the hash code based on the given parameters.
+        /// Used to compare elements without creating an instance of this class.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="lineNumber">The line number.</param>
+        /// <param name="severity">The diagnostic severity.</param>
+        /// <param name="column">The column.</param>
+        /// <param name="errorCode">The error code.</param>
+        /// <param name="message">The message.</param>
+        /// <returns>The calculated hash code.</returns>
+        public static int GetHashCode(string path, int lineNumber, int severity, int column, string errorCode, string message)
+        {
+            var hash = 17;
+            hash += 23 + (path ?? string.Empty).GetHashCode();
+            hash += 23 + lineNumber.GetHashCode();
+            hash += 23 + severity.GetHashCode();
+            hash += 23 + column.GetHashCode();
+            hash += 23 + (errorCode ?? string.Empty).GetHashCode();
+            hash += 23 + (message ?? string.Empty).GetHashCode();
+
+            return hash;
+        }
+
         /// <inheritdoc />
         /// <remarks>
         /// Comparison is done in three separate stages.
@@ -80,7 +104,7 @@ namespace Steroids.Contracts
         /// </remarks>
         public int CompareTo(DiagnosticInfo other)
         {
-            if (ReferenceEquals(other, null))
+            if (other is null)
             {
                 return -1;
             }
@@ -111,20 +135,15 @@ namespace Steroids.Contracts
                 return false;
             }
 
-            return CompareTo(other) == 0;
+            return CompareTo(other) == 0
+                && ErrorCode == other.ErrorCode
+                && Message == other.Message;
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            var hash = 17;
-            hash += 23 + Path.GetHashCode();
-            hash += 23 + LineNumber.GetHashCode();
-            hash += 23 + Severity.GetHashCode();
-            hash += 23 + Column.GetHashCode();
-            hash += 23 + ErrorCode.GetHashCode();
-
-            return hash;
+            return GetHashCode(Path, LineNumber, (int)Severity, Column, ErrorCode, Message);
         }
     }
 }
