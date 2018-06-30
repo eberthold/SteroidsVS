@@ -21,7 +21,6 @@ namespace Steroids.CodeQuality.Tests
         private readonly IWpfTextView _wpfTextView = A.Fake<IWpfTextView>();
         private readonly IQualityTextView _textView = A.Fake<IQualityTextView>();
         private readonly IDiagnosticProvider _diagnosticsProvider = A.Fake<IDiagnosticProvider>();
-        private readonly IAdornmentSpaceReservation _spaceReservationManager = A.Fake<IAdornmentSpaceReservation>();
         private readonly IOutliningManagerService _outliningManagerService = A.Fake<IOutliningManagerService>();
         private readonly IOutliningManager _outliningManager = A.Fake<IOutliningManager>();
         private readonly IAdornmentSpaceReservation _adornmentSpaceReservation = A.Fake<IAdornmentSpaceReservation>();

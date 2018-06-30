@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Steroids.CodeQuality.UI
             "AdornmentSpaceReservation",
             typeof(IAdornmentSpaceReservation),
             typeof(DiagnosticInfoLinePanel),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, OnAdornmentSpaceReservationChanged));
 
         public static readonly DependencyProperty TextViewProperty = DependencyProperty.Register(
             "TextView",
@@ -120,9 +121,9 @@ namespace Steroids.CodeQuality.UI
             // arrange all items with valid placement info
             foreach (var item in _placementMap.Where(x => x.Value != Rect.Empty).ToList())
             {
-                var container = _containerPool.Find(x => x.Content == item.Key)
-                    ?? _containerPool.Find(x => x.Content == null)
-                    ?? new ContentControl();
+                var container = _containerPool.Find(x => x.Content == item.Key) // same item
+                    ?? _containerPool.Find(x => x.Content == null) // reused item
+                    ?? new ContentControl(); // new item
 
                 if (!_containerPool.Contains(container))
                 {
@@ -190,6 +191,30 @@ namespace Steroids.CodeQuality.UI
         }
 
         /// <summary>
+        /// Handles a changed binding of the <see cref="AdornmentSpaceReservation"/>.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="DependencyPropertyChangedEventArgs"/>.</param>
+        private static void OnAdornmentSpaceReservationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var panel = sender as DiagnosticInfoLinePanel;
+            if (panel == null)
+            {
+                return;
+            }
+
+            if (args.OldValue is IAdornmentSpaceReservation oldReservation)
+            {
+                oldReservation.ActualWidthChanged -= panel.OnAdornmentReservationActualWidthChanged;
+            }
+
+            if (args.NewValue is IAdornmentSpaceReservation newReservation)
+            {
+                newReservation.ActualWidthChanged += panel.OnAdornmentReservationActualWidthChanged;
+            }
+        }
+
+        /// <summary>
         /// Checks if the child has the correct content and is positionable.
         /// </summary>
         /// <param name="child">The <see cref="ContentControl"/>.</param>
@@ -231,6 +256,11 @@ namespace Steroids.CodeQuality.UI
             {
                 Items.CollectionChanged += OnItemsCollectionChanged;
             }
+
+            if (AdornmentSpaceReservation != null)
+            {
+                AdornmentSpaceReservation.ActualWidthChanged += OnAdornmentReservationActualWidthChanged;
+            }
         }
 
         /// <summary>
@@ -248,6 +278,11 @@ namespace Steroids.CodeQuality.UI
             if (Items != null)
             {
                 Items.CollectionChanged -= OnItemsCollectionChanged;
+            }
+
+            if (AdornmentSpaceReservation != null)
+            {
+                AdornmentSpaceReservation.ActualWidthChanged -= OnAdornmentReservationActualWidthChanged;
             }
 
             _unloaded = true;
@@ -271,6 +306,16 @@ namespace Steroids.CodeQuality.UI
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="TextViewLayoutChangedEventArgs"/>.</param>
         private void OnTextViewLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
+        {
+            InvalidateMeasure();
+        }
+
+        /// <summary>
+        /// Invalidates measure, if the space reservation has changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/>.</param>
+        private void OnAdornmentReservationActualWidthChanged(object sender, EventArgs e)
         {
             InvalidateMeasure();
         }
