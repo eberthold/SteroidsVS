@@ -6,7 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Outlining;
-using Steroids.CodeQuality.Models;
 using Steroids.CodeQuality.ViewModels;
 using Steroids.Contracts;
 using Steroids.Contracts.UI;
@@ -26,8 +25,6 @@ namespace Steroids.CodeQuality.Tests
         private readonly IOutliningManagerService _outliningManagerService = A.Fake<IOutliningManagerService>();
         private readonly IOutliningManager _outliningManager = A.Fake<IOutliningManager>();
         private readonly IAdornmentSpaceReservation _adornmentSpaceReservation = A.Fake<IAdornmentSpaceReservation>();
-
-        private CodeHintFactory _codeHintFactory;
 
         [TestMethod]
         public void QualityHints_ClassInitialized_IsEmpty()
@@ -124,12 +121,10 @@ namespace Steroids.CodeQuality.Tests
         {
             A.CallTo(() => _outliningManagerService.GetOutliningManager(_wpfTextView)).Returns(_outliningManager);
             A.CallTo(() => _textView.TextView).Returns(_wpfTextView);
-            _codeHintFactory = new CodeHintFactory(_textView.TextView, _spaceReservationManager);
 
             return new CodeQualityHintsViewModel(
                 _textView,
                 _diagnosticsProvider,
-                _codeHintFactory,
                 _outliningManagerService,
                 _adornmentSpaceReservation);
         }
