@@ -163,8 +163,8 @@
                     <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipTextColorKey}}"/>
                 </TextBlock.Foreground>
                                     
-                                        <Run x:Name="PART_Message" Text="{Binding ErrorCode}" FontWeight="SemiBold" /><Run Text=":" />
-                                        <Run Text="{Binding Message}" />
+                <Run x:Name="PART_Message" Text="{Binding ErrorCode}" FontWeight="SemiBold" /><Run Text=":" />
+                <Run Text="{Binding Message}" />
             </TextBlock>
         </Grid>
 
