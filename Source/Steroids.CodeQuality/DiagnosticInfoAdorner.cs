@@ -2,33 +2,32 @@
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.Text.Editor;
-using Steroids.CodeQuality.ViewModels;
-using Steroids.CodeQuality.Views;
+using Steroids.CodeQuality.UI;
 
-namespace Steroids.CodeQuality.Adorners
+namespace Steroids.CodeQuality
 {
-    public class FloatingDiagnosticHintsAdorner
+    public class DiagnosticInfoAdorner
     {
         private readonly IWpfTextView _textView;
         private readonly IAdornmentLayer _adornmentLayer;
-        private readonly FloatingDiagnosticHintsView _adorner;
+        private readonly DiagnosticInfosView _adorner;
 
-        public FloatingDiagnosticHintsAdorner(
+        public DiagnosticInfoAdorner(
             IWpfTextView textView,
             IAdornmentLayer adornmentLayer,
-            CodeQualityHintsViewModel viewModel)
+            DiagnosticInfosViewModel viewModel)
         {
             _textView = textView;
             _adornmentLayer = adornmentLayer;
 
-            _adorner = new FloatingDiagnosticHintsView
+            _adorner = new DiagnosticInfosView
             {
                 DataContext = viewModel
             };
 
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportWidthChanged), OnSizeChanged);
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportHeightChanged), OnSizeChanged);
-            WeakEventManager<FloatingDiagnosticHintsView, EventArgs>.AddHandler(_adorner, nameof(FrameworkElement.SizeChanged), OnSizeChanged);
+            WeakEventManager<DiagnosticInfosView, EventArgs>.AddHandler(_adorner, nameof(FrameworkElement.SizeChanged), OnSizeChanged);
 
             ShowAdorner();
         }

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.Shell.TableManager;
-using Steroids.CodeQuality.Extensions;
 using Steroids.Contracts;
 
-namespace Steroids.CodeQuality.Services
+namespace Steroids.CodeQuality.Diagnostic
 {
     /// <summary>
     /// Provides diagnostic infos by crawling the Sources known to ITableManager.

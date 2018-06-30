@@ -1,9 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Outlining;
-using Steroids.CodeQuality.Adorners;
-using Steroids.CodeQuality.Models;
-using Steroids.CodeQuality.ViewModels;
+using Steroids.CodeQuality;
+using Steroids.CodeQuality.UI;
 using Steroids.CodeStructure.Adorners;
 using Steroids.CodeStructure.Analyzers.Services;
 using Steroids.CodeStructure.UI;
@@ -75,10 +74,9 @@ namespace SteroidsVS.CodeAdornments
             Container.RegisterType<ISyntaxWalkerProvider, SyntaxWalkerProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureViewModel>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<CodeQualityHintsViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<DiagnosticInfosViewModel>(new ContainerControlledLifetimeManager());
 
-            Container.RegisterType<FloatingDiagnosticHintsAdorner>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<CodeHintFactory>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<DiagnosticInfoAdorner>(new ContainerControlledLifetimeManager());
         }
     }
 }

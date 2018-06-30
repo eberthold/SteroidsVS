@@ -6,16 +6,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
-    xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
-    xmlns:controls="clr-namespace:Steroids.CodeQuality.Controls"
+    xmlns:ui="clr-namespace:Steroids.CodeQuality.UI"
     mc:Ignorable="d">
 
-    <Style TargetType="{x:Type controls:FloatingDiagnosticHint}">
+    <Style TargetType="{x:Type ui:DiagnosticInfoControl}">
         <Setter Property="Padding" Value="1" />
         <Setter Property="Height" Value="18" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:FloatingDiagnosticHint}">
+                <ControlTemplate TargetType="{x:Type ui:DiagnosticInfoControl}">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.ColumnDefinitions>
