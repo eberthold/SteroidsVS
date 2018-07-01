@@ -20,5 +20,10 @@ namespace Steroids.CodeStructure.Analyzers.Services
         /// Gets the Id of the Project, for which this Analyzer works.
         /// </summary>
         ProjectId ProjectId { get; }
+
+        /// <summary>
+        /// Tells, if we are able to analyze this kind of document right now.
+        /// </summary>
+        bool IsAnalyzeable { get; }
     }
 }

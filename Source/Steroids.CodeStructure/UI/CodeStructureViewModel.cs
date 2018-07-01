@@ -10,6 +10,7 @@ using Steroids.CodeStructure.Analyzers;
 using Steroids.CodeStructure.Analyzers.Services;
 using Steroids.CodeStructure.Controls;
 using Steroids.CodeStructure.Extensions;
+using Steroids.CodeStructure.Resources.Strings;
 using Steroids.Contracts;
 using Steroids.Contracts.UI;
 using Steroids.Core;
@@ -71,6 +72,11 @@ namespace Steroids.CodeStructure.UI
         }
 
         /// <summary>
+        /// Tells if the used <see cref="IDocumentAnalyzerService"/> can analyze this document.
+        /// </summary>
+        public bool IsAnalyzeable => _documentAnalyzerService.IsAnalyzeable;
+
+        /// <summary>
         /// Gets or sets the selected node.
         /// </summary>
         public ICodeStructureNodeContainer SelectedNode
@@ -108,9 +114,17 @@ namespace Steroids.CodeStructure.UI
         /// <summary>
         /// Gets the count of leaf nodes in analyzed structure - means methods, properties etc.
         /// </summary>
-        public int? LeafCount
+        public string LeafCount
         {
-            get { return _documentAnalyzerService?.Nodes.OfType<ICodeStructureLeaf>().Count(); }
+            get
+            {
+                if (!IsAnalyzeable)
+                {
+                    return Strings.NotAvailable_Abbreviation;
+                }
+
+                return _documentAnalyzerService.Nodes.OfType<ICodeStructureLeaf>().Count().ToString();
+            }
         }
 
         /// <summary>
@@ -158,7 +172,7 @@ namespace Steroids.CodeStructure.UI
                 return;
             }
 
-            var fileDiagnostics = args.Diagnostics.Where(x => string.Equals(x.Path, path, StringComparison.OrdinalIgnoreCase) && x.IsActive);
+            var fileDiagnostics = args.Diagnostics.Where(x => path.EndsWith(x.Path, StringComparison.OrdinalIgnoreCase) && x.IsActive);
             if (!fileDiagnostics.Any())
             {
                 CurrentDiagnosticLevel = DiagnosticSeverity.Hidden;

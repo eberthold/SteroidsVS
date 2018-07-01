@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Steroids.Core.Diagnostics.Contracts;
 using Steroids.Core.Extensions;
@@ -21,7 +22,18 @@ namespace SteroidsVS.Models
         }
 
         /// <inheritdoc />
-        public string Path => TextView?.GetDocument()?.FilePath ?? string.Empty;
+        public string Path
+        {
+            get
+            {
+                if (TextView.TextBuffer.Properties.TryGetProperty<ITextDocument>(typeof(ITextDocument), out var document) && document != null)
+                {
+                    return document.FilePath;
+                }
+
+                return TextView?.GetDocument()?.FilePath ?? string.Empty;
+            }
+        }
 
         /// <inheritdoc />
         public IWpfTextView TextView { get; }

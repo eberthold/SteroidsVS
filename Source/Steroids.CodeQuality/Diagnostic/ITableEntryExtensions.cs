@@ -10,8 +10,8 @@ namespace Steroids.CodeQuality.Diagnostic
     /// </summary>
     public static class ITableEntryExtensions
     {
-        private const string SuppressionState = "suppressionstate";
-        private const string NotSuppressed = "Active";
+        private const string SuppressionState = "SuppressionState";
+        private const string Suppressed = "Suppressed";
 
         /// <summary>
         /// Creates a <see cref="DiagnosticInfo"/> from a <see cref="ITableEntriesHandle"/>.
@@ -48,7 +48,7 @@ namespace Steroids.CodeQuality.Diagnostic
                 HelpUriRaw = helpLink,
                 LineNumber = line,
                 Column = column,
-                IsActive = suppressionState == NotSuppressed
+                IsActive = suppressionState != Suppressed
             };
         }
 

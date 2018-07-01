@@ -86,7 +86,7 @@
                 
                 <Border Background="Transparent" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" BorderThickness="3" Margin="0" CornerRadius="1"/>
             </Border>
-            <controls:IndicatorButton x:Name="PART_Indicator" Margin="2" Content="{Binding LeafCount, Mode=OneWay}" IsChecked="{Binding IsOpen, ElementName=PART_Root, Mode=TwoWay}" BorderThickness="1" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" />
+            <controls:IndicatorButton x:Name="PART_Indicator" IsEnabled="{Binding IsAnalyzeable}" Margin="2" Content="{Binding LeafCount, Mode=OneWay}" IsChecked="{Binding IsOpen, ElementName=PART_Root, Mode=TwoWay}" BorderThickness="1" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" />
         </Grid>
 
         <VisualStateManager.VisualStateGroups>

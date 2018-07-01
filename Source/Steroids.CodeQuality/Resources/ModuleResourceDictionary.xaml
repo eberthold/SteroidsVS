@@ -104,7 +104,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
-                            <Rectangle x:Name="PART_Indicator" Margin="0, 1" Opacity="0.75" VerticalAlignment="Stretch" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+                            <Rectangle x:Name="PART_Indicator" Margin="0, 2" Opacity="0.75" VerticalAlignment="Stretch" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
 
                             <Viewbox Margin="4, 0" Grid.Column="1" Stretch="Uniform" Height="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Stretch" HorizontalAlignment="Right">
                                 <Border Background="Transparent" MaxWidth="450" Padding="0, 1">
