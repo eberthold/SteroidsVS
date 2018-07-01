@@ -16,7 +16,7 @@ namespace SteroidsVS.CodeAdornments
     /// that instantiates the adornment on the event of a <see cref="IWpfTextView"/>'s creation.
     /// </summary>
     [Export(typeof(IWpfTextViewCreationListener))]
-    [ContentType("CSharp")]
+    [ContentType("code")]
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
     internal sealed class CodeAdornmentsTextViewCreationListener : IWpfTextViewCreationListener
     {
@@ -50,7 +50,6 @@ namespace SteroidsVS.CodeAdornments
 
                     var codeStructure = bootstrapper.GetService(typeof(CodeStructureAdorner)) as CodeStructureAdorner;
                     var diagnosticHints = bootstrapper.GetService(typeof(DiagnosticInfoAdorner)) as DiagnosticInfoAdorner;
-
                     WeakEventManager<ITextView, EventArgs>.AddHandler(textView, nameof(ITextView.Closed), OnClosed);
                 },
                 CancellationToken.None,

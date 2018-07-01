@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,9 @@ namespace Steroids.CodeStructure.Analyzers.Services
 {
     public class DocumentAnalyzerService : IDocumentAnalyzerService
     {
+        private static readonly IReadOnlyCollection<string> _analyzeableContentTypes = new List<string>
+        { "CSharp" };
+
         private readonly IWpfTextView _textView;
         private readonly ISyntaxWalkerProvider _syntaxWalkerProvider;
         private readonly Debouncer _structureDebouncer;
@@ -28,6 +32,7 @@ namespace Steroids.CodeStructure.Analyzers.Services
         {
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
             _syntaxWalkerProvider = syntaxWalkerProvider ?? throw new ArgumentNullException(nameof(syntaxWalkerProvider));
+            IsAnalyzeable = _analyzeableContentTypes.Contains(textView.TextSnapshot.ContentType.TypeName);
 
             WeakEventManager<ITextBuffer, EventArgs>.AddHandler(_textView.TextBuffer, nameof(ITextBuffer.PostChanged), OnTextChanged);
             _structureDebouncer = new Debouncer(Analysis, TimeSpan.FromSeconds(1.5));
@@ -36,6 +41,9 @@ namespace Steroids.CodeStructure.Analyzers.Services
 
         /// <inheritdoc />
         public event EventHandler AnalysisFinished;
+
+        /// <inheritdoc />
+        public bool IsAnalyzeable { get; }
 
         /// <inheritdoc />
         public IEnumerable<ICodeStructureNodeContainer> Nodes { get; private set; } = new List<ICodeStructureNodeContainer>();

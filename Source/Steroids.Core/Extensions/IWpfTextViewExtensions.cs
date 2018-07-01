@@ -52,7 +52,7 @@ namespace Steroids.Core.Extensions
                 return Enumerable.Empty<DiagnosticInfo>();
             }
 
-            return diagnostics.Where(x => string.Equals(x.Path, path, StringComparison.OrdinalIgnoreCase));
+            return diagnostics.Where(x => path.EndsWith(x.Path, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
