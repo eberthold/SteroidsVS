@@ -141,6 +141,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\MouseOverPopupBehavior.cs" />
     <Compile Include="Converters\DiagnosticLevelToBrushConverter.cs" />
     <Compile Include="Resources\ModuleResourceDictionary.xaml.cs">
       <DependentUpon>ModuleResourceDictionary.xaml</DependentUpon>

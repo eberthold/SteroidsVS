@@ -223,6 +223,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <ApplicationDefinition Condition="'$(DesignTime)'=='true' AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true' AND '$(BuildingSolutionFile)'!='true'" Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DiagnosticInfoAdorner.cs" />
     <Compile Include="UI\DiagnosticInfoControl.cs" />
     <Compile Include="Diagnostic\ITableEntryExtensions.cs" />
@@ -259,6 +266,10 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.0-beta008\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\ModuleResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -280,6 +291,10 @@
     <ProjectReference Include="..\Steroids.Core\Steroids.Core.csproj">
       <Project>{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}</Project>
       <Name>Steroids.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Steroids.SharedUI\Steroids.SharedUI.csproj">
+      <Project>{58ac3d8f-294e-4389-8a93-570ae6c45808}</Project>
+      <Name>Steroids.SharedUI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
