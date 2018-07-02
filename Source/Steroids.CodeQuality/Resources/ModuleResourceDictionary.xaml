@@ -7,6 +7,7 @@
     xmlns:contracts="clr-namespace:Steroids.Contracts;assembly=Steroids.Contracts"
     xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0" 
     xmlns:ui="clr-namespace:Steroids.CodeQuality.UI"
+    xmlns:sharedBehaviors="clr-namespace:Steroids.SharedUI.Behaviors;assembly=Steroids.SharedUI"
     mc:Ignorable="d" >
 
     <LinearGradientBrush x:Key="ThemeInfoBrush" SpreadMethod="Repeat" EndPoint="0,0">
@@ -181,12 +182,13 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ui:DiagnosticInfoLine}">
-        <ui:DiagnosticInfoControl Severity="{Binding Severity}" Code="{Binding ErrorCode}" Message="{Binding Message}" Background="{x:Null}">
-            <ui:DiagnosticInfoControl.ToolTip>
-                <ToolTip Placement="Bottom" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBorderBrushKey}}" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBrushKey}}">
-                    <ItemsControl ItemsSource="{Binding DiagnosticInfos}" ItemTemplate="{StaticResource DiagnosticInfoToolTipTemplate}"/>
-                </ToolTip>
-            </ui:DiagnosticInfoControl.ToolTip>
-        </ui:DiagnosticInfoControl>
+        <Grid>
+            <ui:DiagnosticInfoControl Severity="{Binding Severity}" Code="{Binding ErrorCode}" Message="{Binding Message}" Background="{x:Null}" sharedBehaviors:MouseOverPopupBehavior.Popup="{Binding ElementName=PART_Popup}"/>
+            <Popup x:Name="PART_Popup" Placement="MousePoint">
+                <Border Padding="0" MaxHeight="400" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBorderBrushKey}}" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBrushKey}}">
+                    <ItemsControl Padding="4" ItemsSource="{Binding DiagnosticInfos}" ItemTemplate="{StaticResource DiagnosticInfoToolTipTemplate}" Style="{StaticResource ScrollableItemsControl}"/>
+                </Border>
+            </Popup>
+        </Grid>
     </DataTemplate>
 </ResourceDictionary>
