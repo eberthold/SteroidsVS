@@ -172,7 +172,7 @@ namespace Steroids.CodeStructure.UI
                 return;
             }
 
-            var fileDiagnostics = args.Diagnostics.Where(x => path.EndsWith(x.Path, StringComparison.OrdinalIgnoreCase) && x.IsActive);
+            var fileDiagnostics = args.Diagnostics.Where(x => path.EndsWith(x?.Path ?? " ", StringComparison.OrdinalIgnoreCase) && x.IsActive);
             if (!fileDiagnostics.Any())
             {
                 CurrentDiagnosticLevel = DiagnosticSeverity.Hidden;
