@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.TextManager.Interop;
 using Steroids.Core.Diagnostics.Contracts;
 using Steroids.Core.Extensions;
 
@@ -29,6 +30,11 @@ namespace SteroidsVS.Models
                 if (TextView.TextBuffer.Properties.TryGetProperty<ITextDocument>(typeof(ITextDocument), out var document) && document != null)
                 {
                     return document.FilePath;
+                }
+
+                if (TextView.TextDataModel.DocumentBuffer.Properties.TryGetProperty<ITextDocument>(typeof(ITextDocument), out var dataModelDocument) && dataModelDocument != null)
+                {
+                    return dataModelDocument.FilePath;
                 }
 
                 return TextView?.GetDocument()?.FilePath ?? string.Empty;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Outlining;
 using Steroids.Contracts;
 using Steroids.Contracts.UI;
