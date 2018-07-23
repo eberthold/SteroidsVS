@@ -35,7 +35,17 @@ namespace Steroids.Core.Extensions
                 return null;
             }
 
-            return textView.TextSnapshot.GetLineFromLineNumber(lineNumber);
+            try
+            {
+                return textView.TextSnapshot.GetLineFromLineNumber(lineNumber);
+            }
+            catch
+            {
+                // the GetLineFromLineNumber throws diverse exceptions which hint at wrong index, even with guard clause
+                // I'm not happy with this general catch, but it's better than error messages.
+            }
+
+            return null;
         }
 
         /// <summary>
