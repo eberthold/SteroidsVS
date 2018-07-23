@@ -90,7 +90,7 @@
 
     <Style TargetType="{x:Type ui:DiagnosticInfoControl}">
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
