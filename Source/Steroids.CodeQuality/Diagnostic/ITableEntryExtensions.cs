@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell.TableManager;
 using Steroids.Contracts;
@@ -10,8 +11,8 @@ namespace Steroids.CodeQuality.Diagnostic
     /// </summary>
     public static class ITableEntryExtensions
     {
-        private const string SuppressionState = "SuppressionState";
-        private const string Suppressed = "Suppressed";
+        private const string SuppressionState = "suppressionstate";
+        private const string Suppressed = "suppressed";
 
         /// <summary>
         /// Creates a <see cref="DiagnosticInfo"/> from a <see cref="ITableEntriesHandle"/>.
@@ -48,7 +49,7 @@ namespace Steroids.CodeQuality.Diagnostic
                 HelpUriRaw = helpLink,
                 LineNumber = line,
                 Column = column,
-                IsActive = suppressionState != Suppressed
+                IsActive = string.Compare(suppressionState, Suppressed, StringComparison.OrdinalIgnoreCase) != 0
             };
         }
 
