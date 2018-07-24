@@ -90,7 +90,7 @@
 
     <Style TargetType="{x:Type ui:DiagnosticInfoControl}">
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -149,6 +149,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="16" />
                 <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <Rectangle x:Name="PART_Indicator" Margin="4, 4, 0, 4" />
@@ -158,8 +159,13 @@
                     <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipTextColorKey}}"/>
                 </TextBlock.Foreground>
                                     
-                <Run x:Name="PART_Message" Text="{Binding ErrorCode}" FontWeight="SemiBold" /><Run Text=":" />
-                <Run Text="{Binding Message}" />
+                <Run x:Name="PART_Message" Text="{Binding ErrorCode, Mode=OneWay}" FontWeight="SemiBold" /><Run Text=":" />
+                <Run Text="{Binding Message, Mode=OneWay}" />
+            </TextBlock>
+
+            <TextBlock Margin="4" Grid.Column="2" VerticalAlignment="Center">
+                <Run Text="(" /><Run Text="{Binding LineNumber, Mode=OneWay}" /><Run Text="," />
+                <Run Text="{Binding Column, Mode=OneWay}" /><Run Text=")" />
             </TextBlock>
         </Grid>
 
@@ -183,8 +189,8 @@
 
     <DataTemplate DataType="{x:Type ui:DiagnosticInfoLine}">
         <Grid>
-            <ui:DiagnosticInfoControl Severity="{Binding Severity}" Code="{Binding ErrorCode}" Message="{Binding Message}" Background="{x:Null}" sharedBehaviors:MouseOverPopupBehavior.Popup="{Binding ElementName=PART_Popup}"/>
-            <Popup x:Name="PART_Popup" Placement="MousePoint">
+            <ui:DiagnosticInfoControl x:Name="PART_Info" Severity="{Binding Severity}" Code="{Binding ErrorCode}" Message="{Binding Message}" Background="{x:Null}" sharedBehaviors:MouseOverPopupBehavior.Popup="{Binding ElementName=PART_Popup}"/>
+            <Popup x:Name="PART_Popup" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_Info}">
                 <Border Padding="0" MaxHeight="400" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBorderBrushKey}}" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBrushKey}}">
                     <ItemsControl Padding="4" ItemsSource="{Binding DiagnosticInfos}" ItemTemplate="{StaticResource DiagnosticInfoToolTipTemplate}" Style="{StaticResource ScrollableItemsControl}"/>
                 </Border>
