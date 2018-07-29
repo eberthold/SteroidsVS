@@ -81,8 +81,9 @@ namespace Steroids.Contracts
         /// <param name="column">The column.</param>
         /// <param name="errorCode">The error code.</param>
         /// <param name="message">The message.</param>
+        /// <param name="isActive">Flag, if the diagnostic is active.</param>
         /// <returns>The calculated hash code.</returns>
-        public static int GetHashCode(string path, int lineNumber, int severity, int column, string errorCode, string message)
+        public static int GetHashCode(string path, int lineNumber, int severity, int column, string errorCode, string message, bool isActive)
         {
             var hash = 17;
             hash += 23 + (path ?? string.Empty).GetHashCode();
@@ -91,6 +92,7 @@ namespace Steroids.Contracts
             hash += 23 + column.GetHashCode();
             hash += 23 + (errorCode ?? string.Empty).GetHashCode();
             hash += 23 + (message ?? string.Empty).GetHashCode();
+            hash += 23 + isActive.GetHashCode();
 
             return hash;
         }
@@ -135,15 +137,13 @@ namespace Steroids.Contracts
                 return false;
             }
 
-            return CompareTo(other) == 0
-                && ErrorCode == other.ErrorCode
-                && Message == other.Message;
+            return GetHashCode() == other.GetHashCode();
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return GetHashCode(Path, LineNumber, (int)Severity, Column, ErrorCode, Message);
+            return GetHashCode(Path, LineNumber, (int)Severity, Column, ErrorCode, Message, IsActive);
         }
     }
 }
