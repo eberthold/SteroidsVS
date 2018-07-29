@@ -74,12 +74,13 @@ namespace Steroids.CodeQuality.Diagnostic
             entry.TryGetValue(StandardTableKeyNames.Column, out int column);
             entry.TryGetValue(SuppressionState, out string suppressionState);
 
+            var isActive = SuppressionStateToIsActive(suppressionState);
             if (string.IsNullOrWhiteSpace(fullText))
             {
                 fullText = text;
             }
 
-            return DiagnosticInfo.GetHashCode(path, line, (int)MapErrorCategoryToSeverity(errorCategory), column, errorCode, fullText);
+            return DiagnosticInfo.GetHashCode(path, line, (int)MapErrorCategoryToSeverity(errorCategory), column, errorCode, fullText, isActive);
         }
 
         /// <summary>
@@ -102,6 +103,16 @@ namespace Steroids.CodeQuality.Diagnostic
             }
 
             return DiagnosticSeverity.Hidden;
+        }
+
+        /// <summary>
+        /// Converts the suppression state to boolean flag.
+        /// </summary>
+        /// <param name="suppressionState">The plain suppression state text.</param>
+        /// <returns><see langword="true"/> if diagnostic is active, otherwise <see langword="false"/>.</returns>
+        private static bool SuppressionStateToIsActive(string suppressionState)
+        {
+            return string.Compare(suppressionState, Suppressed, StringComparison.OrdinalIgnoreCase) != 0;
         }
     }
 }
