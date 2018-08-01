@@ -86,13 +86,13 @@ namespace Steroids.Contracts
         public static int GetHashCode(string path, int lineNumber, int severity, int column, string errorCode, string message, bool isActive)
         {
             var hash = 17;
-            hash += 23 + (path ?? string.Empty).GetHashCode();
-            hash += 23 + lineNumber.GetHashCode();
-            hash += 23 + severity.GetHashCode();
-            hash += 23 + column.GetHashCode();
-            hash += 23 + (errorCode ?? string.Empty).GetHashCode();
-            hash += 23 + (message ?? string.Empty).GetHashCode();
-            hash += 23 + isActive.GetHashCode();
+            hash *= 23 + (path ?? string.Empty).GetHashCode();
+            hash *= 23 + lineNumber.GetHashCode();
+            hash *= 23 + severity.GetHashCode();
+            hash *= 23 + column.GetHashCode();
+            hash *= 23 + (errorCode ?? string.Empty).GetHashCode();
+            hash *= 23 + (message ?? string.Empty).GetHashCode();
+            hash *= 23 + isActive.GetHashCode();
 
             return hash;
         }

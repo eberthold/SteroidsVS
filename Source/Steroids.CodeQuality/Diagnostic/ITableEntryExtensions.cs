@@ -49,7 +49,7 @@ namespace Steroids.CodeQuality.Diagnostic
                 HelpUriRaw = helpLink,
                 LineNumber = line,
                 Column = column,
-                IsActive = string.Compare(suppressionState, Suppressed, StringComparison.OrdinalIgnoreCase) != 0
+                IsActive = SuppressionStateToIsActive(suppressionState)
             };
         }
 
