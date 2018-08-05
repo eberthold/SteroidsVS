@@ -185,7 +185,7 @@ namespace Steroids.CodeStructure.UI
         private void RefreshUi()
         {
             RaisePropertyChanged(nameof(LeafCount));
-            NodeCollection = _documentAnalyzerService?.Nodes ?? new List<ICodeStructureNodeContainer>();
+            NodeCollection = _documentAnalyzerService?.Nodes.ToList() ?? new List<ICodeStructureNodeContainer>();
         }
 
         /// <summary>
