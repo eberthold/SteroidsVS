@@ -36,7 +36,7 @@ namespace Steroids.CodeQuality.UI
             typeof(DiagnosticInfoLinePanel),
             new PropertyMetadata(null, OnTextViewChanged));
 
-        private readonly List<ContentControl> _containerPool = new List<ContentControl>();
+        private readonly List<ContentPresenter> _containerPool = new List<ContentPresenter>();
         private readonly Dictionary<DiagnosticInfoLine, Rect> _placementMap = new Dictionary<DiagnosticInfoLine, Rect>();
 
         private bool _unloaded = false;
@@ -111,7 +111,7 @@ namespace Steroids.CodeQuality.UI
         protected override Size ArrangeOverride(Size finalSize)
         {
             // make unused items available again in pool
-            var childs = Children.Cast<ContentControl>().ToList();
+            var childs = Children.Cast<ContentPresenter>().ToList();
             foreach (var child in childs.Where(x => !IsChildPositionable(x)).ToList())
             {
                 Children.Remove(child);
@@ -123,7 +123,7 @@ namespace Steroids.CodeQuality.UI
             {
                 var container = _containerPool.Find(x => x.Content == item.Key) // same item
                     ?? _containerPool.Find(x => x.Content == null) // reused item
-                    ?? new ContentControl(); // new item
+                    ?? new ContentPresenter(); // new item
 
                 if (!_containerPool.Contains(container))
                 {
@@ -136,6 +136,7 @@ namespace Steroids.CodeQuality.UI
                 }
 
                 container.Content = item.Key;
+                container.Measure(item.Value.Size);
                 container.Arrange(item.Value);
             }
 
@@ -217,9 +218,9 @@ namespace Steroids.CodeQuality.UI
         /// <summary>
         /// Checks if the child has the correct content and is positionable.
         /// </summary>
-        /// <param name="child">The <see cref="ContentControl"/>.</param>
+        /// <param name="child">The <see cref="ContentPresenter"/>.</param>
         /// <returns><see langword="true"/> if the child is positionable, otherwise <see langword="false"/>.</returns>
-        private bool IsChildPositionable(ContentControl child)
+        private bool IsChildPositionable(ContentPresenter child)
         {
             var diagnosticInfoLine = child.Content as DiagnosticInfoLine;
             if (diagnosticInfoLine == null)

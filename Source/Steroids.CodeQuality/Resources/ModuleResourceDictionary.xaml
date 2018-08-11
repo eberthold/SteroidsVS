@@ -93,34 +93,29 @@
         <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="HorizontalContentAlignment" Value="Right" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ui:DiagnosticInfoControl}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Margin="{TemplateBinding Padding}" VerticalAlignment="Stretch">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                            <Rectangle x:Name="PART_Indicator" Margin="0, 2" Opacity="0.75" VerticalAlignment="Stretch" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+                        <Rectangle x:Name="PART_Indicator" Margin="0, 2" Opacity="0.75" Height="8" Width="8" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
 
-                            <Viewbox Margin="4, 0" Grid.Column="1" Stretch="Uniform" Height="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Stretch" HorizontalAlignment="Right">
-                                <Border Background="Transparent" MaxWidth="450" Padding="0, 1">
-                                    <TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center">
-                                        <TextBlock.Foreground>
-                                            <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" Opacity="0.75"/>
-                                        </TextBlock.Foreground>
+                        <Border Background="Transparent" MaxWidth="450" Padding="4, 1" Grid.Column="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Right">
+                            <TextBlock TextTrimming="CharacterEllipsis" FontSize="9">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextColorKey}}" Opacity="0.75"/>
+                                </TextBlock.Foreground>
                                     
-                                        <Run x:Name="PART_Message" Text="{TemplateBinding Code}" FontWeight="SemiBold" /><Run Text=":" />
-                                        <Run Text="{TemplateBinding Message}" />
-                                    </TextBlock>
-                                </Border>
-                            </Viewbox>
-                        </Grid>
-                    </Border>
+                                <Run x:Name="PART_Message" Text="{TemplateBinding Code}" FontWeight="SemiBold" />
+                                <Run Text="{TemplateBinding Message}" />
+                            </TextBlock>
+                        </Border>
+                    </Grid>
 
                     <ControlTemplate.Triggers>
                         <!-- Info -->
@@ -146,6 +141,9 @@
 
     <DataTemplate x:Key="DiagnosticInfoToolTipTemplate" DataType="{x:Type contracts:DiagnosticInfo}">
         <Grid>
+            <TextElement.Foreground>
+                <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipTextColorKey}}"/>
+            </TextElement.Foreground>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="16" />
                 <ColumnDefinition />
@@ -154,12 +152,8 @@
 
             <Rectangle x:Name="PART_Indicator" Margin="4, 4, 0, 4" />
 
-            <TextBlock Margin="4" Grid.Column="1" TextTrimming="CharacterEllipsis" VerticalAlignment="Stretch">
-                <TextBlock.Foreground>
-                    <SolidColorBrush Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipTextColorKey}}"/>
-                </TextBlock.Foreground>
-                                    
-                <Run x:Name="PART_Message" Text="{Binding ErrorCode, Mode=OneWay}" FontWeight="SemiBold" /><Run Text=":" />
+            <TextBlock Margin="4" Grid.Column="1" TextTrimming="CharacterEllipsis" VerticalAlignment="Stretch">                                    
+                <Run x:Name="PART_Message" Text="{Binding ErrorCode, Mode=OneWay}" FontWeight="SemiBold" />
                 <Run Text="{Binding Message, Mode=OneWay}" />
             </TextBlock>
 
@@ -190,7 +184,7 @@
     <DataTemplate DataType="{x:Type ui:DiagnosticInfoLine}">
         <Grid>
             <ui:DiagnosticInfoControl x:Name="PART_Info" Severity="{Binding Severity}" Code="{Binding ErrorCode}" Message="{Binding Message}" Background="{x:Null}" sharedBehaviors:MouseOverPopupBehavior.Popup="{Binding ElementName=PART_Popup}"/>
-            <Popup x:Name="PART_Popup" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_Info}">
+            <Popup x:Name="PART_Popup" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_Info}" HorizontalAlignment="Right">
                 <Border Padding="0" MaxHeight="400" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" BorderBrush="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBorderBrushKey}}" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolTipBrushKey}}">
                     <ItemsControl Padding="4" ItemsSource="{Binding DiagnosticInfos}" ItemTemplate="{StaticResource DiagnosticInfoToolTipTemplate}" Style="{StaticResource ScrollableItemsControl}"/>
                 </Border>
