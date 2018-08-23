@@ -15,9 +15,8 @@
              Loaded="OnLoaded"
              Unloaded="OnUnloaded"
              UseLayoutRounding="True"
-             SnapsToDevicePixels="True"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=ui:CodeStructureViewModel}"
-             d:DesignHeight="400" d:DesignWidth="250">    
+             d:DesignHeight="400" d:DesignWidth="250">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -61,6 +60,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Border Grid.Column="0" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.CommandBarToolBarBorderBrushKey}}">
@@ -69,7 +69,9 @@
                         </StackPanel>
                     </Border>
 
-                    <commonControls:ClickableItemsControl x:Name="PART_List" Grid.Row="1" Focusable="True" IsVisibleChanged="OnListIsVisibleChanged" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeCollection}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" ItemClicked="OnListItemClicked" BorderThickness="0" HorizontalAlignment="Stretch" />
+                    <commonControls:ClickableItemsControl x:Name="PART_List" Grid.Row="1" Focusable="True" IsVisibleChanged="OnListIsVisibleChanged" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" ItemClicked="OnListItemClicked" BorderThickness="0" HorizontalAlignment="Stretch" />
+
+                    <platformUI:SearchTextBox Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="2" Margin="4" />
                 </Grid>
             </Grid>
         </Border>
@@ -78,7 +80,7 @@
         <Grid Grid.Row="3" Width="33" Height="33" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="Arrow">
             <Border>
                 <Border.CacheMode>
-                    <BitmapCache EnableClearType="False" SnapsToDevicePixels="False" />
+                    <BitmapCache EnableClearType="False" />
                 </Border.CacheMode>
                 <Border.Effect>
                     <BlurEffect />
