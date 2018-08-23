@@ -177,7 +177,6 @@ namespace Steroids.CodeStructure.UI
 
             InputManager.Current.PushMenuMode(presentationSource);
             VisualStateManager.GoToState(this, "Activated", false);
-            PART_List.Focus();
         }
 
         /// <summary>

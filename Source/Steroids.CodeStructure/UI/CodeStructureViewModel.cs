@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
@@ -35,6 +37,8 @@ namespace Steroids.CodeStructure.UI
         private IEnumerable<ICodeStructureNodeContainer> _nodeCollection;
         private bool _isPinned;
         private DiagnosticSeverity _currentDiagnosticLevel;
+        private ICollectionView _nodeListView;
+        private string _filterText;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureViewModel"/> class.
@@ -67,8 +71,8 @@ namespace Steroids.CodeStructure.UI
         /// </summary>
         public bool IsPinned
         {
-            get { return _isPinned; }
-            set { Set(ref _isPinned, value); }
+            get => _isPinned;
+            set => Set(ref _isPinned, value);
         }
 
         /// <summary>
@@ -81,11 +85,7 @@ namespace Steroids.CodeStructure.UI
         /// </summary>
         public ICodeStructureNodeContainer SelectedNode
         {
-            get
-            {
-                return _selectedNode;
-            }
-
+            get => _selectedNode;
             set
             {
                 Set(ref _selectedNode, value);
@@ -94,12 +94,21 @@ namespace Steroids.CodeStructure.UI
         }
 
         /// <summary>
+        /// The node list which supports filtering.
+        /// </summary>
+        public ICollectionView NodeListView
+        {
+            get => _nodeListView;
+            set => Set(ref _nodeListView, value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the list is opened or not.
         /// </summary>
         public bool IsOpen
         {
-            get { return _isListOpen; }
-            set { Set(ref _isListOpen, value); }
+            get => _isListOpen;
+            set => Set(ref _isListOpen, value);
         }
 
         /// <summary>
@@ -107,8 +116,8 @@ namespace Steroids.CodeStructure.UI
         /// </summary>
         public bool IsPaused
         {
-            get { return _isPaused; }
-            set { Set(ref _isPaused, value); }
+            get => _isPaused;
+            set => Set(ref _isPaused, value);
         }
 
         /// <summary>
@@ -123,7 +132,7 @@ namespace Steroids.CodeStructure.UI
                     return Strings.NotAvailable_Abbreviation;
                 }
 
-                return _documentAnalyzerService.Nodes.OfType<ICodeStructureLeaf>().Count().ToString();
+                return _documentAnalyzerService.Nodes?.OfType<ICodeStructureLeaf>().Count().ToString() ?? "0";
             }
         }
 
@@ -135,8 +144,25 @@ namespace Steroids.CodeStructure.UI
         /// </value>
         public ICodeStructureSyntaxAnalyzer SyntaxWalker
         {
-            get { return _syntaxWalker; }
-            set { Set(ref _syntaxWalker, value); }
+            get => _syntaxWalker;
+            set => Set(ref _syntaxWalker, value);
+        }
+
+        /// <summary>
+        /// The current Filter entered by the user.
+        /// </summary>
+        public string FilterText
+        {
+            get => _filterText;
+            set
+            {
+                if (!Set(ref _filterText, value))
+                {
+                    return;
+                }
+
+                NodeListView?.Refresh();
+            }
         }
 
         /// <summary>
@@ -144,14 +170,14 @@ namespace Steroids.CodeStructure.UI
         /// </summary>
         public DiagnosticSeverity CurrentDiagnosticLevel
         {
-            get { return _currentDiagnosticLevel; }
-            set { Set(ref _currentDiagnosticLevel, value); }
+            get => _currentDiagnosticLevel;
+            set => Set(ref _currentDiagnosticLevel, value);
         }
 
         public IEnumerable<ICodeStructureNodeContainer> NodeCollection
         {
-            get { return _nodeCollection; }
-            set { Set(ref _nodeCollection, value); }
+            get => _nodeCollection;
+            set => Set(ref _nodeCollection, value);
         }
 
         /// <summary>
@@ -185,7 +211,36 @@ namespace Steroids.CodeStructure.UI
         private void RefreshUi()
         {
             RaisePropertyChanged(nameof(LeafCount));
-            NodeCollection = _documentAnalyzerService?.Nodes.ToList() ?? new List<ICodeStructureNodeContainer>();
+
+            if (NodeCollection == null && _documentAnalyzerService.Nodes != null)
+            {
+                NodeCollection = _documentAnalyzerService.Nodes;
+                NodeListView = new CollectionView(NodeCollection);
+                NodeListView.Filter = FilterNodes;
+            }
+        }
+
+        private bool FilterNodes(object obj)
+        {
+            var isFilterActive = !string.IsNullOrEmpty(FilterText);
+            if (!isFilterActive)
+            {
+                return true;
+            }
+
+            var node = obj as ICodeStructureNodeContainer;
+            if (node == null)
+            {
+                return false;
+            }
+
+            var isLeafNode = node is ICodeStructureLeaf;
+            if (isFilterActive && !isLeafNode)
+            {
+                return false;
+            }
+
+            return node.Name.IndexOf(FilterText, StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
         /// <summary>
