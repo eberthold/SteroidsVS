@@ -46,7 +46,7 @@ namespace Steroids.CodeStructure.Analyzers.Services
         public bool IsAnalyzeable { get; }
 
         /// <inheritdoc />
-        public IEnumerable<ICodeStructureNodeContainer> Nodes { get; private set; } = new List<ICodeStructureNodeContainer>();
+        public IEnumerable<ICodeStructureNodeContainer> Nodes { get; private set; }
 
         /// <inheritdoc />
         public ProjectId ProjectId => _textView.GetDocument().Project.Id;
