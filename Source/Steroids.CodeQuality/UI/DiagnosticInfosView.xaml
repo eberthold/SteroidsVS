@@ -6,8 +6,7 @@
              xmlns:ui="clr-namespace:Steroids.CodeQuality.UI"
              mc:Ignorable="d" 
              BorderThickness="0"
-             UseLayoutRounding="True" 
-             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=ui:DiagnosticInfosViewModel, IsDesignTimeCreatable=False}">
 
