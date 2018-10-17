@@ -15,6 +15,8 @@
              Loaded="OnLoaded"
              Unloaded="OnUnloaded"
              UseLayoutRounding="True"
+             Focusable="False"
+             FocusManager.IsFocusScope="True"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=ui:CodeStructureViewModel}"
              d:DesignHeight="400" d:DesignWidth="250">
     <Grid Margin="10">
@@ -59,19 +61,24 @@
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Column="0" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.CommandBarToolBarBorderBrushKey}}">
+                    <Border x:Name="PART_Toolbar" Grid.Column="0" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.CommandBarToolBarBorderBrushKey}}">
                         <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" Margin="4, 2">
                             <CheckBox Focusable="False" Content="{x:Static imageCatalog:KnownMonikers.Pin}" IsChecked="{Binding IsPinned, ElementName=PART_Root, Mode=TwoWay}" Style="{StaticResource MonikerCheckBox}"/>
                         </StackPanel>
                     </Border>
 
-                    <commonControls:ClickableItemsControl x:Name="PART_List" Grid.Row="1" Focusable="True" IsVisibleChanged="OnListIsVisibleChanged" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" ItemClicked="OnListItemClicked" BorderThickness="0" HorizontalAlignment="Stretch" />
-
-                    <platformUI:SearchTextBox Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="2" Margin="4" />
+                    <platformUI:SearchTextBox x:Name="PART_FilterText" Grid.Row="1" IsVisibleChanged="OnIsVisibleChanged" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4" PreviewKeyDown="OnTextKeyDown" />
+                    <ListView x:Name="PART_List" Grid.Row="2" Focusable="True" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" IsSynchronizedWithCurrentItem="True" BorderThickness="0" HorizontalAlignment="Stretch" SelectionChanged="OnListSelectionChanged">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
                 </Grid>
             </Grid>
         </Border>
