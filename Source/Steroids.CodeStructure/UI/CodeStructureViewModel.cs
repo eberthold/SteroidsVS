@@ -30,7 +30,7 @@ namespace Steroids.CodeStructure.UI
         private readonly IAdornmentLayer _adornmentLayer;
 
         private SelectionHintControl _adornerContent;
-        private bool _isOpen;
+        private bool _isListOpen;
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
         private ICodeStructureNodeContainer _selectedNode;
@@ -107,8 +107,8 @@ namespace Steroids.CodeStructure.UI
         /// </summary>
         public bool IsOpen
         {
-            get => _isOpen;
-            set => Set(ref _isOpen, value);
+            get => _isListOpen;
+            set => Set(ref _isListOpen, value);
         }
 
         /// <summary>
