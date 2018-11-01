@@ -30,6 +30,7 @@ namespace Steroids.CodeStructure.Adorners
         {
             _adornmentLayer = adornmentLayer ?? throw new ArgumentNullException(nameof(adornmentLayer));
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
+            _indicatorView.Focusable = false;
             _indicatorView.Content = viewModel;
 
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportWidthChanged), OnSizeChanged);

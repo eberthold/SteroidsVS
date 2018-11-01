@@ -8,17 +8,12 @@
              xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:controls="clr-namespace:Steroids.CodeStructure.Controls"
              xmlns:ui="clr-namespace:Steroids.CodeStructure.UI"
-             xmlns:commonControls="clr-namespace:Steroids.Controls;assembly=Steroids.Controls"
              mc:Ignorable="d" 
              MinWidth="150"
              Width="250"
-             Loaded="OnLoaded"
-             Unloaded="OnUnloaded"
              UseLayoutRounding="True"
-             Focusable="False"
-             FocusManager.IsFocusScope="True"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=ui:CodeStructureViewModel}"
-             d:DesignHeight="400" d:DesignWidth="250">
+             d:DesignHeight="400">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -71,7 +66,7 @@
                         </StackPanel>
                     </Border>
 
-                    <platformUI:SearchTextBox x:Name="PART_FilterText" Grid.Row="1" IsVisibleChanged="OnIsVisibleChanged" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4" PreviewKeyDown="OnTextKeyDown" />
+                    <platformUI:SearchTextBox x:Name="PART_FilterText" Grid.Row="1" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4" PreviewKeyDown="OnTextKeyDown" />
                     <ListView x:Name="PART_List" Grid.Row="2" Focusable="True" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" IsSynchronizedWithCurrentItem="True" BorderThickness="0" HorizontalAlignment="Stretch" SelectionChanged="OnListSelectionChanged">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
