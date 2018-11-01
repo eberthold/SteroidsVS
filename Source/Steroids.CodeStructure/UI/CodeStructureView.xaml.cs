@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using Microsoft.VisualStudio.Editor;
+using Microsoft.VisualStudio.Text.Editor;
 using Steroids.CodeStructure.Analyzers;
 using Steroids.Contracts.UI;
 
@@ -23,7 +27,6 @@ namespace Steroids.CodeStructure.UI
             Key.Down, Key.Up, Key.Space, Key.Enter, Key.Escape
         };
 
-        private Window _window;
         private bool _skipSelectionChanged;
 
         /// <summary>
@@ -32,32 +35,7 @@ namespace Steroids.CodeStructure.UI
         public CodeStructureView()
         {
             InitializeComponent();
-            GotKeyboardFocus += HandleGotKeyboardFocus;
-            LostKeyboardFocus += HandleLostKeyboardFocus;
-            MouseDown += HandleMouseDown;
-            MouseUp += (s, e) => e.Handled = true;
             CommandRouting.SetInterceptsCommandRouting(this, true);
-        }
-
-        private void HandleMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is ListBoxItem)
-            {
-                return;
-            }
-
-            e.Handled = true;
-        }
-
-        private void HandleLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            e.Handled = true;
-        }
-
-        private void HandleGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            e.Handled = true;
-            PART_FilterText.Focus();
         }
 
         /// <summary>
@@ -97,28 +75,43 @@ namespace Steroids.CodeStructure.UI
         }
 
         /// <summary>
-        /// Handles the preview key-up, to determine if the views needs to be closed or deactivated.
+        /// Promotes keyboard foucs to the <see cref="PART_FilterText"/>.
         /// </summary>
-        /// <param name="e">Th <see cref="KeyEventArgs"/>.</param>
-        protected override void OnPreviewKeyUp(KeyEventArgs e)
+        /// <param name="e">The <see cref="KeyboardFocusChangedEventArgs"/>.</param>
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            base.OnPreviewKeyUp(e);
+            base.OnGotKeyboardFocus(e);
+            PART_FilterText.Focus();
+            e.Handled = true;
+        }
 
-            if (e.Key != Key.Escape)
+        /// <summary>
+        /// Sets keyboard focus to the <see cref="PART_FilterText"/>.
+        /// </summary>
+        /// <param name="e">The <see cref="MouseButtonEventArgs"/>.</param>
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseUp(e);
+
+            if (!IsMouseOver)
             {
                 return;
             }
 
-            if (!IsPinned)
+            if (e.Source is ListViewItem)
             {
-                IsOpen = false;
+                return;
             }
-            else
-            {
-                DeactivateKeyboardHandling();
-            }
+
+            PART_FilterText.Focus();
+            e.Handled = true;
         }
 
+        /// <summary>
+        /// Resizes the view.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="DragDeltaEventArgs"/>.</param>
         private void OnThumbDragged(object sender, DragDeltaEventArgs e)
         {
             Width = Math.Max(ActualWidth - e.HorizontalChange, MinWidth);
@@ -126,105 +119,11 @@ namespace Steroids.CodeStructure.UI
         }
 
         /// <summary>
-        /// Attaches all event handlers we need to have a nice behavior in this view.
-        /// </summary>
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            if (DesignerProperties.GetIsInDesignMode(this))
-            {
-                return;
-            }
-
-            _window = Window.GetWindow(this);
-            if (_window == null)
-            {
-                return;
-            }
-
-            Mouse.AddPreviewMouseDownHandler(_window, OnPreviewMouseButtonDown);
-        }
-
-        /// <summary>
-        /// Cleaning up when this view is no longer needed.
-        /// </summary>
-        private void OnUnloaded(object sender, RoutedEventArgs e)
-        {
-            if (DesignerProperties.GetIsInDesignMode(this))
-            {
-                return;
-            }
-
-            if (_window == null)
-            {
-                return;
-            }
-
-            Mouse.RemovePreviewMouseDownHandler(_window, OnPreviewMouseButtonDown);
-        }
-
-        /// <summary>
-        /// Handles mouse clicks which occur in the hit-test area of this view.
-        /// </summary>
-        private void OnPreviewMouseButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //if (PART_Toolbar.IsMouseOver)
-            //{
-            //    ActivateKeyboardHandling();
-            //    return;
-            //}
-
-            //if (PART_ListBorder.IsMouseOver)
-            //{
-            //    var wasItemClick = false;
-            //    var elementToCheck = e.OriginalSource as DependencyObject;
-            //    while ((elementToCheck = VisualTreeHelper.GetParent(elementToCheck)) != null)
-            //    {
-            //        if (!(elementToCheck is ListViewItem))
-            //        {
-            //            continue;
-            //        }
-
-            //        wasItemClick = true;
-            //        break;
-            //    }
-
-            //    ActivateKeyboardHandling();
-            //    e.Handled = !wasItemClick;
-            //    return;
-            //}
-
-            //if (!IsPinned)
-            //{
-            //    IsOpen = false;
-            //    return;
-            //}
-
-            //if (IsKeyboardFocusWithin)
-            //{
-            //    DeactivateKeyboardHandling();
-            //}
-        }
-
-        /// <summary>
         /// Activates the view, so it handles keyboard inputs.
         /// </summary>
         private void ActivateKeyboardHandling()
         {
-            //if (InputManager.Current.IsInMenuMode)
-            //{
-            //    Keyboard.Focus(PART_FilterText);
-            //    return;
-            //}
-
-            //var presentationSource = PresentationSource.FromVisual(this);
-            //if (presentationSource == null)
-            //{
-            //    return;
-            //}
-
-            //InputManager.Current.PushMenuMode(presentationSource);
-            //VisualStateManager.GoToState(this, "Activated", false);
-            //Keyboard.Focus(PART_FilterText);
+            Keyboard.Focus(this);
         }
 
         /// <summary>
@@ -232,33 +131,14 @@ namespace Steroids.CodeStructure.UI
         /// </summary>
         private void DeactivateKeyboardHandling()
         {
-            //if (!InputManager.Current.IsInMenuMode)
-            //{
-            //    Keyboard.ClearFocus();
-            //    return;
-            //}
-
-            //var presentationSource = PresentationSource.FromVisual(this);
-            //if (presentationSource == null)
-            //{
-            //    return;
-            //}
-
-            //InputManager.Current.PopMenuMode(presentationSource);
-            //VisualStateManager.GoToState(this, "Deactivated", false);
-            //Keyboard.ClearFocus();
-        }
-
-        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (PART_FilterText.IsVisible)
+            DependencyObject current = this;
+            while (!(current is IWpfTextView) && current != null)
             {
-                ShowCodeStructure();
+                current = VisualTreeHelper.GetParent(current);
             }
-            else
-            {
-                HideCodeStructure();
-            }
+
+            var textView = (current as IWpfTextView)?.VisualElement ?? current;
+            Keyboard.Focus(current as IInputElement);
         }
 
         private void ShowCodeStructure()
@@ -280,49 +160,50 @@ namespace Steroids.CodeStructure.UI
         /// </summary>
         private void OnTextKeyDown(object sender, KeyEventArgs e)
         {
-            //_skipSelectionChanged = true;
-            //if (!KeysToHandle.Contains(e.Key))
-            //{
-            //    return;
-            //}
+            _skipSelectionChanged = true;
+            if (!KeysToHandle.Contains(e.Key))
+            {
+                return;
+            }
 
-            //var collectionView = PART_List.ItemsSource as ICollectionView ?? CollectionViewSource.GetDefaultView(PART_List.ItemsSource);
+            var collectionView = PART_List.ItemsSource as ICollectionView ?? CollectionViewSource.GetDefaultView(PART_List.ItemsSource);
 
-            //switch (e.Key)
-            //{
-            //    case Key.Up:
-            //        collectionView.MoveCurrentToPrevious();
-            //        break;
+            switch (e.Key)
+            {
+                case Key.Up:
+                    collectionView.MoveCurrentToPrevious();
+                    break;
 
-            //    case Key.Down:
-            //        collectionView.MoveCurrentToNext();
-            //        break;
+                case Key.Down:
+                    collectionView.MoveCurrentToNext();
+                    break;
 
-            //    case Key.Enter:
-            //    case Key.Space:
-            //        _skipSelectionChanged = false;
-            //        SelectedNodeContainer = collectionView.CurrentItem as ICodeStructureNodeContainer;
-            //        break;
+                case Key.Enter:
+                case Key.Space:
+                    _skipSelectionChanged = false;
+                    SelectedNodeContainer = collectionView.CurrentItem as ICodeStructureNodeContainer;
+                    break;
 
-            //    case Key.Escape:
-            //        PART_FilterText.Text = string.Empty;
-            //        break;
-            //}
+                case Key.Escape:
+                    PART_FilterText.Text = string.Empty;
+                    HideCodeStructure();
+                    break;
+            }
 
-            //e.Handled = true;
+            e.Handled = true;
         }
 
         private void OnListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if (_skipSelectionChanged)
-            //{
-            //    _skipSelectionChanged = false;
-            //    return;
-            //}
+            if (_skipSelectionChanged)
+            {
+                _skipSelectionChanged = false;
+                return;
+            }
 
-            //SelectedNodeContainer = PART_List.SelectedItem as ICodeStructureNodeContainer;
-            //ActivateKeyboardHandling();
-            //e.Handled = true;
+            SelectedNodeContainer = PART_List.SelectedItem as ICodeStructureNodeContainer;
+            ActivateKeyboardHandling();
+            e.Handled = true;
         }
     }
 }
