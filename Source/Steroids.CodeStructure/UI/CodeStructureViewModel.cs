@@ -99,7 +99,11 @@ namespace Steroids.CodeStructure.UI
         public ICollectionView NodeListView
         {
             get => _nodeListView;
-            set => Set(ref _nodeListView, value);
+            set
+            {
+                value?.MoveCurrentToPosition(-1);
+                Set(ref _nodeListView, value);
+            }
         }
 
         /// <summary>
