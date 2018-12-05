@@ -172,16 +172,19 @@ namespace Steroids.CodeStructure.UI
             {
                 case Key.Up:
                     collectionView.MoveCurrentToPrevious();
+                    e.Handled = true;
                     break;
 
                 case Key.Down:
                     collectionView.MoveCurrentToNext();
+                    e.Handled = true;
                     break;
 
                 case Key.Enter:
                 case Key.Space:
                     _skipSelectionChanged = false;
                     SelectedNodeContainer = collectionView.CurrentItem as ICodeStructureNodeContainer;
+                    e.Handled = true;
                     break;
 
                 case Key.Escape:
@@ -189,8 +192,6 @@ namespace Steroids.CodeStructure.UI
                     HideCodeStructure();
                     break;
             }
-
-            e.Handled = true;
         }
 
         private void OnListSelectionChanged(object sender, SelectionChangedEventArgs e)
