@@ -91,8 +91,12 @@ namespace Steroids.CodeStructure.UI
                 return;
             }
 
-            base.OnGotKeyboardFocus(e);
-            ActivateKeyboardHandling();
+            PART_FilterText.Focus();
+            e.Handled = true;
+        }
+
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
             e.Handled = true;
         }
 
@@ -115,7 +119,7 @@ namespace Steroids.CodeStructure.UI
                 return;
             }
 
-            ActivateKeyboardHandling();
+            PART_FilterText.Focus();
             e.Handled = true;
         }
 
@@ -244,7 +248,6 @@ namespace Steroids.CodeStructure.UI
             }
 
             SelectedNodeContainer = PART_List.SelectedItem as ICodeStructureNodeContainer;
-            ActivateKeyboardHandling();
             e.Handled = true;
         }
     }
