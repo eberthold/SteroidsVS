@@ -67,7 +67,7 @@
                     </Border>
 
                     <platformUI:SearchTextBox x:Name="PART_FilterText" Grid.Row="1" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4" PreviewKeyDown="OnTextKeyDown" />
-                    <ListView x:Name="PART_List" Grid.Row="2" Focusable="True" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" IsSynchronizedWithCurrentItem="True" BorderThickness="0" HorizontalAlignment="Stretch" SelectionChanged="OnListSelectionChanged">
+                    <ListView x:Name="PART_List" Grid.Row="2" Focusable="True" VerticalAlignment="Top" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" IsSynchronizedWithCurrentItem="True" BorderThickness="0" HorizontalAlignment="Stretch" SelectionChanged="OnListSelectionChanged">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
@@ -90,7 +90,7 @@
                 
                 <Border Background="Transparent" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" BorderThickness="3" Margin="0" CornerRadius="1"/>
             </Border>
-            <controls:IndicatorButton x:Name="PART_Indicator" IsEnabled="{Binding IsAnalyzeable}" Margin="2" Content="{Binding LeafCount, Mode=OneWay}" IsChecked="{Binding IsOpen, ElementName=PART_Root, Mode=TwoWay}" BorderThickness="1" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" />
+            <controls:IndicatorButton x:Name="PART_Indicator" IsEnabled="{Binding IsAnalyzeable}" Margin="2" Content="{Binding LeafCount, Mode=OneWay}" IsChecked="{Binding IsOpen, Mode=TwoWay}" BorderThickness="1" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" />
         </Grid>
 
         <VisualStateManager.VisualStateGroups>

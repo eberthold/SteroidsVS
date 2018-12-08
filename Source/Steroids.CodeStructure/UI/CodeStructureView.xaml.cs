@@ -17,7 +17,8 @@ namespace Steroids.CodeStructure.UI
 {
     public partial class CodeStructureView : UserControl
     {
-        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false, OnIsOpenChanged));
+
         public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register("IsPinned", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false));
         public static readonly DependencyProperty SelectedNodeContainerProperty = DependencyProperty.Register("SelectedNodeContainer", typeof(ICodeStructureNodeContainer), typeof(CodeStructureView), new PropertyMetadata(null));
         public static readonly DependencyProperty SpaceReservationProperty = DependencyProperty.Register("SpaceReservation", typeof(IAdornmentSpaceReservation), typeof(CodeStructureView), new PropertyMetadata(null));
@@ -28,6 +29,8 @@ namespace Steroids.CodeStructure.UI
         };
 
         private bool _skipSelectionChanged;
+        private bool _skipFocusHandler;
+        private DependencyObject _textView;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureView"/> class.
@@ -36,6 +39,8 @@ namespace Steroids.CodeStructure.UI
         {
             InitializeComponent();
             CommandRouting.SetInterceptsCommandRouting(this, true);
+
+            Loaded += OnLoaded;
         }
 
         /// <summary>
@@ -80,31 +85,68 @@ namespace Steroids.CodeStructure.UI
         /// <param name="e">The <see cref="KeyboardFocusChangedEventArgs"/>.</param>
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
+            if (e.Source == this && _skipFocusHandler)
+            {
+                _skipFocusHandler = false;
+                return;
+            }
+
             base.OnGotKeyboardFocus(e);
-            PART_FilterText.Focus();
+            ActivateKeyboardHandling();
             e.Handled = true;
         }
 
         /// <summary>
-        /// Sets keyboard focus to the <see cref="PART_FilterText"/>.
+        /// Handles the mouse down event, to hide the view, select an item or focus the filter text.
         /// </summary>
+        /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="MouseButtonEventArgs"/>.</param>
-        protected override void OnMouseUp(MouseButtonEventArgs e)
+        protected void OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            base.OnMouseUp(e);
-
             if (!IsMouseOver)
             {
+                HideCodeStructure();
                 return;
             }
 
-            if (e.Source is ListViewItem)
+            if (PART_List.IsMouseOver)
+            {
+                _skipFocusHandler = true;
+                return;
+            }
+
+            ActivateKeyboardHandling();
+            e.Handled = true;
+        }
+
+        private static void OnIsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var codeStructure = d as CodeStructureView;
+            if (codeStructure is null)
             {
                 return;
             }
 
-            PART_FilterText.Focus();
-            e.Handled = true;
+            if (codeStructure.IsOpen)
+            {
+                codeStructure.ShowCodeStructure();
+            }
+        }
+
+        /// <summary>
+        /// Gets the surrounding textview and adds the mouse handler.
+        /// </summary>
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            DependencyObject current = this;
+            while (!(current is IWpfTextView) && current != null)
+            {
+                current = VisualTreeHelper.GetParent(current);
+            }
+
+            _textView = (current as IWpfTextView)?.VisualElement ?? current;
+
+            Mouse.AddMouseUpHandler(_textView, OnMouseUp);
         }
 
         /// <summary>
@@ -131,14 +173,7 @@ namespace Steroids.CodeStructure.UI
         /// </summary>
         private void DeactivateKeyboardHandling()
         {
-            DependencyObject current = this;
-            while (!(current is IWpfTextView) && current != null)
-            {
-                current = VisualTreeHelper.GetParent(current);
-            }
-
-            var textView = (current as IWpfTextView)?.VisualElement ?? current;
-            Keyboard.Focus(current as IInputElement);
+            Keyboard.Focus(_textView as IInputElement);
         }
 
         private void ShowCodeStructure()
@@ -149,6 +184,12 @@ namespace Steroids.CodeStructure.UI
 
         private void HideCodeStructure()
         {
+            if (IsPinned)
+            {
+                return;
+            }
+
+            IsOpen = false;
             SpaceReservation.ActualWidth = 0;
             DeactivateKeyboardHandling();
         }
