@@ -109,7 +109,7 @@ namespace Steroids.CodeStructure.UI
         {
             if (!IsMouseOver)
             {
-                HideCodeStructure();
+                IsOpen = false;
                 return;
             }
 
@@ -123,6 +123,31 @@ namespace Steroids.CodeStructure.UI
             e.Handled = true;
         }
 
+        protected void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (PART_List.IsMouseOver)
+            {
+                return;
+            }
+
+            if (PART_ListBorder.IsMouseOver)
+            {
+                e.Handled = true;
+            }
+        }
+
+        protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (IsKeyboardFocusWithin)
+            {
+                VisualStateManager.GoToState(this, "Activated", false);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "Deactivated", false);
+            }
+        }
+
         private static void OnIsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var codeStructure = d as CodeStructureView;
@@ -134,6 +159,10 @@ namespace Steroids.CodeStructure.UI
             if (codeStructure.IsOpen)
             {
                 codeStructure.ShowCodeStructure();
+            }
+            else
+            {
+                codeStructure.HideCodeStructure();
             }
         }
 
@@ -151,6 +180,7 @@ namespace Steroids.CodeStructure.UI
             _textView = (current as IWpfTextView)?.VisualElement ?? current;
 
             Mouse.AddMouseUpHandler(_textView, OnMouseUp);
+            Mouse.AddPreviewMouseDownHandler(_textView, OnPreviewMouseDown);
         }
 
         /// <summary>
@@ -169,7 +199,11 @@ namespace Steroids.CodeStructure.UI
         /// </summary>
         private void ActivateKeyboardHandling()
         {
-            Keyboard.Focus(this);
+            if (PART_FilterText.Focusable && PART_FilterText.IsVisible)
+            {
+                Keyboard.Focus(PART_FilterText);
+                FocusManager.SetFocusedElement(this, PART_FilterText);
+            }
         }
 
         /// <summary>
@@ -177,6 +211,7 @@ namespace Steroids.CodeStructure.UI
         /// </summary>
         private void DeactivateKeyboardHandling()
         {
+            Keyboard.ClearFocus();
             Keyboard.Focus(_textView as IInputElement);
         }
 
@@ -193,7 +228,6 @@ namespace Steroids.CodeStructure.UI
                 return;
             }
 
-            IsOpen = false;
             SpaceReservation.ActualWidth = 0;
             DeactivateKeyboardHandling();
         }
@@ -229,12 +263,13 @@ namespace Steroids.CodeStructure.UI
                 case Key.Space:
                     _skipSelectionChanged = false;
                     SelectedNodeContainer = collectionView.CurrentItem as ICodeStructureNodeContainer;
+                    PART_List.SelectedItem = null;
                     e.Handled = true;
                     break;
 
                 case Key.Escape:
                     PART_FilterText.Text = string.Empty;
-                    HideCodeStructure();
+                    IsOpen = false;
                     break;
             }
         }
@@ -247,8 +282,29 @@ namespace Steroids.CodeStructure.UI
                 return;
             }
 
+            if (PART_List.SelectedItem is null)
+            {
+                return;
+            }
+
             SelectedNodeContainer = PART_List.SelectedItem as ICodeStructureNodeContainer;
+            PART_List.SelectedItem = null;
+            _skipFocusHandler = false;
+            PART_FilterText.Focus();
             e.Handled = true;
+        }
+
+        /// <summary>
+        /// The <see cref="PART_FilterText"/> only can gain focus if it is visible, so we need to handle this event.
+        /// </summary>
+        private void OnFilterTextIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!PART_FilterText.IsVisible)
+            {
+                return;
+            }
+
+            ActivateKeyboardHandling();
         }
     }
 }

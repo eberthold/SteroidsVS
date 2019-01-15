@@ -298,6 +298,8 @@ namespace Steroids.CodeStructure.UI
 
             _adornerContent.Width = Math.Max(0, _textView.ViewportWidth);
             _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, HighlightAdornmentTag, _adornerContent, null);
+
+            _textView.Caret.MoveTo(startLine.Start);
         }
     }
 }
