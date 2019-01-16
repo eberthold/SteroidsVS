@@ -101,21 +101,19 @@ namespace Steroids.CodeStructure.UI
         }
 
         /// <summary>
-        /// Handles the mouse down event, to hide the view, select an item or focus the filter text.
-        /// </summary>
+        /// Handles the mouse down event, to hide the view, select an item or focus the filter text<see cref="PART_FilterText"/>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="MouseButtonEventArgs"/>.</param>
         protected void OnMouseUp(object sender, MouseButtonEventArgs e)
         {
             if (!IsMouseOver)
             {
-                IsOpen = false;
+                IsOpen = IsPinned;
                 return;
             }
 
-            if (PART_List.IsMouseOver)
+            if (PART_List.IsMouseOver || PART_Toolbar.IsMouseOver)
             {
-                _skipFocusHandler = true;
                 return;
             }
 
@@ -125,8 +123,9 @@ namespace Steroids.CodeStructure.UI
 
         protected void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (PART_List.IsMouseOver)
+            if (PART_List.IsMouseOver || PART_Toolbar.IsMouseOver)
             {
+                _skipFocusHandler = true;
                 return;
             }
 
@@ -136,6 +135,10 @@ namespace Steroids.CodeStructure.UI
             }
         }
 
+        /// <summary>
+        /// Changes the visual state based on the <see cref="IsKeyboardFocusWithin"/>.
+        /// </summary>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/>.</param>
         protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
         {
             if (IsKeyboardFocusWithin)
@@ -269,7 +272,8 @@ namespace Steroids.CodeStructure.UI
 
                 case Key.Escape:
                     PART_FilterText.Text = string.Empty;
-                    IsOpen = false;
+                    IsOpen = IsPinned;
+                    DeactivateKeyboardHandling();
                     break;
             }
         }

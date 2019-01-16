@@ -1,7 +1,11 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
 using Steroids.CodeStructure.Adorners;
 using Steroids.CodeStructure.UI;
@@ -75,7 +79,37 @@ namespace SteroidsVS.CodeAdornments
                 return;
             }
 
-            viewModel.IsOpen = !viewModel.IsOpen;
+            viewModel.IsOpen = !viewModel.IsOpen || viewModel.IsPinned;
+
+            var view = GetChildOfType<SearchTextBox>(codeStructure);
+            if (view is null)
+            {
+                return;
+            }
+
+            view.Focus();
+        }
+
+        private T GetChildOfType<T>(DependencyObject depObj)
+            where T : DependencyObject
+        {
+            if (depObj is null)
+            {
+                return null;
+            }
+
+            for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(depObj, i);
+
+                var result = (child as T) ?? GetChildOfType<T>(child);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
         }
     }
 }
