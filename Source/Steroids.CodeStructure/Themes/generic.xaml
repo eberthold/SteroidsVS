@@ -11,10 +11,10 @@
     mc:Ignorable="d" >
 
     <Style TargetType="{x:Type controls:IndicatorButton}" BasedOn="{StaticResource {x:Type CheckBox}}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabProvisionalSelectedInactiveBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabBackgroundBrushKey}}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabProvisionalSelectedInactiveForegroundBrushKey}}" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabTextBrushKey}}" />
         <Setter Property="TextElement.FontWeight" Value="Bold" />
         <Setter Property="Template">
             <Setter.Value>
@@ -24,12 +24,12 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="root" Property="Background" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabProvisionalHoverBrushKey}}" />
-                            <Setter TargetName="content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabProvisionalHoverForegroundBrushKey}}" />
+                            <Setter TargetName="root" Property="Background" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabHotGradientBrushKey}}" />
+                            <Setter TargetName="content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabHotTextBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="root" Property="Background" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabProvisionalSelectedActiveBrushKey}}" />
-                            <Setter TargetName="content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabProvisionalSelectedActiveForegroundBrushKey}}" />
+                            <Setter TargetName="root" Property="Background" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabSelectedGradientBottomBrushKey}}" />
+                            <Setter TargetName="content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabSelectedTextBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

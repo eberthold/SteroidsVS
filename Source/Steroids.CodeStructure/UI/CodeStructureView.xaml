@@ -67,7 +67,7 @@
                     </Border>
 
                     <platformUI:SearchTextBox x:Name="PART_FilterText" Grid.Row="1" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4" PreviewKeyDown="OnTextKeyDown" IsVisibleChanged="OnFilterTextIsVisibleChanged"/>
-                    <ListView x:Name="PART_List" Grid.Row="2" Focusable="True" VerticalAlignment="Top" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" IsSynchronizedWithCurrentItem="True" BorderThickness="0" HorizontalAlignment="Stretch" SelectionChanged="OnListSelectionChanged">
+                    <ListView x:Name="PART_List" Grid.Row="2" Focusable="True" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" IsSynchronizedWithCurrentItem="True" BorderThickness="0" HorizontalAlignment="Stretch" SelectionChanged="OnListSelectionChanged">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
@@ -98,8 +98,8 @@
                 <VisualState Name="Activated" />
                 <VisualState Name="Deactivated">
                     <Storyboard>
-                        <ColorAnimation Storyboard.TargetName="PART_ListBorderBrush" Storyboard.TargetProperty="Color" To="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowBorderColorKey}}" Duration="0:0:0.1"/>
-                        <ColorAnimation Storyboard.TargetName="PART_ThumbBackground" Storyboard.TargetProperty="Color" To="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowBorderColorKey}}" Duration="0:0:0.1"/>
+                        <ColorAnimation Storyboard.TargetName="PART_ListBorderBrush" Storyboard.TargetProperty="Color" To="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabBackgroundColorKey}}" Duration="0:0:0.3"/>
+                        <ColorAnimation Storyboard.TargetName="PART_ThumbBackground" Storyboard.TargetProperty="Color" To="{DynamicResource {x:Static platformUI:EnvironmentColors.FileTabBackgroundColorKey}}" Duration="0:0:0.3"/>
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>

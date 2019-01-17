@@ -103,7 +103,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <Rectangle x:Name="PART_Indicator" Margin="0, 2" Opacity="0.75" Height="8" Width="8" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Rectangle x:Name="PART_Indicator" Opacity="0.75" Height="10" Width="10" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
 
                         <Border Background="Transparent" MaxWidth="450" Padding="4, 1" Grid.Column="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Right">
                             <TextBlock TextTrimming="CharacterEllipsis" FontSize="9">
