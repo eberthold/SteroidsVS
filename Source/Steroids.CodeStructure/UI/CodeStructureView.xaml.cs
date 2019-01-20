@@ -101,7 +101,7 @@ namespace Steroids.CodeStructure.UI
         }
 
         /// <summary>
-        /// Handles the mouse down event, to hide the view, select an item or focus the filter text<see cref="PART_FilterText"/>
+        /// Handles the mouse down event, to hide the view, select an item or focus the filter text<see cref="PART_FilterText"/>.
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="MouseButtonEventArgs"/>.</param>
         protected void OnMouseUp(object sender, MouseButtonEventArgs e)
@@ -112,7 +112,7 @@ namespace Steroids.CodeStructure.UI
                 return;
             }
 
-            if (PART_List.IsMouseOver || PART_Toolbar.IsMouseOver)
+            if ((PART_List.IsMouseOver && !IsMouseOverSpareListViewSpace()) || PART_Toolbar.IsMouseOver)
             {
                 return;
             }
@@ -123,15 +123,20 @@ namespace Steroids.CodeStructure.UI
 
         protected void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (PART_ClickCatcher.IsMouseDirectlyOver)
+            {
+                e.Handled = true;
+            }
+
+            if (IsMouseOverSpareListViewSpace())
+            {
+                e.Handled = true;
+            }
+
             if (PART_List.IsMouseOver || PART_Toolbar.IsMouseOver)
             {
                 _skipFocusHandler = true;
                 return;
-            }
-
-            if (PART_ListBorder.IsMouseOver)
-            {
-                e.Handled = true;
             }
         }
 
@@ -167,6 +172,15 @@ namespace Steroids.CodeStructure.UI
             {
                 codeStructure.HideCodeStructure();
             }
+        }
+
+        /// <summary>
+        /// Checks if the mouse is over the <see cref="PART_List"/> but not over one of it's items.
+        /// </summary>
+        /// <returns><see langword="true"/>, if the mouse is over the "free" area of the <see cref="PART_List"/>.</returns>
+        private bool IsMouseOverSpareListViewSpace()
+        {
+            return PART_List.IsMouseOver && Mouse.DirectlyOver is ScrollViewer;
         }
 
         /// <summary>

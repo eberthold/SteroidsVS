@@ -53,21 +53,20 @@
                     </Thumb.Template>
                 </Thumb>
 
-                <Grid Grid.Column="1">
+                <Grid x:Name="PART_ClickCatcher" Background="Transparent" Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Border x:Name="PART_Toolbar" Grid.Column="0" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.CommandBarToolBarBorderBrushKey}}">
-                        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" Margin="4, 2">
-                            <CheckBox Focusable="False" Content="{x:Static imageCatalog:KnownMonikers.Pin}" IsChecked="{Binding IsPinned, ElementName=PART_Root, Mode=TwoWay}" Style="{StaticResource MonikerCheckBox}"/>
-                        </StackPanel>
-                    </Border>
+                    <Rectangle x:Name="PART_Toolbar" Grid.Row="0" HorizontalAlignment="Stretch" IsHitTestVisible="False" VerticalAlignment="Stretch"  Fill="{DynamicResource {x:Static platformUI:EnvironmentColors.CommandBarToolBarBorderBrushKey}}" />
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="4, 2">
+                        <CheckBox Focusable="False" Content="{x:Static imageCatalog:KnownMonikers.Pin}" IsChecked="{Binding IsPinned, ElementName=PART_Root, Mode=TwoWay}" Style="{StaticResource MonikerCheckBox}"/>
+                    </StackPanel>
 
                     <platformUI:SearchTextBox x:Name="PART_FilterText" Grid.Row="1" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4" PreviewKeyDown="OnTextKeyDown" IsVisibleChanged="OnFilterTextIsVisibleChanged"/>
-                    <ListView x:Name="PART_List" Grid.Row="2" Focusable="True" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" IsSynchronizedWithCurrentItem="True" BorderThickness="0" HorizontalAlignment="Stretch" SelectionChanged="OnListSelectionChanged">
+                    <ListView x:Name="PART_List" Grid.Row="2" Focusable="True" Background="{x:Null}" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" IsSynchronizedWithCurrentItem="True" BorderThickness="0" HorizontalAlignment="Stretch" SelectionChanged="OnListSelectionChanged">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
@@ -87,7 +86,7 @@
                 <Border.Effect>
                     <BlurEffect />
                 </Border.Effect>
-                
+
                 <Border Background="Transparent" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" BorderThickness="3" Margin="0" CornerRadius="1"/>
             </Border>
             <controls:IndicatorButton x:Name="PART_Indicator" IsEnabled="{Binding IsAnalyzeable}" Margin="2" Content="{Binding LeafCount, Mode=OneWay}" IsChecked="{Binding IsOpen, Mode=TwoWay}" BorderThickness="1" BorderBrush="{Binding CurrentDiagnosticLevel, Converter={StaticResource DiagnosticLevelToBrushConverter}}" />
