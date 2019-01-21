@@ -215,13 +215,14 @@ namespace Steroids.CodeStructure.UI
         private void RefreshUi()
         {
             RaisePropertyChanged(nameof(LeafCount));
-
-            if (NodeCollection == null && _documentAnalyzerService.Nodes != null)
+            if (_documentAnalyzerService.Nodes == null)
             {
-                NodeCollection = _documentAnalyzerService.Nodes.ToList();
-                NodeListView = new CollectionView(NodeCollection);
-                NodeListView.Filter = FilterNodes;
+                return;
             }
+
+            NodeCollection = _documentAnalyzerService.Nodes.ToList();
+            NodeListView = new CollectionView(NodeCollection);
+            NodeListView.Filter = FilterNodes;
         }
 
         private bool FilterNodes(object obj)
