@@ -34,7 +34,7 @@ namespace Steroids.CodeStructure.UI
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
         private ICodeStructureNodeContainer _selectedNode;
-        private IEnumerable<ICodeStructureNodeContainer> _nodeCollection;
+        private List<ICodeStructureNodeContainer> _nodeCollection;
         private bool _isPinned;
         private DiagnosticSeverity _currentDiagnosticLevel;
         private ICollectionView _nodeListView;
@@ -178,7 +178,7 @@ namespace Steroids.CodeStructure.UI
             set => Set(ref _currentDiagnosticLevel, value);
         }
 
-        public IEnumerable<ICodeStructureNodeContainer> NodeCollection
+        public List<ICodeStructureNodeContainer> NodeCollection
         {
             get => _nodeCollection;
             set => Set(ref _nodeCollection, value);
@@ -221,7 +221,7 @@ namespace Steroids.CodeStructure.UI
             }
 
             NodeCollection = _documentAnalyzerService.Nodes.ToList();
-            NodeListView = new CollectionView(NodeCollection);
+            NodeListView = new ListCollectionView(NodeCollection);
             NodeListView.Filter = FilterNodes;
         }
 
