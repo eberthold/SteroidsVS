@@ -218,7 +218,7 @@ namespace Steroids.CodeStructure.UI
 
             if (NodeCollection == null && _documentAnalyzerService.Nodes != null)
             {
-                NodeCollection = _documentAnalyzerService.Nodes;
+                NodeCollection = _documentAnalyzerService.Nodes.ToList();
                 NodeListView = new CollectionView(NodeCollection);
                 NodeListView.Filter = FilterNodes;
             }
