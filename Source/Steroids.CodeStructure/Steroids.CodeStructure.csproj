@@ -398,10 +398,6 @@
       <Project>{d43c1a42-a6b0-4f1b-8637-79daacaae487}</Project>
       <Name>Steroids.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Steroids.Contracts\Steroids.Contracts.csproj">
-      <Project>{1c5f02ac-f8c1-408c-8a54-560f31bd9b64}</Project>
-      <Name>Steroids.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Steroids.SharedUI\Steroids.SharedUI.csproj">
       <Project>{58AC3D8F-294E-4389-8A93-570AE6C45808}</Project>
       <Name>Steroids.SharedUI</Name>

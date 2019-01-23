@@ -283,10 +283,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Steroids.Contracts\Steroids.Contracts.csproj">
-      <Project>{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}</Project>
-      <Name>Steroids.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Steroids.Core\Steroids.Core.csproj">
       <Project>{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}</Project>
       <Name>Steroids.Core</Name>

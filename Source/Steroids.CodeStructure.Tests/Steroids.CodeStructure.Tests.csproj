@@ -179,10 +179,6 @@
       <Project>{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}</Project>
       <Name>Steroids.CodeStructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Steroids.Contracts\Steroids.Contracts.csproj">
-      <Project>{1C5F02AC-F8C1-408C-8A54-560F31BD9B64}</Project>
-      <Name>Steroids.Contracts</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\FakeItEasy.Analyzer.CSharp.4.6.0\analyzers\dotnet\cs\FakeItEasy.Analyzer.CSharp.dll" />

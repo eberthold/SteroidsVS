@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Steroids.Core.Helpers
+namespace Steroids.Core.Tools
 {
     public class Debouncer
     {

@@ -48,9 +48,6 @@ namespace Steroids.CodeStructure.Analyzers.Services
         /// <inheritdoc />
         public IEnumerable<ICodeStructureNodeContainer> Nodes { get; private set; }
 
-        /// <inheritdoc />
-        public ProjectId ProjectId => _textView.GetDocument().Project.Id;
-
         private void OnTextChanged(object sender, EventArgs e)
         {
             if (!_textView.VisualElement.IsVisible)

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
-using Steroids.Contracts;
-using Steroids.Core.Diagnostics.Contracts;
 
-namespace Steroids.Core.Extensions
+namespace SteroidsVs.UI.Editor
 {
     public static class IWpfTextViewExtensions
     {
@@ -51,18 +46,18 @@ namespace Steroids.Core.Extensions
         /// <summary>
         /// Extracts the <see cref="DiagnosticInfo"/> Elements which are related to this document.
         /// </summary>
-        /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
+        /// <param name="editor">The <see cref="IWpfTextView"/>.</param>
         /// <param name="diagnostics">The list of all <see cref="DiagnosticInfo"/>.</param>
         /// <returns>All related <see cref="DiagnosticInfo"/>.</returns>
-        public static IEnumerable<DiagnosticInfo> ExtractRelatedDiagnostics(this IQualityTextView textView, IEnumerable<DiagnosticInfo> diagnostics)
-        {
-            var path = textView.Path;
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                return Enumerable.Empty<DiagnosticInfo>();
-            }
+        //public static IEnumerable<DiagnosticInfo> ExtractRelatedDiagnostics(this IEditorImplementation editor, IEnumerable<DiagnosticInfo> diagnostics)
+        //{
+        //    var path = editor.FilePath;
+        //    if (string.IsNullOrWhiteSpace(path))
+        //    {
+        //        return Enumerable.Empty<DiagnosticInfo>();
+        //    }
 
-            return diagnostics.Where(x => path.EndsWith(x?.Path ?? " ", StringComparison.OrdinalIgnoreCase));
-        }
+        //    return diagnostics.Where(x => path.EndsWith(x?.Path ?? " ", StringComparison.OrdinalIgnoreCase));
+        //}
     }
 }

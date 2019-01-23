@@ -210,10 +210,6 @@
       <Project>{8E125506-818B-40E4-ADFB-6238C2A49AC7}</Project>
       <Name>Steroids.CodeQuality</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Steroids.Contracts\Steroids.Contracts.csproj">
-      <Project>{1c5f02ac-f8c1-408c-8a54-560f31bd9b64}</Project>
-      <Name>Steroids.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Steroids.Core\Steroids.Core.csproj">
       <Project>{d43c1a42-a6b0-4f1b-8637-79daacaae487}</Project>
       <Name>Steroids.Core</Name>
