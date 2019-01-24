@@ -1,8 +1,7 @@
 ﻿using System;
-using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell.TableManager;
-using Steroids.Contracts;
+using Steroids.Core.CodeQuality;
 
 namespace Steroids.CodeQuality.Diagnostic
 {

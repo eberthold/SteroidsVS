@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Steroids.Contracts;
+using Steroids.Core.CodeQuality;
 
-namespace Steroids.Core.Test.Diagnostics
+namespace Steroids.Core.Tests.CodeQuality
 {
     [TestClass]
-    public class DiagnosticInfoTest
+    public class DiagnosticInfoTests
     {
         [TestMethod]
         public void CompareTo_OnlyIsActiveChanged_NotEqual()

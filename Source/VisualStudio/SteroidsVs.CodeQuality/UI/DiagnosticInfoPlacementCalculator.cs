@@ -4,10 +4,11 @@ using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 using Microsoft.VisualStudio.Text.Outlining;
-using Steroids.Contracts.UI;
-using Steroids.Core.Extensions;
+using Steroids.CodeQuality.LineHandling;
+using Steroids.Core.UI;
+using SteroidsVS.UI.Editor;
 
-namespace Steroids.CodeQuality.UI
+namespace SteroidsVS.CodeQuality.UI
 {
     /// <summary>
     /// Provides the logic to place a <see cref="DiagnosticInfoLine"/> element.

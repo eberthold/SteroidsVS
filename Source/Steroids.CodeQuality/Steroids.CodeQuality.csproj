@@ -222,30 +222,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Condition="'$(DesignTime)'=='true' AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true' AND '$(BuildingSolutionFile)'!='true'" Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DiagnosticInfoAdorner.cs" />
-    <Compile Include="UI\DiagnosticInfoControl.cs" />
-    <Compile Include="Diagnostic\ITableEntryExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\ModuleResourceDictionary.xaml.cs">
-      <DependentUpon>ModuleResourceDictionary.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Diagnostic\ErrorListDiagnosticProvider.cs" />
-    <Compile Include="Diagnostic\TableManagerDiagnosticsProvider.cs" />
-    <Compile Include="UI\DiagnosticInfoComputedLineComparer.cs" />
-    <Compile Include="UI\DiagnosticInfoLinePanel.cs" />
-    <Compile Include="UI\DiagnosticInfoPlacementCalculator.cs" />
-    <Compile Include="UI\DiagnosticInfoLine.cs" />
+    <Compile Include="LineHandling\DiagnosticInfoComputedLineComparer.cs" />
+    <Compile Include="LineHandling\DiagnosticInfoLine.cs" />
     <Compile Include="UI\DiagnosticInfosViewModel.cs" />
-    <Compile Include="UI\DiagnosticInfosView.xaml.cs">
-      <DependentUpon>DiagnosticInfosView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -263,24 +243,6 @@
     <Analyzer Include="..\packages\Roslynator.Analyzers.1.9.0\analyzers\dotnet\cs\Roslynator.CSharp.Workspaces.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.0-beta008\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.0-beta008\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="App.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\ModuleResourceDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\generic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\DiagnosticInfosView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steroids.Core\Steroids.Core.csproj">

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.CodeAnalysis;
-using Steroids.Contracts;
+using Steroids.Core.CodeQuality;
 
-namespace Steroids.CodeQuality.UI
+namespace SteroidsVS.CodeQuality.UI
 {
     public class DiagnosticInfoControl : Control
     {

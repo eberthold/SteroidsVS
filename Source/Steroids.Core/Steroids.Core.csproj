@@ -118,7 +118,10 @@
     <Compile Include="BindableBase.cs" />
     <Compile Include="CodeQuality\DiagnosticInfo.cs" />
     <Compile Include="CodeQuality\DiagnosticsChangedEventArgs.cs" />
+    <Compile Include="CodeQuality\DiagnosticSeverity.cs" />
     <Compile Include="CodeQuality\IDiagnosticProvider.cs" />
+    <Compile Include="Editor\IEditorImplementationExtensions.cs" />
+    <Compile Include="Editor\IFoldingManager.cs" />
     <Compile Include="Editor\IEditorImplementation.cs" />
     <Compile Include="Editor\IActiveEditorProvider.cs" />
     <Compile Include="Framework\IBootstrapper.cs" />

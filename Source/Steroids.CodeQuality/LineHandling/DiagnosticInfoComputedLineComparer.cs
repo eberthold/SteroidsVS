@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Steroids.Contracts;
+using Steroids.Core.CodeQuality;
 
-namespace Steroids.CodeQuality.UI
+namespace Steroids.CodeQuality.LineHandling
 {
     /// <summary>
     /// Alternates the default <see cref="DiagnosticInfo"/> comparison by switching to <see cref="DiagnosticInfo.ComputedLineNumber"/> instead of <see cref="DiagnosticInfo.LineNumber"/>.

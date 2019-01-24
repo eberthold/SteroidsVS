@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeQuality", "CodeQuality"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeStructure", "CodeStructure", "{22B6E3A9-C009-49D7-98A4-6B57877BA4DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS.CodeQuality", "VisualStudio\SteroidsVs.CodeQuality\SteroidsVS.CodeQuality.csproj", "{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{03A381EA-C4CA-441F-8128-0713060E919C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03A381EA-C4CA-441F-8128-0713060E919C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03A381EA-C4CA-441F-8128-0713060E919C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +117,7 @@ Global
 		{03A381EA-C4CA-441F-8128-0713060E919C} = {A0C635A0-8002-453A-9DA8-F43A31655793}
 		{0C924F26-8A39-4A6D-82C0-B9A504332773} = {7071A409-65F5-484A-A3EB-A957E1749BF5}
 		{22B6E3A9-C009-49D7-98A4-6B57877BA4DD} = {7071A409-65F5-484A-A3EB-A957E1749BF5}
+		{E4C0B3CB-96AD-405D-87FB-8E6318827E5B} = {A0C635A0-8002-453A-9DA8-F43A31655793}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA622E88-1DED-4B8D-8890-E38D3F07C08E}

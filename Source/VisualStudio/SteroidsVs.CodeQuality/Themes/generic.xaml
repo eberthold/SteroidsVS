@@ -1,12 +1,12 @@
 ﻿<ResourceDictionary 
-    x:Class="Steroids.CodeStructure.Themes.generic"
+    x:Class="SteroidsVS.CodeQuality.Themes.generic"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
-    xmlns:ui="clr-namespace:Steroids.CodeQuality.UI"
+    xmlns:ui="clr-namespace:SteroidsVS.CodeQuality.UI"
     mc:Ignorable="d">
 
     <Style TargetType="{x:Type ui:DiagnosticInfoControl}">

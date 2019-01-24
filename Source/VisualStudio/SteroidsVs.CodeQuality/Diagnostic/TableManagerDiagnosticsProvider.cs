@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.Shell.TableManager;
-using Steroids.Contracts;
+using Steroids.Core.CodeQuality;
 
 namespace Steroids.CodeQuality.Diagnostic
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Steroids.Code.CodeQuality
+namespace Steroids.Core.CodeQuality
 {
     public class DiagnosticsChangedEventArgs : EventArgs
     {

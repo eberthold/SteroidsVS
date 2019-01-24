@@ -6,9 +6,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.Text.Editor;
-using Steroids.Contracts.UI;
+using Steroids.CodeQuality.LineHandling;
+using Steroids.Core.UI;
 
-namespace Steroids.CodeQuality.UI
+namespace SteroidsVS.CodeQuality.UI
 {
     /// <summary>
     /// Special panel for placing Items relative to the <see cref="IWpfTextView"/>.

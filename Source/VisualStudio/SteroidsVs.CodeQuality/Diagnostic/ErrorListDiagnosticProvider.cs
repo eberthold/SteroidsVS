@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.TableControl;
-using Steroids.Contracts;
+using Steroids.Core.CodeQuality;
 
 namespace Steroids.CodeQuality.Diagnostic
 {

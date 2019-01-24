@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.CodeAnalysis;
-using Steroids.Contracts;
 using Steroids.Core;
+using Steroids.Core.CodeQuality;
 
-namespace Steroids.CodeQuality.UI
+namespace Steroids.CodeQuality.LineHandling
 {
     /// <summary>
     /// Collects all diagnostics which belong to a specific line.

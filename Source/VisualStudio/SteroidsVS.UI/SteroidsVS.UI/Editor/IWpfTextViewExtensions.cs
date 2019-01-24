@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 
-namespace SteroidsVs.UI.Editor
+namespace SteroidsVS.UI.Editor
 {
     public static class IWpfTextViewExtensions
     {
@@ -42,22 +42,5 @@ namespace SteroidsVs.UI.Editor
 
             return null;
         }
-
-        /// <summary>
-        /// Extracts the <see cref="DiagnosticInfo"/> Elements which are related to this document.
-        /// </summary>
-        /// <param name="editor">The <see cref="IWpfTextView"/>.</param>
-        /// <param name="diagnostics">The list of all <see cref="DiagnosticInfo"/>.</param>
-        /// <returns>All related <see cref="DiagnosticInfo"/>.</returns>
-        //public static IEnumerable<DiagnosticInfo> ExtractRelatedDiagnostics(this IEditorImplementation editor, IEnumerable<DiagnosticInfo> diagnostics)
-        //{
-        //    var path = editor.FilePath;
-        //    if (string.IsNullOrWhiteSpace(path))
-        //    {
-        //        return Enumerable.Empty<DiagnosticInfo>();
-        //    }
-
-        //    return diagnostics.Where(x => path.EndsWith(x?.Path ?? " ", StringComparison.OrdinalIgnoreCase));
-        //}
     }
 }

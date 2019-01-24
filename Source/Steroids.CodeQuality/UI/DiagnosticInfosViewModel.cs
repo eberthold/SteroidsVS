@@ -4,11 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Outlining;
-using Steroids.Contracts;
-using Steroids.Contracts.UI;
+using Steroids.CodeQuality.LineHandling;
 using Steroids.Core;
-using Steroids.Core.Diagnostics.Contracts;
-using Steroids.Core.Extensions;
+using Steroids.Core.CodeQuality;
+using Steroids.Core.Editor;
 
 namespace Steroids.CodeQuality.UI
 {
@@ -22,25 +21,19 @@ namespace Steroids.CodeQuality.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="DiagnosticInfosViewModel"/> class.
         /// </summary>
-        /// <param name="textView">The <see cref="IQualityTextView"/>.</param>
+        /// <param name="editor">The <see cref="IEditorImplementation"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
-        /// <param name="outliningManagerService">THe <see cref="IOutliningManagerService"/> for the <paramref name="textView"/>.</param>
-        /// <param name="adornmentSpaceReservation">The <see cref="IAdornmentSpaceReservation"/>.</param>
         public DiagnosticInfosViewModel(
-            IQualityTextView textView,
-            IDiagnosticProvider diagnosticProvider,
-            IOutliningManagerService outliningManagerService,
-            IAdornmentSpaceReservation adornmentSpaceReservation)
+            IEditorImplementation editor,
+            IDiagnosticProvider diagnosticProvider)
         {
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
-            TextView = textView ?? throw new ArgumentNullException(nameof(textView));
-            AdornmentSpaceReservation = adornmentSpaceReservation ?? throw new ArgumentNullException(nameof(adornmentSpaceReservation));
-            OutliningManager = outliningManagerService.GetOutliningManager(TextView.TextView);
+            Editor = editor ?? throw new ArgumentNullException(nameof(editor));
 
             WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
 
-            OutliningManager.RegionsExpanded += OnRegionsExpanded;
-            OutliningManager.RegionsCollapsed += OnRegionsCollapsed;
+            Editor.FoldingManager.Expanded += OnCodeExpanded;
+            Editor.FoldingManager.Expanded += OnCodeCollapsed;
 
             OnDiagnosticsChanged(this, new DiagnosticsChangedEventArgs(_diagnosticProvider.CurrentDiagnostics));
         }
@@ -54,14 +47,9 @@ namespace Steroids.CodeQuality.UI
             = new ObservableCollection<DiagnosticInfoLine>();
 
         /// <summary>
-        /// The adornment space reservation to avoid overlapping adornments.
-        /// </summary>
-        public IAdornmentSpaceReservation AdornmentSpaceReservation { get; }
-
-        /// <summary>
         /// The text view for which the diagnostics are evaluated.
         /// </summary>
-        public IQualityTextView TextView { get; private set; }
+        public IEditorImplementation Editor { get; private set; }
 
         /// <inheritdoc />
         public void Dispose()
@@ -71,8 +59,8 @@ namespace Steroids.CodeQuality.UI
                 return;
             }
 
-            OutliningManager.RegionsExpanded -= OnRegionsExpanded;
-            OutliningManager.RegionsCollapsed -= OnRegionsCollapsed;
+            OutliningManager.RegionsExpanded -= OnCodeExpanded;
+            OutliningManager.RegionsCollapsed -= OnCodeCollapsed;
 
             _disposed = true;
         }
@@ -85,7 +73,7 @@ namespace Steroids.CodeQuality.UI
         private void OnDiagnosticsChanged(object sender, DiagnosticsChangedEventArgs args)
         {
             // TODO: only recreate non existing hints and remove resolved hints.
-            var fileDiagnostics = TextView
+            var fileDiagnostics = Editor
                 .ExtractRelatedDiagnostics(args.Diagnostics)
                 .Where(x => x.IsActive)
                 .ToList();
@@ -99,7 +87,7 @@ namespace Steroids.CodeQuality.UI
             var lineMap = fileDiagnostics
                 .Select(x => x.LineNumber)
                 .Distinct()
-                .ToDictionary(x => x, x => DiagnosticInfoPlacementCalculator.GetRealLineNumber(TextView.TextView, x, OutliningManager));
+                .ToDictionary(x => x, x => Editor.GetComputedLineNumber(x));
 
             foreach (var diagnostic in fileDiagnostics)
             {
@@ -135,12 +123,22 @@ namespace Steroids.CodeQuality.UI
             }
         }
 
-        private void OnRegionsCollapsed(object sender, RegionsCollapsedEventArgs e)
+        /// <summary>
+        /// Triggered when a section of code was collapsed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/>.</param>
+        private void OnCodeCollapsed(object sender, EventArgs e)
         {
             UpdateDiagnostics(_lastDiagnostics);
         }
 
-        private void OnRegionsExpanded(object sender, RegionsExpandedEventArgs e)
+        /// <summary>
+        /// Triggered when a section of code was expanded.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/>.</param>
+        private void OnCodeExpanded(object sender, EventArgs e)
         {
             UpdateDiagnostics(_lastDiagnostics);
         }

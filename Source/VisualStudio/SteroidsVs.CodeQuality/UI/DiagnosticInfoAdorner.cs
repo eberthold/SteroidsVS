@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using Microsoft.VisualStudio.Text.Editor;
 using Steroids.CodeQuality.UI;
 
-namespace Steroids.CodeQuality
+namespace SteroidsVS.CodeQuality.UI
 {
     public class DiagnosticInfoAdorner
     {

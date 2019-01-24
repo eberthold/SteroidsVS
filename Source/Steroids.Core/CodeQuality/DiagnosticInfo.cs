@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.CodeAnalysis;
 
 namespace Steroids.Core.CodeQuality
 {
@@ -39,7 +38,7 @@ namespace Steroids.Core.CodeQuality
         public int LineNumber { get; set; }
 
         /// <summary>
-        /// The computed line number which also respects regions.
+        /// The computed line number which also respects collapsed code.
         /// </summary>
         public int ComputedLineNumber { get; set; }
 
