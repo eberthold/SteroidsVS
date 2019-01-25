@@ -248,6 +248,10 @@ namespace Steroids.CodeStructure.Analyzers.NodeContainer
             }
         }
 
+        public int StartLineNumber { get; set; }
+
+        public int EndLineNumber { get; set; }
+
         /// <summary>
         /// Gets the access modifier of the node.
         /// </summary>

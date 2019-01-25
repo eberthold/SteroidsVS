@@ -1,4 +1,4 @@
-﻿namespace Steroids.CodeQuality.Resources
+﻿namespace SteroidsVS.CodeQuality.Resources
 {
     public partial class ModuleResourceDictionary
     {

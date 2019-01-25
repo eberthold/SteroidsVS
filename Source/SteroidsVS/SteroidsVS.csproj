@@ -64,9 +64,9 @@
     <Compile Include="CodeAdornments\CodeStructureOpenCommand.cs" />
     <Compile Include="Services\ActiveTextViewProvider.cs" />
     <Compile Include="Contracts\IVsServiceProvider.cs" />
-    <Compile Include="Models\TextViewWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DispatcherService.cs" />
+    <Compile Include="Services\IActiveTextViewProvider.cs" />
     <Compile Include="Services\VsServiceProvider.cs" />
     <Compile Include="SteroidsVsPackage.cs" />
   </ItemGroup>
@@ -383,6 +383,10 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.0-beta008\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BusinessLogic\CodeAnalysis\Steroids.Roslyn\Steroids.Roslyn.csproj">
+      <Project>{C02F84AE-8614-443D-B38C-CBAE226BAC77}</Project>
+      <Name>Steroids.Roslyn</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Steroids.CodeQuality\Steroids.CodeQuality.csproj">
       <Project>{8e125506-818b-40e4-adfb-6238c2a49ac7}</Project>
       <Name>Steroids.CodeQuality</Name>
@@ -406,6 +410,14 @@
     <ProjectReference Include="..\Steroids.Skin\Steroids.Skin.csproj">
       <Project>{dea6534a-406c-409e-802f-9b655bc8e876}</Project>
       <Name>Steroids.Skin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VisualStudio\SteroidsVs.CodeQuality\SteroidsVS.CodeQuality.csproj">
+      <Project>{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}</Project>
+      <Name>SteroidsVS.CodeQuality</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VisualStudio\SteroidsVS.CodeStructure\SteroidsVS.CodeStructure.csproj">
+      <Project>{E6451202-C6F6-4E47-86F1-2745FB353758}</Project>
+      <Name>SteroidsVS.CodeStructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

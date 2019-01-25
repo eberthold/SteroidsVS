@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
-using Steroids.CodeQuality;
-using Steroids.CodeStructure.Adorners;
+using SteroidsVS.CodeQuality.UI;
+using SteroidsVS.CodeStructure.Adorners;
 
 namespace SteroidsVS.CodeAdornments
 {

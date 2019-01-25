@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Outlining;
-using Steroids.CodeQuality;
 using Steroids.CodeQuality.UI;
-using Steroids.CodeStructure.Adorners;
 using Steroids.CodeStructure.Analyzers.Services;
 using Steroids.CodeStructure.UI;
-using Steroids.Contracts.UI;
-using Steroids.Core.Diagnostics.Contracts;
-using SteroidsVS.Models;
+using Steroids.Core.UI;
+using Steroids.Roslyn.StructureAnalysis;
+using SteroidsVS.CodeQuality.UI;
+using SteroidsVS.CodeStructure.Adorners;
+using SteroidsVS.CodeStructure.UI;
 using Unity;
 using Unity.Lifetime;
 
@@ -61,8 +61,8 @@ namespace SteroidsVS.CodeAdornments
         {
             Container = RootContainer.CreateChildContainer();
 
-            var textViewWrapper = new TextViewWrapper(_textView);
-            Container.RegisterInstance<IQualityTextView>(textViewWrapper);
+            //var textViewWrapper = new TextViewWrapper(_textView);
+            //Container.RegisterInstance<IQualityTextView>(textViewWrapper);
             Container.RegisterInstance(_textView);
             Container.RegisterInstance(_textView.GetAdornmentLayer(nameof(CodeStructureAdorner)));
 
@@ -71,7 +71,6 @@ namespace SteroidsVS.CodeAdornments
 
             Container.RegisterType<IAdornmentSpaceReservation, CodeStructureSpaceReservation>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<ISyntaxWalkerProvider, SyntaxWalkerProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<DiagnosticInfosViewModel>(new ContainerControlledLifetimeManager());

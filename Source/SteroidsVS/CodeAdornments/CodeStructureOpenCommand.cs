@@ -3,13 +3,12 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
-using Steroids.CodeStructure.Adorners;
 using Steroids.CodeStructure.UI;
-using Steroids.Contracts.Core;
+using SteroidsVS.CodeStructure.Adorners;
+using SteroidsVS.Services;
 using Threading = System.Threading.Tasks;
 
 namespace SteroidsVS.CodeAdornments

@@ -1,7 +1,8 @@
 ﻿using System;
 using Steroids.CodeQuality.Diagnostic;
-using Steroids.Contracts;
 using Steroids.Contracts.Core;
+using Steroids.Core.CodeQuality;
+using Steroids.Core.Framework;
 using SteroidsVS.CodeAdornments;
 using SteroidsVS.Services;
 using Unity;

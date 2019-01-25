@@ -3,20 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Formatting;
 using Steroids.CodeStructure.Analyzers;
 using Steroids.CodeStructure.Analyzers.Services;
-using Steroids.CodeStructure.Controls;
-using Steroids.CodeStructure.Extensions;
 using Steroids.CodeStructure.Resources.Strings;
-using Steroids.Contracts;
-using Steroids.Contracts.UI;
 using Steroids.Core;
-using Steroids.Core.Extensions;
+using Steroids.Core.CodeQuality;
+using Steroids.Core.Editor;
+using Steroids.Core.UI;
 
 namespace Steroids.CodeStructure.UI
 {
@@ -24,12 +19,11 @@ namespace Steroids.CodeStructure.UI
     {
         private const string HighlightAdornmentTag = "HighlighterAdornment";
 
-        private readonly IWpfTextView _textView;
+        private readonly IEditorImplementation _editor;
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
         private readonly IAdornmentLayer _adornmentLayer;
 
-        private SelectionHintControl _adornerContent;
         private bool _isOpen;
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
@@ -43,19 +37,19 @@ namespace Steroids.CodeStructure.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureViewModel"/> class.
         /// </summary>
-        /// <param name="textView">The <see cref="IWpfTextView"/>.</param>
+        /// <param name="editor">The <see cref="IEditorImplementation"/>.</param>
         /// <param name="adornmentLayer">The <see cref="IAdornmentLayer"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         /// <param name="documentAnalyzerService">The <see cref="IDocumentAnalyzerService"/>.</param>
         /// <param name="spaceReservation">The <see cref="IAdornmentSpaceReservation"/>.</param>
         public CodeStructureViewModel(
-            IWpfTextView textView,
+            IEditorImplementation editor,
             IAdornmentLayer adornmentLayer,
             IDiagnosticProvider diagnosticProvider,
             IDocumentAnalyzerService documentAnalyzerService,
             IAdornmentSpaceReservation spaceReservation)
         {
-            _textView = textView;
+            _editor = editor;
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
             _documentAnalyzerService = documentAnalyzerService ?? throw new ArgumentNullException(nameof(documentAnalyzerService));
             _adornmentLayer = adornmentLayer ?? throw new ArgumentNullException(nameof(adornmentLayer));
@@ -64,6 +58,11 @@ namespace Steroids.CodeStructure.UI
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
             SpaceReservation = spaceReservation;
         }
+
+        /// <summary>
+        /// Fired when a highlight of a specific portion in code is requested.
+        /// </summary>
+        public event EventHandler HighlightRequested;
 
         /// <summary>
         /// Gets or sets a value indicating whether the code structure view should stay open,
@@ -196,7 +195,7 @@ namespace Steroids.CodeStructure.UI
 
         private void OnDiagnosticsChanged(object sender, DiagnosticsChangedEventArgs args)
         {
-            var path = _textView.GetDocument()?.FilePath;
+            var path = _editor.FilePath;
             if (string.IsNullOrWhiteSpace(path))
             {
                 return;
@@ -254,53 +253,54 @@ namespace Steroids.CodeStructure.UI
         /// <param name="nodeContainer">The <see cref="ICodeStructureNodeContainer"/>.</param>
         private void ScrollToNode(ICodeStructureNodeContainer nodeContainer)
         {
-            var node = nodeContainer?.Node;
-            if (node == null)
-            {
-                return;
-            }
+            //var node = nodeContainer?.Node;
+            //if (node == null)
+            //{
+            //    return;
+            //}
 
-            // convert to Snapshotspan and bring into view
-            var snapshotSpan = node.FullSpan.ToSnapshotSpan(_textView.TextSnapshot);
-            _textView.DisplayTextLineContainingBufferPosition(snapshotSpan.Start, 30, ViewRelativePosition.Top);
+            //// convert to Snapshotspan and bring into view
+            //var snapshotSpan = node.FullSpan.ToSnapshotSpan(_editor.TextSnapshot);
+            //_editor.DisplayTextLineContainingBufferPosition(snapshotSpan.Start, 30, ViewRelativePosition.Top);
 
-            // get start and end of snapshot
-            var lines = _textView.TextViewLines.GetTextViewLinesIntersectingSpan(snapshotSpan);
-            if (lines.Count == 0)
-            {
-                return;
-            }
+            //// get start and end of snapshot
+            //var lines = _editor.TextViewLines.GetTextViewLinesIntersectingSpan(snapshotSpan);
+            //if (lines.Count == 0)
+            //{
+            //    return;
+            //}
 
-            ITextViewLine startLine = lines[0];
-            ITextViewLine endLine = lines[lines.Count - 1];
+            //ITextViewLine startLine = lines[0];
+            //ITextViewLine endLine = lines[lines.Count - 1];
 
-            // skip empty leading lines
-            while (string.IsNullOrWhiteSpace(startLine.Extent.GetText()) || startLine.Extent.GetText().StartsWith("/"))
-            {
-                var index = _textView.TextViewLines.GetIndexOfTextLine(startLine) + 1;
-                if (index >= _textView.TextViewLines.Count)
-                {
-                    break;
-                }
+            //// skip empty leading lines
+            //while (string.IsNullOrWhiteSpace(startLine.Extent.GetText()) || startLine.Extent.GetText().StartsWith("/"))
+            //{
+            //    var index = _editor.TextViewLines.GetIndexOfTextLine(startLine) + 1;
+            //    if (index >= _editor.TextViewLines.Count)
+            //    {
+            //        break;
+            //    }
 
-                startLine = _textView.TextViewLines[_textView.TextViewLines.GetIndexOfTextLine(startLine) + 1];
-            }
+            //    startLine = _editor.TextViewLines[_editor.TextViewLines.GetIndexOfTextLine(startLine) + 1];
+            //}
 
-            // TODO: that ui stuff has to move to a non view model class.
-            // clear adornments
-            _adornmentLayer.RemoveAdornmentsByTag(HighlightAdornmentTag);
+            //// TODO: that ui stuff has to move to a non view model class.
+            //// clear adornments
+            //_adornmentLayer.RemoveAdornmentsByTag(HighlightAdornmentTag);
 
-            // create new adornment
-            _adornerContent = new SelectionHintControl();
-            Canvas.SetTop(_adornerContent, startLine.TextTop);
-            Canvas.SetLeft(_adornerContent, 0);
+            //// create new adornment
+            //_adornerContent = new SelectionHintControl();
+            //Canvas.SetTop(_adornerContent, startLine.TextTop);
+            //Canvas.SetLeft(_adornerContent, 0);
 
-            _adornerContent.Height = Math.Max(startLine.Height, endLine.Top - startLine.Top);
+            //_adornerContent.Height = Math.Max(startLine.Height, endLine.Top - startLine.Top);
 
-            _adornerContent.Width = Math.Max(0, _textView.ViewportWidth);
-            _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, HighlightAdornmentTag, _adornerContent, null);
+            //_adornerContent.Width = Math.Max(0, _editor.ViewportWidth);
+            //_adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, HighlightAdornmentTag, _adornerContent, null);
 
-            _textView.Caret.MoveTo(startLine.Start);
+            HighlightRequested?.Invoke(this, EventArgs.Empty);
+            _editor.SetCursorToLine(nodeContainer.StartLineNumber);
         }
     }
 }

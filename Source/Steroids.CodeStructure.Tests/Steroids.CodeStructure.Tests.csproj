@@ -165,10 +165,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analyzers\TypeGroupedSyntaxAnalyzerTest.cs" />
-    <Compile Include="Fakes\DispatcherServiceFake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="SampleData\SteroidsVsPackage.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

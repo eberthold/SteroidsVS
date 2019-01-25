@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Steroids.Core.Editor
 {
@@ -8,9 +9,22 @@ namespace Steroids.Core.Editor
     public interface IEditorImplementation
     {
         /// <summary>
+        /// Fired when the content of the editor has changed.
+        /// </summary>
+        /// <remarks>
+        /// Should not be triggered if the editor is not visible to the user.
+        /// </remarks>
+        event EventHandler ContentChanged;
+
+        /// <summary>
+        /// Gets the type of the content e.g. "CSharp".
+        /// </summary>
+        string ContentType { get; }
+
+        /// <summary>
         /// Path to file which the editor represents.
         /// </summary>
-        string FilePath { get; set; }
+        string FilePath { get; }
 
         /// <summary>
         /// Informs users about folding events in the editor.
@@ -29,5 +43,11 @@ namespace Steroids.Core.Editor
         /// <param name="absoluteLineNumber">The absolute line number in code.</param>
         /// <returns>The calculated line number as it is displayed.</returns>
         int GetComputedLineNumber(int absoluteLineNumber);
+
+        /// <summary>
+        /// Sets the cursor to the beginning of the specific line.
+        /// </summary>
+        /// <param name="absoluteLineNumber">The absolute line number in code.</param>
+        void SetCursorToLine(int absoluteLineNumber);
     }
 }

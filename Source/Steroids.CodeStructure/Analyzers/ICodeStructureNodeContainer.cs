@@ -66,5 +66,15 @@ namespace Steroids.CodeStructure.Analyzers
         /// Gets or sets the absolute index of this container in a flat list.
         /// </summary>
         int AbsoluteIndex { get; set; }
+
+        /// <summary>
+        /// The beginning of the node in file.
+        /// </summary>
+        int StartLineNumber { get; set; }
+
+        /// <summary>
+        /// The end of the node in file.
+        /// </summary>
+        int EndLineNumber { get; set; }
     }
 }
