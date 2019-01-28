@@ -6,7 +6,7 @@ namespace Steroids.Core.Editor
     /// <summary>
     /// Abstraction for editor facades.
     /// </summary>
-    public interface IEditorImplementation
+    public interface IEditor
     {
         /// <summary>
         /// Fired when the content of the editor has changed.

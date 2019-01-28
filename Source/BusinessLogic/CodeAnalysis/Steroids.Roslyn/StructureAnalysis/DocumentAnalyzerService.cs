@@ -16,17 +16,17 @@ namespace Steroids.Roslyn.StructureAnalysis
         private static readonly IReadOnlyCollection<string> _analyzeableContentTypes = new List<string>
         { "CSharp" };
 
-        private readonly IEditorImplementation _editor;
+        private readonly IEditor _editor;
         private readonly ICodeStructureSyntaxAnalyzer _syntaxAnalyzer;
         private readonly Debouncer _structureDebouncer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentAnalyzerService"/> class.
         /// </summary>
-        /// <param name="editor">The <see cref="IEditorImplementation"/>.</param>
+        /// <param name="editor">The <see cref="IEditor"/>.</param>
         /// <param name="syntaxWalkerProvider">The <see cref="ISyntaxWalkerProvider"/>.</param>
         public DocumentAnalyzerService(
-            IEditorImplementation editor)
+            IEditor editor)
         {
             _editor = editor ?? throw new ArgumentNullException(nameof(editor));
             _syntaxAnalyzer = new TypeGroupedSyntaxAnalyzer();

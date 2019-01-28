@@ -21,10 +21,10 @@ namespace Steroids.CodeQuality.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="DiagnosticInfosViewModel"/> class.
         /// </summary>
-        /// <param name="editor">The <see cref="IEditorImplementation"/>.</param>
+        /// <param name="editor">The <see cref="IEditor"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         public DiagnosticInfosViewModel(
-            IEditorImplementation editor,
+            IEditor editor,
             IDiagnosticProvider diagnosticProvider)
         {
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
@@ -49,7 +49,7 @@ namespace Steroids.CodeQuality.UI
         /// <summary>
         /// The text view for which the diagnostics are evaluated.
         /// </summary>
-        public IEditorImplementation Editor { get; private set; }
+        public IEditor Editor { get; private set; }
 
         /// <inheritdoc />
         public void Dispose()

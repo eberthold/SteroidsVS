@@ -13,7 +13,7 @@ namespace Steroids.CodeQuality.Tests
     {
         private const string FilePath = @"c:\file.cs";
 
-        private readonly IEditorImplementation _editor = A.Fake<IEditorImplementation>();
+        private readonly IEditor _editor = A.Fake<IEditor>();
         private readonly IFoldingManager _foldingManager = A.Fake<IFoldingManager>();
         private readonly IDiagnosticProvider _diagnosticsProvider = A.Fake<IDiagnosticProvider>();
 

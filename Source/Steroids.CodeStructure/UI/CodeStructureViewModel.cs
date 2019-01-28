@@ -19,7 +19,7 @@ namespace Steroids.CodeStructure.UI
     {
         private const string HighlightAdornmentTag = "HighlighterAdornment";
 
-        private readonly IEditorImplementation _editor;
+        private readonly IEditor _editor;
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
         private readonly IAdornmentLayer _adornmentLayer;
@@ -37,13 +37,13 @@ namespace Steroids.CodeStructure.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeStructureViewModel"/> class.
         /// </summary>
-        /// <param name="editor">The <see cref="IEditorImplementation"/>.</param>
+        /// <param name="editor">The <see cref="IEditor"/>.</param>
         /// <param name="adornmentLayer">The <see cref="IAdornmentLayer"/>.</param>
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         /// <param name="documentAnalyzerService">The <see cref="IDocumentAnalyzerService"/>.</param>
         /// <param name="spaceReservation">The <see cref="IAdornmentSpaceReservation"/>.</param>
         public CodeStructureViewModel(
-            IEditorImplementation editor,
+            IEditor editor,
             IAdornmentLayer adornmentLayer,
             IDiagnosticProvider diagnosticProvider,
             IDocumentAnalyzerService documentAnalyzerService,

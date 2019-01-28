@@ -6,6 +6,6 @@
         /// Gets the active text view or null.
         /// </summary>
         /// <returns>The <see cref="IActiveEditorProvider"/> or <see langword="null"/> if none is active.</returns>
-        IEditorImplementation GetActiveEditor();
+        IEditor GetActiveEditor();
     }
 }
