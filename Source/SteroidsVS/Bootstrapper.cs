@@ -1,9 +1,11 @@
 ﻿using System;
-using Steroids.CodeQuality.Diagnostic;
 using Steroids.Contracts.Core;
 using Steroids.Core.CodeQuality;
+using Steroids.Core.Editor;
 using Steroids.Core.Framework;
 using SteroidsVS.CodeAdornments;
+using SteroidsVS.CodeQuality.Diagnostic;
+using SteroidsVS.Editor;
 using SteroidsVS.Services;
 using Unity;
 using Unity.Lifetime;
@@ -32,6 +34,8 @@ namespace SteroidsVS
             Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IActiveTextViewProvider, ActiveTextViewProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDispatcherService, DispatcherService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IEditor, WpfTextViewAdapter>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IFoldingManager, FoldingManagerAdapter>(new ContainerControlledLifetimeManager());
 
             Container.RegisterType<CodeStructureOpenCommand>(new ContainerControlledLifetimeManager());
             Container.Resolve<CodeStructureOpenCommand>();

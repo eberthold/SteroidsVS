@@ -7,8 +7,8 @@
     xmlns:contracts="clr-namespace:Steroids.Core.CodeQuality;assembly=Steroids.Core"
     xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0" 
     xmlns:ui="clr-namespace:SteroidsVS.CodeQuality.UI"
-    xmlns:codeQuality="clr-namespace:Steroids.CodeQuality.LineHandling;assembly=Steroids.CodeQuality"
     xmlns:sharedBehaviors="clr-namespace:Steroids.SharedUI.Behaviors;assembly=Steroids.SharedUI"
+    xmlns:codeQuality="clr-namespace:Steroids.CodeQuality.LineHandling;assembly=Steroids.CodeQuality"
     mc:Ignorable="d" >
 
     <LinearGradientBrush x:Key="ThemeInfoBrush" SpreadMethod="Repeat" EndPoint="0,0">

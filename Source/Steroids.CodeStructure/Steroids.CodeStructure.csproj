@@ -204,6 +204,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="UI\CodeStructureViewModel.cs" />
+    <Compile Include="UI\HighlightRequestedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\SteroidsVs.snk">

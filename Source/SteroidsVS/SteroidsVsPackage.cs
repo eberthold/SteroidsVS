@@ -22,6 +22,7 @@ namespace SteroidsVS
     [InstalledProductRegistration("SteroidsVS", "Multi-purpose extension for VisualStudio", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [Guid(PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideBindingPath]
     public sealed class SteroidsVsPackage : AsyncPackage
     {
         public const string PackageGuidString = "9ac11e28-22b5-4c3c-a40f-ab2c9bdd18d6";
@@ -86,7 +87,6 @@ namespace SteroidsVS
         /// </summary>
         private static void InitializeResources()
         {
-            Assembly.Load("Steroids.Controls");
             InitializeDictionary<SkinModule.Skin>();
             InitializeDictionary<SharedUiModule.Resources.ModuleResourceDictionary>();
             InitializeDictionary<CodeQualityModule.Resources.ModuleResourceDictionary>();

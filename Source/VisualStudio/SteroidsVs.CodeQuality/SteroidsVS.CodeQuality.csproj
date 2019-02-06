@@ -33,6 +33,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\SteroidsVs.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.VisualStudio.CoreUtility.15.4.27004\lib\net45\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
@@ -145,6 +151,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\..\SteroidsVs.snk">
+      <Link>SteroidsVs.snk</Link>
+    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -172,7 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Steroids.CodeQuality\Steroids.CodeQuality.csproj">
-      <Project>{8E125506-818B-40E4-ADFB-6238C2A49AC7}</Project>
+      <Project>{8e125506-818b-40e4-adfb-6238c2a49ac7}</Project>
       <Name>Steroids.CodeQuality</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Steroids.Core\Steroids.Core.csproj">

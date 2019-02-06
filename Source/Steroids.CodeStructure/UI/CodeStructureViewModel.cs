@@ -17,8 +17,6 @@ namespace Steroids.CodeStructure.UI
 {
     public class CodeStructureViewModel : BindableBase
     {
-        private const string HighlightAdornmentTag = "HighlighterAdornment";
-
         private readonly IEditor _editor;
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
@@ -62,7 +60,7 @@ namespace Steroids.CodeStructure.UI
         /// <summary>
         /// Fired when a highlight of a specific portion in code is requested.
         /// </summary>
-        public event EventHandler HighlightRequested;
+        public event EventHandler<HighlightRequestedEventArgs> HighlightRequested;
 
         /// <summary>
         /// Gets or sets a value indicating whether the code structure view should stay open,
@@ -253,53 +251,12 @@ namespace Steroids.CodeStructure.UI
         /// <param name="nodeContainer">The <see cref="ICodeStructureNodeContainer"/>.</param>
         private void ScrollToNode(ICodeStructureNodeContainer nodeContainer)
         {
-            //var node = nodeContainer?.Node;
-            //if (node == null)
-            //{
-            //    return;
-            //}
+            if (nodeContainer is null)
+            {
+                return;
+            }
 
-            //// convert to Snapshotspan and bring into view
-            //var snapshotSpan = node.FullSpan.ToSnapshotSpan(_editor.TextSnapshot);
-            //_editor.DisplayTextLineContainingBufferPosition(snapshotSpan.Start, 30, ViewRelativePosition.Top);
-
-            //// get start and end of snapshot
-            //var lines = _editor.TextViewLines.GetTextViewLinesIntersectingSpan(snapshotSpan);
-            //if (lines.Count == 0)
-            //{
-            //    return;
-            //}
-
-            //ITextViewLine startLine = lines[0];
-            //ITextViewLine endLine = lines[lines.Count - 1];
-
-            //// skip empty leading lines
-            //while (string.IsNullOrWhiteSpace(startLine.Extent.GetText()) || startLine.Extent.GetText().StartsWith("/"))
-            //{
-            //    var index = _editor.TextViewLines.GetIndexOfTextLine(startLine) + 1;
-            //    if (index >= _editor.TextViewLines.Count)
-            //    {
-            //        break;
-            //    }
-
-            //    startLine = _editor.TextViewLines[_editor.TextViewLines.GetIndexOfTextLine(startLine) + 1];
-            //}
-
-            //// TODO: that ui stuff has to move to a non view model class.
-            //// clear adornments
-            //_adornmentLayer.RemoveAdornmentsByTag(HighlightAdornmentTag);
-
-            //// create new adornment
-            //_adornerContent = new SelectionHintControl();
-            //Canvas.SetTop(_adornerContent, startLine.TextTop);
-            //Canvas.SetLeft(_adornerContent, 0);
-
-            //_adornerContent.Height = Math.Max(startLine.Height, endLine.Top - startLine.Top);
-
-            //_adornerContent.Width = Math.Max(0, _editor.ViewportWidth);
-            //_adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, HighlightAdornmentTag, _adornerContent, null);
-
-            HighlightRequested?.Invoke(this, EventArgs.Empty);
+            HighlightRequested?.Invoke(this, new HighlightRequestedEventArgs(nodeContainer));
             _editor.SetCursorToLine(nodeContainer.StartLineNumber);
         }
     }

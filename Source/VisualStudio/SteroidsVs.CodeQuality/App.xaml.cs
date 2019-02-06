@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Steroids.CodeQuality
+namespace SteroidsVS.CodeQuality
 {
     /// <summary>
     /// Interaction logic for App.xaml.

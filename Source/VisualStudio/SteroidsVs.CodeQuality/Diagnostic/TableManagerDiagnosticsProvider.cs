@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.Shell.TableManager;
 using Steroids.Core.CodeQuality;
 
-namespace Steroids.CodeQuality.Diagnostic
+namespace SteroidsVS.CodeQuality.Diagnostic
 {
     /// <summary>
     /// Provides diagnostic infos by crawling the Sources known to ITableManager.

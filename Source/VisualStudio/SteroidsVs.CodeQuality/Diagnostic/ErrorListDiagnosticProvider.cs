@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.TableControl;
 using Steroids.Core.CodeQuality;
 
-namespace Steroids.CodeQuality.Diagnostic
+namespace SteroidsVS.CodeQuality.Diagnostic
 {
     /// <summary>
     /// Provides <see cref="DiagnosticInfo"/> by crawling the ErrorList UI directly.

@@ -22,7 +22,8 @@ namespace SteroidsVS.CodeQuality.UI
 
             _adorner = new DiagnosticInfosView
             {
-                DataContext = viewModel
+                DataContext = viewModel,
+                TextView = textView
             };
 
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportWidthChanged), OnSizeChanged);

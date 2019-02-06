@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Microsoft.VisualStudio.Text.Outlining;
 using Steroids.CodeQuality.LineHandling;
 using Steroids.Core;
 using Steroids.Core.CodeQuality;
@@ -38,7 +37,7 @@ namespace Steroids.CodeQuality.UI
             OnDiagnosticsChanged(this, new DiagnosticsChangedEventArgs(_diagnosticProvider.CurrentDiagnostics));
         }
 
-        public IOutliningManager OutliningManager { get; private set; }
+        //public IOutliningManager OutliningManager { get; private set; }
 
         /// <summary>
         /// The list of current <see cref="DiagnosticInfoLine"/>.
@@ -59,8 +58,8 @@ namespace Steroids.CodeQuality.UI
                 return;
             }
 
-            OutliningManager.RegionsExpanded -= OnCodeExpanded;
-            OutliningManager.RegionsCollapsed -= OnCodeCollapsed;
+            //OutliningManager.RegionsExpanded -= OnCodeExpanded;
+            //OutliningManager.RegionsCollapsed -= OnCodeCollapsed;
 
             _disposed = true;
         }

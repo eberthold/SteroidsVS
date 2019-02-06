@@ -61,8 +61,6 @@ namespace SteroidsVS.CodeAdornments
         {
             Container = RootContainer.CreateChildContainer();
 
-            //var textViewWrapper = new TextViewWrapper(_textView);
-            //Container.RegisterInstance<IQualityTextView>(textViewWrapper);
             Container.RegisterInstance(_textView);
             Container.RegisterInstance(_textView.GetAdornmentLayer(nameof(CodeStructureAdorner)));
 

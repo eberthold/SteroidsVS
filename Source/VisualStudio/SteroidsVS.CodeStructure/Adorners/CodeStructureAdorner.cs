@@ -2,7 +2,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Text.Formatting;
 using Steroids.CodeStructure.UI;
+using SteroidsVS.CodeStructure.Controls;
+using SteroidsVS.CodeStructure.Text;
 
 namespace SteroidsVS.CodeStructure.Adorners
 {
@@ -11,9 +14,11 @@ namespace SteroidsVS.CodeStructure.Adorners
     /// </summary>
     public sealed class CodeStructureAdorner : ICodeStructureAdorner
     {
+        private const string HighlightAdornmentTag = "HighlighterAdornment";
         private const string CodeStructureTag = "CodeStructure";
 
         private readonly IAdornmentLayer _adornmentLayer;
+        private readonly CodeStructureViewModel _viewModel;
         private readonly ContentControl _indicatorView = new ContentControl();
         private readonly IWpfTextView _textView;
 
@@ -29,15 +34,65 @@ namespace SteroidsVS.CodeStructure.Adorners
             CodeStructureViewModel viewModel)
         {
             _adornmentLayer = adornmentLayer ?? throw new ArgumentNullException(nameof(adornmentLayer));
+            _viewModel = viewModel;
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
             _indicatorView.Focusable = false;
-            _indicatorView.Content = viewModel;
+            _indicatorView.Content = viewModel; 
 
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportWidthChanged), OnSizeChanged);
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportHeightChanged), OnSizeChanged);
             WeakEventManager<ContentControl, EventArgs>.AddHandler(_indicatorView, nameof(FrameworkElement.SizeChanged), OnSizeChanged);
+            WeakEventManager<CodeStructureViewModel, HighlightRequestedEventArgs>.AddHandler(_viewModel, nameof(CodeStructureViewModel.HighlightRequested), OnHighlightRequested);
 
             ShowAdorner();
+        }
+
+        private void OnHighlightRequested(object sender, HighlightRequestedEventArgs e)
+        {
+            var node = e.NodeContainer.Node;
+            if (node == null)
+            {
+                return;
+            }
+
+            // convert to Snapshotspan and bring into view
+            var snapshotSpan = node.FullSpan.ToSnapshotSpan(_textView.TextSnapshot);
+            _textView.DisplayTextLineContainingBufferPosition(snapshotSpan.Start, 30, ViewRelativePosition.Top);
+
+            // get start and end of snapshot
+            var lines = _textView.TextViewLines.GetTextViewLinesIntersectingSpan(snapshotSpan);
+            if (lines.Count == 0)
+            {
+                return;
+            }
+
+            ITextViewLine startLine = lines[0];
+            ITextViewLine endLine = lines[lines.Count - 1];
+
+            // skip empty leading lines
+            while (string.IsNullOrWhiteSpace(startLine.Extent.GetText()) || startLine.Extent.GetText().StartsWith("/"))
+            {
+                var index = _textView.TextViewLines.GetIndexOfTextLine(startLine) + 1;
+                if (index >= _textView.TextViewLines.Count)
+                {
+                    break;
+                }
+
+                startLine = _textView.TextViewLines[_textView.TextViewLines.GetIndexOfTextLine(startLine) + 1];
+            }
+
+            // clear adornments
+            _adornmentLayer.RemoveAdornmentsByTag(HighlightAdornmentTag);
+
+            // create new adornment
+            var adornerContent = new SelectionHintControl();
+            Canvas.SetTop(adornerContent, startLine.TextTop);
+            Canvas.SetLeft(adornerContent, 0);
+
+            adornerContent.Height = Math.Max(startLine.Height, endLine.Top - startLine.Top);
+
+            adornerContent.Width = Math.Max(0, _textView.ViewportWidth);
+            _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, HighlightAdornmentTag, adornerContent, null);
         }
 
         /// <summary>

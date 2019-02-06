@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell.TableManager;
 using Steroids.Core.CodeQuality;
 
-namespace Steroids.CodeQuality.Diagnostic
+namespace SteroidsVS.CodeQuality.Diagnostic
 {
     /// <summary>
     /// Extensions for <see cref="ITableEntry"/> objects.

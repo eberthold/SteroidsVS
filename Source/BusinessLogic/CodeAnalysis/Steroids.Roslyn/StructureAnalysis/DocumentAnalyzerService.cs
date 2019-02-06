@@ -32,7 +32,7 @@ namespace Steroids.Roslyn.StructureAnalysis
             _syntaxAnalyzer = new TypeGroupedSyntaxAnalyzer();
             IsAnalyzeable = _analyzeableContentTypes.Contains(editor.ContentType);
 
-            _editor.ContentChanged += OnTextChanged;
+            _editor.ContentChanged += OnContentChanged;
             _structureDebouncer = new Debouncer(Analysis, TimeSpan.FromSeconds(1.5));
             _structureDebouncer.Start();
         }
@@ -46,7 +46,7 @@ namespace Steroids.Roslyn.StructureAnalysis
         /// <inheritdoc />
         public IEnumerable<ICodeStructureNodeContainer> Nodes { get; private set; }
 
-        private void OnTextChanged(object sender, EventArgs e)
+        private void OnContentChanged(object sender, EventArgs e)
         {
             _structureDebouncer.Start();
         }
