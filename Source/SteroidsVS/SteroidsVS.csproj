@@ -65,7 +65,6 @@
     <Compile Include="CodeAdornments\CodeStructureOpenCommand.cs" />
     <Compile Include="Editor\FoldingManagerAdapter.cs" />
     <Compile Include="Editor\WpfTextViewAdapter.cs" />
-    <Compile Include="Editor\WpfTextViewExtensions.cs" />
     <Compile Include="Services\ActiveTextViewProvider.cs" />
     <Compile Include="Contracts\IVsServiceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

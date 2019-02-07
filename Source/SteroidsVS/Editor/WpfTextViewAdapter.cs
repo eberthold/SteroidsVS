@@ -125,51 +125,8 @@ namespace SteroidsVS.Editor
         /// <inheritdoc />
         public void SetCursorToLine(int absoluteLineNumber)
         {
-            //var node = nodeContainer?.Node;
-            //if (node == null)
-            //{
-            //    return;
-            //}
-
-            //// convert to Snapshotspan and bring into view
-            //var snapshotSpan = node.FullSpan.ToSnapshotSpan(_editor.TextSnapshot);
-            //_editor.DisplayTextLineContainingBufferPosition(snapshotSpan.Start, 30, ViewRelativePosition.Top);
-
-            //// get start and end of snapshot
-            //var lines = _editor.TextViewLines.GetTextViewLinesIntersectingSpan(snapshotSpan);
-            //if (lines.Count == 0)
-            //{
-            //    return;
-            //}
-
-            //ITextViewLine startLine = lines[0];
-            //ITextViewLine endLine = lines[lines.Count - 1];
-
-            //// skip empty leading lines
-            //while (string.IsNullOrWhiteSpace(startLine.Extent.GetText()) || startLine.Extent.GetText().StartsWith("/"))
-            //{
-            //    var index = _editor.TextViewLines.GetIndexOfTextLine(startLine) + 1;
-            //    if (index >= _editor.TextViewLines.Count)
-            //    {
-            //        break;
-            //    }
-
-            //    startLine = _editor.TextViewLines[_editor.TextViewLines.GetIndexOfTextLine(startLine) + 1];
-            //}
-
-            //// TODO: that ui stuff has to move to a non view model class.
-            //// clear adornments
-            //_adornmentLayer.RemoveAdornmentsByTag(HighlightAdornmentTag);
-
-            //// create new adornment
-            //_adornerContent = new SelectionHintControl();
-            //Canvas.SetTop(_adornerContent, startLine.TextTop);
-            //Canvas.SetLeft(_adornerContent, 0);
-
-            //_adornerContent.Height = Math.Max(startLine.Height, endLine.Top - startLine.Top);
-
-            //_adornerContent.Width = Math.Max(0, _editor.ViewportWidth);
-            //_adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, HighlightAdornmentTag, _adornerContent, null);
+            var snapshotSpan = _textView.GetSnapshotForLineNumber(absoluteLineNumber);
+            _textView.Caret.MoveTo(snapshotSpan.Start, PositionAffinity.Successor);
         }
 
         private void OnTextPostChanged(object sender, EventArgs e)

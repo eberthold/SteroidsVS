@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.Imaging.Interop;
 using Steroids.Core;
@@ -175,6 +176,9 @@ namespace Steroids.CodeStructure.Analyzers.NodeContainer
             set
             {
                 Set(ref _node, value as T);
+                var lineSpan = Node.SyntaxTree.GetLineSpan(Node.Span);
+                StartLineNumber = lineSpan.StartLinePosition.Line;
+                EndLineNumber = lineSpan.EndLinePosition.Line;
             }
         }
 
