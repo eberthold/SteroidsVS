@@ -20,7 +20,7 @@ namespace SteroidsVS.CodeStructure.UI
         public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false, OnIsOpenChanged));
 
         public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register("IsPinned", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false));
-        public static readonly DependencyProperty SelectedNodeContainerProperty = DependencyProperty.Register("SelectedNodeContainer", typeof(ICodeStructureNodeContainer), typeof(CodeStructureView), new PropertyMetadata(null));
+        public static readonly DependencyProperty SelectedNodeContainerProperty = DependencyProperty.Register("SelectedNodeContainer", typeof(ICodeStructureItem), typeof(CodeStructureView), new PropertyMetadata(null));
         public static readonly DependencyProperty SpaceReservationProperty = DependencyProperty.Register("SpaceReservation", typeof(IAdornmentSpaceReservation), typeof(CodeStructureView), new PropertyMetadata(null));
 
         private static readonly IReadOnlyCollection<Key> KeysToHandle = new List<Key>
@@ -55,9 +55,9 @@ namespace SteroidsVS.CodeStructure.UI
         /// <summary>
         /// Gets or sets the last selected node.a.
         /// </summary>
-        public ICodeStructureNodeContainer SelectedNodeContainer
+        public ICodeStructureItem SelectedNodeContainer
         {
-            get { return (ICodeStructureNodeContainer)GetValue(SelectedNodeContainerProperty); }
+            get { return (ICodeStructureItem)GetValue(SelectedNodeContainerProperty); }
             set { SetValue(SelectedNodeContainerProperty, value); }
         }
 
@@ -279,7 +279,7 @@ namespace SteroidsVS.CodeStructure.UI
                 case Key.Enter:
                 case Key.Space:
                     _skipSelectionChanged = false;
-                    SelectedNodeContainer = collectionView.CurrentItem as ICodeStructureNodeContainer;
+                    SelectedNodeContainer = collectionView.CurrentItem as ICodeStructureItem;
                     PART_List.SelectedItem = null;
                     e.Handled = true;
                     break;
@@ -305,7 +305,7 @@ namespace SteroidsVS.CodeStructure.UI
                 return;
             }
 
-            SelectedNodeContainer = PART_List.SelectedItem as ICodeStructureNodeContainer;
+            SelectedNodeContainer = PART_List.SelectedItem as ICodeStructureItem;
             PART_List.SelectedItem = null;
             _skipFocusHandler = false;
             PART_FilterText.Focus();

@@ -7,8 +7,17 @@ namespace Steroids.CodeStructure.Analyzers
 {
     public interface ICodeStructureSyntaxAnalyzer
     {
-        IEnumerable<ICodeStructureNodeContainer> NodeList { get; }
+        /// <summary>
+        /// Gets all nodes in the current file.
+        /// </summary>
+        IEnumerable<SortedTree<ICodeStructureItem>> NodeList { get; }
 
+        /// <summary>
+        /// Analyze the current file.
+        /// </summary>
+        /// <param name="node">The node to analyze.</param>
+        /// <param name="token">The <see cref="CancellationToken"/>.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task Analyze(SyntaxNode node, CancellationToken token);
     }
 }

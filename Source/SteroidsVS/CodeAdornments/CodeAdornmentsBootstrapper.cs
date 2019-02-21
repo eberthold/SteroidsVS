@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Outlining;
 using Steroids.CodeQuality.UI;
-using Steroids.CodeStructure.Analyzers.Services;
+using Steroids.CodeStructure.Analyzers;
 using Steroids.CodeStructure.UI;
 using Steroids.Core.UI;
 using Steroids.Roslyn.StructureAnalysis;

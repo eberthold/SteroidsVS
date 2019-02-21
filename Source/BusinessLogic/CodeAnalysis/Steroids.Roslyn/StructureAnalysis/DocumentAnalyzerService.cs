@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp;
 using Steroids.CodeStructure.Analyzers;
-using Steroids.CodeStructure.Analyzers.Services;
 using Steroids.Core.Editor;
 using Steroids.Core.Tools;
 
@@ -29,7 +28,7 @@ namespace Steroids.Roslyn.StructureAnalysis
             IEditor editor)
         {
             _editor = editor ?? throw new ArgumentNullException(nameof(editor));
-            _syntaxAnalyzer = new TypeGroupedSyntaxAnalyzer();
+            _syntaxAnalyzer = new CSharpTreeAnalyzer();
             IsAnalyzeable = _analyzeableContentTypes.Contains(editor.ContentType);
 
             _editor.ContentChanged += OnContentChanged;
@@ -44,7 +43,7 @@ namespace Steroids.Roslyn.StructureAnalysis
         public bool IsAnalyzeable { get; }
 
         /// <inheritdoc />
-        public IEnumerable<ICodeStructureNodeContainer> Nodes { get; private set; }
+        public IEnumerable<SortedTree<ICodeStructureItem>> Nodes { get; private set; }
 
         private void OnContentChanged(object sender, EventArgs e)
         {

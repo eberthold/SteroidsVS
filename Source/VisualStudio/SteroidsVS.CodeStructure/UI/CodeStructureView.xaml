@@ -67,7 +67,7 @@
                     </StackPanel>
 
                     <platformUI:SearchTextBox x:Name="PART_FilterText" Grid.Row="1" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4" PreviewKeyDown="OnTextKeyDown" IsVisibleChanged="OnFilterTextIsVisibleChanged"/>
-                    <ListView x:Name="PART_List" Grid.Row="2" Focusable="True" Background="{x:Null}" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplateSelector="{StaticResource NodeContainerTemplateSelector}" IsSynchronizedWithCurrentItem="True" BorderThickness="0" HorizontalAlignment="Stretch" SelectionChanged="OnListSelectionChanged">
+                    <ListView x:Name="PART_List" Grid.Row="2" Focusable="True" Background="{x:Null}" HorizontalContentAlignment="Stretch" ItemsSource="{Binding NodeListView}" ItemTemplate="{StaticResource NodeContainerTemplate}" IsSynchronizedWithCurrentItem="True" BorderThickness="0" HorizontalAlignment="Stretch" SelectionChanged="OnListSelectionChanged">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />

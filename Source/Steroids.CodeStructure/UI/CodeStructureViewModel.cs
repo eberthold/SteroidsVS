@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Data;
 using Microsoft.VisualStudio.Text.Editor;
 using Steroids.CodeStructure.Analyzers;
-using Steroids.CodeStructure.Analyzers.Services;
 using Steroids.CodeStructure.Resources.Strings;
 using Steroids.Core;
 using Steroids.Core.CodeQuality;
@@ -25,8 +24,8 @@ namespace Steroids.CodeStructure.UI
         private bool _isOpen;
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
-        private ICodeStructureNodeContainer _selectedNode;
-        private List<ICodeStructureNodeContainer> _nodeCollection;
+        private ICodeStructureItem _selectedNode;
+        private List<SortedTree<ICodeStructureItem>> _nodeCollection;
         private bool _isPinned;
         private DiagnosticSeverity _currentDiagnosticLevel;
         private ICollectionView _nodeListView;
@@ -80,7 +79,7 @@ namespace Steroids.CodeStructure.UI
         /// <summary>
         /// Gets or sets the selected node.
         /// </summary>
-        public ICodeStructureNodeContainer SelectedNode
+        public ICodeStructureItem SelectedNode
         {
             get => _selectedNode;
             set
@@ -133,7 +132,7 @@ namespace Steroids.CodeStructure.UI
                     return Strings.NotAvailable_Abbreviation;
                 }
 
-                return _documentAnalyzerService.Nodes?.OfType<ICodeStructureLeaf>().Count().ToString() ?? "0";
+                return _documentAnalyzerService.Nodes?.Count(x => x.IsLeaf).ToString();
             }
         }
 
@@ -175,7 +174,7 @@ namespace Steroids.CodeStructure.UI
             set => Set(ref _currentDiagnosticLevel, value);
         }
 
-        public List<ICodeStructureNodeContainer> NodeCollection
+        public List<SortedTree<ICodeStructureItem>> NodeCollection
         {
             get => _nodeCollection;
             set => Set(ref _nodeCollection, value);
@@ -230,14 +229,13 @@ namespace Steroids.CodeStructure.UI
                 return true;
             }
 
-            var node = obj as ICodeStructureNodeContainer;
+            var node = obj as ICodeStructureItem;
             if (node == null)
             {
                 return false;
             }
 
-            var isLeafNode = node is ICodeStructureLeaf;
-            if (isFilterActive && !isLeafNode)
+            if (isFilterActive && node.IsMeta)
             {
                 return false;
             }
@@ -248,8 +246,8 @@ namespace Steroids.CodeStructure.UI
         /// <summary>
         /// Internal scrolling logic.
         /// </summary>
-        /// <param name="nodeContainer">The <see cref="ICodeStructureNodeContainer"/>.</param>
-        private void ScrollToNode(ICodeStructureNodeContainer nodeContainer)
+        /// <param name="nodeContainer">The <see cref="ICodeStructureItem"/>.</param>
+        private void ScrollToNode(ICodeStructureItem nodeContainer)
         {
             if (nodeContainer is null)
             {

@@ -141,7 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fakes\DispatcherServiceFake.cs" />
-    <Compile Include="StructureAnalysis\TypeGroupedSyntaxAnalyzerTest.cs" />
+    <Compile Include="StructureAnalysis\CSharpTreeAnalyzerTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

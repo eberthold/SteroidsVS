@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 using Steroids.CodeStructure.UI;
@@ -49,14 +50,17 @@ namespace SteroidsVS.CodeStructure.Adorners
 
         private void OnHighlightRequested(object sender, HighlightRequestedEventArgs e)
         {
-            var node = e.NodeContainer.Node;
+            var node = e.NodeContainer;
             if (node == null)
             {
                 return;
             }
 
-            // convert to Snapshotspan and bring into view
-            var snapshotSpan = node.FullSpan.ToSnapshotSpan(_textView.TextSnapshot);
+
+            var startLine = _textView.TextSnapshot.GetLineFromLineNumber(node.StartLineNumber);
+            var endLine = _textView.TextSnapshot.GetLineFromLineNumber(node.EndLineNumber);
+            var snapshotSpan = new SnapshotSpan(startLine.Start, endLine.End);
+
             _textView.DisplayTextLineContainingBufferPosition(snapshotSpan.Start, 30, ViewRelativePosition.Top);
 
             // get start and end of snapshot
@@ -66,30 +70,17 @@ namespace SteroidsVS.CodeStructure.Adorners
                 return;
             }
 
-            ITextViewLine startLine = lines[0];
-            ITextViewLine endLine = lines[lines.Count - 1];
-
-            // skip empty leading lines
-            while (string.IsNullOrWhiteSpace(startLine.Extent.GetText()) || startLine.Extent.GetText().StartsWith("/"))
-            {
-                var index = _textView.TextViewLines.GetIndexOfTextLine(startLine) + 1;
-                if (index >= _textView.TextViewLines.Count)
-                {
-                    break;
-                }
-
-                startLine = _textView.TextViewLines[_textView.TextViewLines.GetIndexOfTextLine(startLine) + 1];
-            }
-
             // clear adornments
             _adornmentLayer.RemoveAdornmentsByTag(HighlightAdornmentTag);
 
             // create new adornment
+            var start = _textView.GetTextViewLineContainingBufferPosition(startLine.Start);
+            var end = _textView.GetTextViewLineContainingBufferPosition(endLine.End);
             var adornerContent = new SelectionHintControl();
-            Canvas.SetTop(adornerContent, startLine.TextTop);
+            Canvas.SetTop(adornerContent, start.Top);
             Canvas.SetLeft(adornerContent, 0);
 
-            adornerContent.Height = Math.Max(startLine.Height, endLine.Top - startLine.Top);
+            adornerContent.Height = Math.Max(start.Height, end.Top - start.Top);
 
             adornerContent.Width = Math.Max(0, _textView.ViewportWidth);
             _adornmentLayer.AddAdornment(AdornmentPositioningBehavior.OwnerControlled, null, HighlightAdornmentTag, adornerContent, null);

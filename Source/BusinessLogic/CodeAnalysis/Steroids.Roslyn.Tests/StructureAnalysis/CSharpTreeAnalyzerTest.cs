@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -12,7 +13,7 @@ using Steroids.Roslyn.StructureAnalysis;
 namespace Steroids.Roslyn.Tests.StructureAnalysis
 {
     [TestClass]
-    public class TypeGroupedSyntaxAnalyzerTest
+    public class CSharpTreeAnalyzerTest
     {
         [TestMethod]
         public async Task Analyze_ValidFile_CreatesMatchingTree()
@@ -39,13 +40,15 @@ namespace Steroids.Roslyn.Tests.StructureAnalysis
             await sut.Analyze(rootNode, CancellationToken.None);
 
             // Assert
-            var buildTree = sut.NodeList.Select(x => x.Name).ToList();
-            CollectionAssert.AreEqual(expectedNameOrder, buildTree);
+            var buildTree = sut.NodeList.Select(x => x.Data.Name).ToList();
+            CollectionAssert.AreEqual(expectedNameOrder, buildTree, 
+                $"{Environment.NewLine}expected: {Environment.NewLine}{string.Join(Environment.NewLine, expectedNameOrder)}{Environment.NewLine}" +
+                $"{Environment.NewLine}actual: {Environment.NewLine}{string.Join(Environment.NewLine, buildTree)}{Environment.NewLine}");
         }
 
-        private TypeGroupedSyntaxAnalyzer CreateSut()
+        private CSharpTreeAnalyzer CreateSut()
         {
-            return new TypeGroupedSyntaxAnalyzer();
+            return new CSharpTreeAnalyzer();
         }
 
         private SyntaxNode GetFileAsSyntaxNode(string resourceName)

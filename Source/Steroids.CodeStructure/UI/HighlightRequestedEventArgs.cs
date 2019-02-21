@@ -5,7 +5,7 @@ namespace Steroids.CodeStructure.UI
 {
     public class HighlightRequestedEventArgs : EventArgs
     {
-        public HighlightRequestedEventArgs(ICodeStructureNodeContainer nodeContainer)
+        public HighlightRequestedEventArgs(ICodeStructureItem nodeContainer)
         {
             NodeContainer = nodeContainer;
         }
@@ -13,6 +13,6 @@ namespace Steroids.CodeStructure.UI
         /// <summary>
         /// The node to highlight.
         /// </summary>
-        public ICodeStructureNodeContainer NodeContainer { get; }
+        public ICodeStructureItem NodeContainer { get; }
     }
 }

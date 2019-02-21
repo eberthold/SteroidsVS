@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
 
-namespace Steroids.CodeStructure.Analyzers.Services
+namespace Steroids.CodeStructure.Analyzers
 {
     public interface IDocumentAnalyzerService
     {
@@ -14,7 +13,7 @@ namespace Steroids.CodeStructure.Analyzers.Services
         /// <summary>
         /// Gets all code structure nodes found in the last analysis run.
         /// </summary>
-        IEnumerable<ICodeStructureNodeContainer> Nodes { get; }
+        IEnumerable<SortedTree<ICodeStructureItem>> Nodes { get; }
 
         /// <summary>
         /// Tells, if we are able to analyze this kind of document right now.

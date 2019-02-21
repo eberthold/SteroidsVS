@@ -298,7 +298,6 @@
       <DependentUpon>CodeStructureView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\LevelToThicknessConverter.cs" />
-    <Compile Include="UI\NodeContainerTemplateSelector.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
