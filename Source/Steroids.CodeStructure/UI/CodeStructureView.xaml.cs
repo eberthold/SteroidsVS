@@ -262,6 +262,11 @@ namespace Steroids.CodeStructure.UI
                 return;
             }
 
+            if (!IsKeyboardFocusWithin)
+            {
+                return;
+            }
+
             var collectionView = PART_List.ItemsSource as ICollectionView ?? CollectionViewSource.GetDefaultView(PART_List.ItemsSource);
 
             switch (e.Key)
