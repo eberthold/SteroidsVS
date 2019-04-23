@@ -19,13 +19,12 @@ namespace Steroids.CodeStructure.UI
         private readonly IEditor _editor;
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
-        private readonly IAdornmentLayer _adornmentLayer;
 
         private bool _isOpen;
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
-        private ICodeStructureItem _selectedNode;
-        private List<SortedTree<ICodeStructureItem>> _nodeCollection;
+        private CodeStructureItem _selectedNode;
+        private List<SortedTree<CodeStructureItem>> _nodeCollection;
         private bool _isPinned;
         private DiagnosticSeverity _currentDiagnosticLevel;
         private ICollectionView _nodeListView;
@@ -49,7 +48,6 @@ namespace Steroids.CodeStructure.UI
             _editor = editor;
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
             _documentAnalyzerService = documentAnalyzerService ?? throw new ArgumentNullException(nameof(documentAnalyzerService));
-            _adornmentLayer = adornmentLayer ?? throw new ArgumentNullException(nameof(adornmentLayer));
 
             WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
@@ -79,7 +77,7 @@ namespace Steroids.CodeStructure.UI
         /// <summary>
         /// Gets or sets the selected node.
         /// </summary>
-        public ICodeStructureItem SelectedNode
+        public CodeStructureItem SelectedNode
         {
             get => _selectedNode;
             set
@@ -174,7 +172,7 @@ namespace Steroids.CodeStructure.UI
             set => Set(ref _currentDiagnosticLevel, value);
         }
 
-        public List<SortedTree<ICodeStructureItem>> NodeCollection
+        public List<SortedTree<CodeStructureItem>> NodeCollection
         {
             get => _nodeCollection;
             set => Set(ref _nodeCollection, value);
@@ -229,25 +227,25 @@ namespace Steroids.CodeStructure.UI
                 return true;
             }
 
-            var node = obj as ICodeStructureItem;
+            var node = obj as SortedTree<CodeStructureItem>;
             if (node == null)
             {
                 return false;
             }
 
-            if (isFilterActive && node.IsMeta)
+            if (isFilterActive && node.Data.IsMeta)
             {
                 return false;
             }
 
-            return node.Name.IndexOf(FilterText, StringComparison.CurrentCultureIgnoreCase) >= 0;
+            return node.Data.Name.IndexOf(FilterText, StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
         /// <summary>
         /// Internal scrolling logic.
         /// </summary>
         /// <param name="nodeContainer">The <see cref="ICodeStructureItem"/>.</param>
-        private void ScrollToNode(ICodeStructureItem nodeContainer)
+        private void ScrollToNode(CodeStructureItem nodeContainer)
         {
             if (nodeContainer is null)
             {

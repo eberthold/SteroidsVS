@@ -96,7 +96,7 @@ namespace SteroidsVS
         /// <summary>
         /// Loads a specific <see cref="ResourceDictionary"/> into the resource tree.
         /// </summary>
-        /// <typeparam name="T">The tzpe of the ResourceDictionary.</typeparam>
+        /// <typeparam name="T">The type of the ResourceDictionary.</typeparam>
         private static void InitializeDictionary<T>()
             where T : ResourceDictionary, new()
         {

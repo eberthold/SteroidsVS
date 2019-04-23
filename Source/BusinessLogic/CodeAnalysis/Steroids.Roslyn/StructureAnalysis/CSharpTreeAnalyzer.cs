@@ -11,30 +11,30 @@ namespace Steroids.Roslyn.StructureAnalysis
     public class CSharpTreeAnalyzer : ICodeStructureSyntaxAnalyzer
     {
         /// <inheritdoc />
-        public IEnumerable<SortedTree<ICodeStructureItem>> NodeList { get; private set; }
+        public IEnumerable<SortedTree<CodeStructureItem>> NodeList { get; private set; }
 
         /// <inheritdoc />
         public Task Analyze(SyntaxNode node, CancellationToken token)
         {
-            var root = new SortedTree<ICodeStructureItem>(new CodeStructureItem() { Name = "File" });
+            var root = new SortedTree<CodeStructureItem>(new CodeStructureItem() { Name = "File" });
             var memberDeclarations = node
                 .DescendantNodes(_ => true)
                 .OfType<MemberDeclarationSyntax>()
-                .Where(x => NodeMapper.KnownNodeTypes.Contains(x.GetType()));
+                .Where(x => CSharpNodeMapper.KnownNodeTypes.Contains(x.GetType()));
             
             foreach (var declaration in memberDeclarations)
             {
-                foreach (var mappedItem in NodeMapper.MapItem(declaration))
+                foreach (var mappedItem in CSharpNodeMapper.MapItem(declaration))
                 {
-                    var element = new SortedTree<ICodeStructureItem>(mappedItem, declaration);
+                    var element = new SortedTree<CodeStructureItem>(mappedItem, declaration);
                     var parent = root.FirstOrDefault(x => x.Meta == declaration.Parent) ?? root;
                     if (NeedsMetaNode(declaration))
                     {
                         var realParent = parent.Children.FirstOrDefault(x => x.Data.GetType() == element.Data.GetType() && x.Data.IsMeta);
                         if (realParent is null)
                         {
-                            var metaData = MetaNodeCreator.Create(element.Data);
-                            var metaNode = new SortedTree<ICodeStructureItem>(metaData);
+                            var metaData = CSharpMetaNodeCreator.Create(element.Data);
+                            var metaNode = new SortedTree<CodeStructureItem>(metaData);
                             parent.Add(metaNode);
                             parent = metaNode;
                         }

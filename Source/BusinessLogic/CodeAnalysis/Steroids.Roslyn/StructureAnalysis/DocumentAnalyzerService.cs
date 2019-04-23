@@ -43,7 +43,7 @@ namespace Steroids.Roslyn.StructureAnalysis
         public bool IsAnalyzeable { get; }
 
         /// <inheritdoc />
-        public IEnumerable<SortedTree<ICodeStructureItem>> Nodes { get; private set; }
+        public IEnumerable<SortedTree<CodeStructureItem>> Nodes { get; private set; }
 
         private void OnContentChanged(object sender, EventArgs e)
         {

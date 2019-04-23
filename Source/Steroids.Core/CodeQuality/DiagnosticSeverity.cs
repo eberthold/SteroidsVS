@@ -3,7 +3,7 @@
     public enum DiagnosticSeverity
     {
         /// <summary>
-        /// Diagnostic which isn't diaplayed.
+        /// Diagnostic which isn't displayed.
         /// </summary>
         Hidden = 0,
 

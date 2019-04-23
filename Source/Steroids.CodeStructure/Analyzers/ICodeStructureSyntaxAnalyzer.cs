@@ -10,7 +10,7 @@ namespace Steroids.CodeStructure.Analyzers
         /// <summary>
         /// Gets all nodes in the current file.
         /// </summary>
-        IEnumerable<SortedTree<ICodeStructureItem>> NodeList { get; }
+        IEnumerable<SortedTree<CodeStructureItem>> NodeList { get; }
 
         /// <summary>
         /// Analyze the current file.

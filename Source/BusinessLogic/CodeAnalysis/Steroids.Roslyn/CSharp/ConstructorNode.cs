@@ -1,10 +1,11 @@
-﻿using Steroids.CodeStructure.Analyzers;
-
-namespace Steroids.Roslyn.CSharp
+﻿namespace Steroids.Roslyn.CSharp
 {
-    public class ConstructorNode : CodeStructureItem
+    public class ConstructorNode : CSharpCodeStructureItem
     {
         /// <inheritdoc />
         public override int OrderBaseValue => (int)SortOrder.Constructors;
+
+        /// <inheritdoc />
+        protected override string NodeTypeName => "Method";
     }
 }

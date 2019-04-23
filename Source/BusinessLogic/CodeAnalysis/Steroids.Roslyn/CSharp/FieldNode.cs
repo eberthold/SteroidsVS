@@ -1,10 +1,11 @@
-﻿using Steroids.CodeStructure.Analyzers;
-
-namespace Steroids.Roslyn.CSharp
+﻿namespace Steroids.Roslyn.CSharp
 {
-    public class FieldNode : CodeStructureItem
+    public class FieldNode : CSharpCodeStructureItem
     {
         /// <inheritdoc />
         public override int OrderBaseValue => (int)SortOrder.Fields;
+
+        /// <inheritdoc />
+        protected override string NodeTypeName => "Field";
     }
 }

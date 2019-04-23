@@ -1,10 +1,11 @@
-﻿using Steroids.CodeStructure.Analyzers;
-
-namespace Steroids.Roslyn.CSharp
+﻿namespace Steroids.Roslyn.CSharp
 {
-    public class EventNode : CodeStructureItem
+    public class EventNode : CSharpCodeStructureItem
     {
         /// <inheritdoc />
         public override int OrderBaseValue => (int)SortOrder.Events;
+
+        /// <inheritdoc />
+        protected override string NodeTypeName => "Event";
     }
 }

@@ -170,13 +170,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzers\CodeStructureItem.cs" />
-    <Compile Include="Analyzers\ICodeStructureItem.cs" />
     <Compile Include="Analyzers\ICodeStructureSyntaxAnalyzer.cs" />
+    <Compile Include="Analyzers\ITypeDescriptor.cs" />
     <Compile Include="Analyzers\SortedTree.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\SyntaxNodeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Analyzers\IDocumentAnalyzerService.cs" />
     <Compile Include="Resources\Strings\Strings.Designer.cs">

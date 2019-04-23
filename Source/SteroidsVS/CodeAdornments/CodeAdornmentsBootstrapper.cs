@@ -4,11 +4,13 @@ using Microsoft.VisualStudio.Text.Outlining;
 using Steroids.CodeQuality.UI;
 using Steroids.CodeStructure.Analyzers;
 using Steroids.CodeStructure.UI;
+using Steroids.Core.Editor;
 using Steroids.Core.UI;
 using Steroids.Roslyn.StructureAnalysis;
 using SteroidsVS.CodeQuality.UI;
 using SteroidsVS.CodeStructure.Adorners;
 using SteroidsVS.CodeStructure.UI;
+using SteroidsVS.Editor;
 using Unity;
 using Unity.Lifetime;
 
@@ -72,6 +74,7 @@ namespace SteroidsVS.CodeAdornments
             Container.RegisterType<CodeStructureAdorner>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<DiagnosticInfosViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IEditor, WpfTextViewAdapter>(new ContainerControlledLifetimeManager());
 
             Container.RegisterType<DiagnosticInfoAdorner>(new ContainerControlledLifetimeManager());
         }

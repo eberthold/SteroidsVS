@@ -5,7 +5,7 @@ namespace Steroids.Roslyn.StructureAnalysis
 {
     public class HighlightRequestedEventArgs : EventArgs
     {
-        public HighlightRequestedEventArgs(ICodeStructureItem nodeContainer)
+        public HighlightRequestedEventArgs(CodeStructureItem nodeContainer)
         {
             NodeContainer = nodeContainer;
         }
@@ -13,6 +13,6 @@ namespace Steroids.Roslyn.StructureAnalysis
         /// <summary>
         /// The node to highlight.
         /// </summary>
-        public ICodeStructureItem NodeContainer { get; }
+        public CodeStructureItem NodeContainer { get; }
     }
 }

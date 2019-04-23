@@ -4,14 +4,14 @@ using Steroids.Roslyn.Resources.Strings;
 
 namespace Steroids.Roslyn.StructureAnalysis
 {
-    public static class MetaNodeCreator
+    public static class CSharpMetaNodeCreator
     {
         /// <summary>
         /// Creates a meta node for the given item.
         /// </summary>
-        /// <param name="member">The member which needs a meta node to be goruped in.</param>
+        /// <param name="member">The member which needs a meta node to be grouped in.</param>
         /// <returns>The newly created meta node.</returns>
-        public static ICodeStructureItem Create(ICodeStructureItem member)
+        public static CodeStructureItem Create(CodeStructureItem member)
         {
             switch (member)
             {
@@ -48,6 +48,13 @@ namespace Steroids.Roslyn.StructureAnalysis
                     {
                         IsMeta = true,
                         Name = Strings.MethodMetaNode_Name
+                    };
+
+                case EnumNode _:
+                    return new EnumNode
+                    {
+                        IsMeta = true,
+                        Name = member.Name
                     };
 
                 default:

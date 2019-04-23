@@ -13,7 +13,7 @@ namespace Steroids.CodeStructure.Analyzers
         /// <summary>
         /// Gets all code structure nodes found in the last analysis run.
         /// </summary>
-        IEnumerable<SortedTree<ICodeStructureItem>> Nodes { get; }
+        IEnumerable<SortedTree<CodeStructureItem>> Nodes { get; }
 
         /// <summary>
         /// Tells, if we are able to analyze this kind of document right now.

@@ -276,6 +276,9 @@
     <Compile Include="Controls\SelectionHintControl.xaml.cs">
       <DependentUpon>SelectionHintControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Monikers\TypeDescriptorMonikerConverter.cs" />
+    <Compile Include="Monikers\TypeDescriptorMonikerNameResolver.cs" />
+    <Compile Include="Monikers\TypeDescriptorMonikerResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -313,6 +316,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BusinessLogic\CodeAnalysis\Steroids.Roslyn\Steroids.Roslyn.csproj">
+      <Project>{c02f84ae-8614-443d-b38c-cbae226bac77}</Project>
+      <Name>Steroids.Roslyn</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Steroids.CodeStructure\Steroids.CodeStructure.csproj">
       <Project>{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}</Project>
       <Name>Steroids.CodeStructure</Name>

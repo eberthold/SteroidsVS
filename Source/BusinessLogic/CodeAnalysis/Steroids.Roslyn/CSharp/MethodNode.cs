@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using Steroids.CodeStructure.Analyzers;
-using Steroids.CodeStructure.Extensions;
-
-namespace Steroids.Roslyn.CSharp
+﻿namespace Steroids.Roslyn.CSharp
 {
-    public class MethodNode : CodeStructureItem
+    public class MethodNode : CSharpCodeStructureItem
     {
         /// <inheritdoc />
         public override int OrderBaseValue => (int)SortOrder.Methods;
+
+        /// <inheritdoc />
+        protected override string NodeTypeName => "Method";
     }
 }

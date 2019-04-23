@@ -9,10 +9,12 @@
     xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
     xmlns:ui="clr-namespace:SteroidsVS.CodeStructure.UI"
     xmlns:analysis="clr-namespace:Steroids.CodeStructure.Analyzers;assembly=Steroids.CodeStructure"
+    xmlns:monikers="clr-namespace:SteroidsVS.CodeStructure.Monikers"
     xmlns:baseUi="clr-namespace:Steroids.CodeStructure.UI;assembly=Steroids.CodeStructure"
     mc:Ignorable="d" >
 
     <ui:LevelToThicknessConverter x:Key="LevelToThicknessConverter" BaseOffset="2"/>
+    <monikers:TypeDescriptorMonikerConverter x:Key="TypeDescriptorMonikerConverter" />
 
     <SolidColorBrush x:Key="ClickableItemContainerHighlightBrush" Color="#44444444" />
 
@@ -142,7 +144,7 @@
     <DataTemplate x:Key="NodeContainerTemplate">
         <ContentControl Style="{StaticResource MouseOverControl}" Focusable="False" Padding="{Binding Level, Converter={StaticResource LevelToThicknessConverter}}" theming:ImageThemingUtilities.ImageBackgroundColor="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource BrushToColorConverter}}">
             <StackPanel DataContext="{Binding Data}" Orientation="Horizontal" Margin="0, 2">
-                <imaging:CrispImage Width="16" Height="16" Moniker="{Binding Moniker}" Margin="0, 0, 6, 0" />
+                <imaging:CrispImage Width="16" Height="16" Moniker="{Binding TypeDescriptor, Converter={StaticResource TypeDescriptorMonikerConverter}}" Margin="0, 0, 6, 0" />
                 <TextBlock Text="{Binding Name}" Foreground="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowTextBrushKey}}" VerticalAlignment="Center" Style="{StaticResource CodeStructureTextBlock}" />
             </StackPanel>
         </ContentControl>

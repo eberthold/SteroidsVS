@@ -1,11 +1,11 @@
 ﻿namespace Steroids.Roslyn.CSharp
 {
-    public class EnumNode : CSharpCodeStructureItem
+    public class EnumMemberNode : CSharpCodeStructureItem
     {
         /// <inheritdoc />
         public override int OrderBaseValue => (int)SortOrder.Enums;
 
         /// <inheritdoc />
-        protected override string NodeTypeName => "Enumeration";
+        protected override string NodeTypeName => "EnumerationItem";
     }
 }

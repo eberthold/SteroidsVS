@@ -20,7 +20,7 @@ namespace SteroidsVS.CodeStructure.UI
         public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false, OnIsOpenChanged));
 
         public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register("IsPinned", typeof(bool), typeof(CodeStructureView), new PropertyMetadata(false));
-        public static readonly DependencyProperty SelectedNodeContainerProperty = DependencyProperty.Register("SelectedNodeContainer", typeof(ICodeStructureItem), typeof(CodeStructureView), new PropertyMetadata(null));
+        public static readonly DependencyProperty SelectedNodeContainerProperty = DependencyProperty.Register("SelectedNodeContainer", typeof(CodeStructureItem), typeof(CodeStructureView), new PropertyMetadata(null));
         public static readonly DependencyProperty SpaceReservationProperty = DependencyProperty.Register("SpaceReservation", typeof(IAdornmentSpaceReservation), typeof(CodeStructureView), new PropertyMetadata(null));
 
         private static readonly IReadOnlyCollection<Key> KeysToHandle = new List<Key>
@@ -55,9 +55,9 @@ namespace SteroidsVS.CodeStructure.UI
         /// <summary>
         /// Gets or sets the last selected node.a.
         /// </summary>
-        public ICodeStructureItem SelectedNodeContainer
+        public CodeStructureItem SelectedNodeContainer
         {
-            get { return (ICodeStructureItem)GetValue(SelectedNodeContainerProperty); }
+            get { return (CodeStructureItem)GetValue(SelectedNodeContainerProperty); }
             set { SetValue(SelectedNodeContainerProperty, value); }
         }
 
@@ -279,7 +279,7 @@ namespace SteroidsVS.CodeStructure.UI
                 case Key.Enter:
                 case Key.Space:
                     _skipSelectionChanged = false;
-                    SelectedNodeContainer = collectionView.CurrentItem as ICodeStructureItem;
+                    SetSelectedItem(collectionView.CurrentItem);
                     PART_List.SelectedItem = null;
                     e.Handled = true;
                     break;
@@ -305,11 +305,22 @@ namespace SteroidsVS.CodeStructure.UI
                 return;
             }
 
-            SelectedNodeContainer = PART_List.SelectedItem as ICodeStructureItem;
+            SetSelectedItem(PART_List.SelectedItem);
             PART_List.SelectedItem = null;
             _skipFocusHandler = false;
             PART_FilterText.Focus();
             e.Handled = true;
+        }
+
+        private void SetSelectedItem(object source)
+        {
+            var node = source as SortedTree<CodeStructureItem>;
+            if (node?.Data.IsMeta ?? true)
+            {
+                return;
+            }
+
+            SelectedNodeContainer = node.Data;
         }
 
         /// <summary>
