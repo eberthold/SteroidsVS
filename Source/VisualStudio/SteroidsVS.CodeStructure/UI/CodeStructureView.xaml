@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border x:Name="PART_ListBorder" Grid.Row="0" Cursor="Arrow" BorderThickness="0, 1, 1, 1" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}" HorizontalAlignment="Stretch" Visibility="{Binding IsOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Border x:Name="PART_ListBorder" Grid.Row="0" Cursor="Arrow" BorderThickness="0, 1, 1, 1" Background="{DynamicResource {x:Static platformUI:EnvironmentColors.ToolWindowBackgroundBrushKey}}" HorizontalAlignment="Stretch" Visibility="{Binding IsOpen, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
             <Border.BorderBrush>
                 <SolidColorBrush x:Name="PART_ListBorderBrush" Color="{DynamicResource {x:Static platformUI:EnvironmentColors.ScrollBarArrowGlyphPressedColorKey}}" />
             </Border.BorderBrush>
