@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Rulesets for Steroids.VS extension unit test projects" Description="Basic styling rules." ToolsVersion="15.0">
+<RuleSet Name="Rulesets for Steroids.VS extension unit test projects" Description="Basic styling rules." ToolsVersion="16.0">
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1009" Action="Warning" />
@@ -73,6 +73,8 @@
     <Rule Id="SA0001" Action="None" />
     <Rule Id="SA1101" Action="None" />
     <Rule Id="SA1200" Action="None" />
+    <Rule Id="SA1202" Action="None" />
+    <Rule Id="SA1204" Action="None" />
     <Rule Id="SA1309" Action="None" />
     <Rule Id="SA1413" Action="None" />
     <Rule Id="SA1600" Action="None" />
