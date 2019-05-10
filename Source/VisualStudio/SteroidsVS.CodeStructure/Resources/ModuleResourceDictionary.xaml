@@ -7,10 +7,9 @@
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
-    xmlns:ui="clr-namespace:SteroidsVS.CodeStructure.UI"
-    xmlns:analysis="clr-namespace:Steroids.CodeStructure.Analyzers;assembly=Steroids.CodeStructure"
-    xmlns:monikers="clr-namespace:SteroidsVS.CodeStructure.Monikers"
     xmlns:baseUi="clr-namespace:Steroids.CodeStructure.UI;assembly=Steroids.CodeStructure"
+    xmlns:monikers="clr-namespace:SteroidsVS.CodeStructure.Monikers"
+    xmlns:ui="clr-namespace:SteroidsVS.CodeStructure.UI"
     mc:Ignorable="d" >
 
     <ui:LevelToThicknessConverter x:Key="LevelToThicknessConverter" BaseOffset="2"/>

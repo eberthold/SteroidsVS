@@ -180,21 +180,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Steroids.CodeQuality\Steroids.CodeQuality.csproj">
+    <ProjectReference Include="..\..\BusinessLogic\CodeQuality\Steroids.CodeQuality\Steroids.CodeQuality.csproj">
       <Project>{8e125506-818b-40e4-adfb-6238c2a49ac7}</Project>
       <Name>Steroids.CodeQuality</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Steroids.Core\Steroids.Core.csproj">
+    <ProjectReference Include="..\..\BusinessLogic\Core\Steroids.Core\Steroids.Core.csproj">
       <Project>{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}</Project>
       <Name>Steroids.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Steroids.SharedUI\Steroids.SharedUI.csproj">
+    <ProjectReference Include="..\SteroidsVS.SharedUI\SteroidsVS.SharedUI.csproj">
       <Project>{58ac3d8f-294e-4389-8a93-570ae6c45808}</Project>
       <Name>Steroids.SharedUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SteroidsVS.UI\SteroidsVS.UI\SteroidsVS.UI.csproj">
-      <Project>{03a381ea-c4ca-441f-8128-0713060e919c}</Project>
-      <Name>SteroidsVS.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

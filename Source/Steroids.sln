@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS", "SteroidsVS\SteroidsVS.csproj", "{CE39BD04-12F1-4061-89A0-86154E247132}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS", "VisualStudio\SteroidsVS\SteroidsVS.csproj", "{CE39BD04-12F1-4061-89A0-86154E247132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeStructure", "Steroids.CodeStructure\Steroids.CodeStructure.csproj", "{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeStructure", "BusinessLogic\CodeStructure\Steroids.CodeStructure\Steroids.CodeStructure.csproj", "{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Skin", "Steroids.Skin\Steroids.Skin.csproj", "{DEA6534A-406C-409E-802F-9B655BC8E876}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Core", "Steroids.Core\Steroids.Core.csproj", "{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Core", "BusinessLogic\Core\Steroids.Core\Steroids.Core.csproj", "{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionFiles", ".SolutionFiles", "{12415D6D-27DC-4947-9C17-64F892C1FCB1}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,32 +16,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionFiles", ".Solution
 		SteroidsVS.Test.ruleset = SteroidsVS.Test.ruleset
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeStructure.Tests", "Steroids.CodeStructure.Tests\Steroids.CodeStructure.Tests.csproj", "{7ACA354E-33FC-45C1-932F-F7A5B01111A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeStructure.Tests", "BusinessLogic\CodeStructure\Steroids.CodeStructure.Tests\Steroids.CodeStructure.Tests.csproj", "{7ACA354E-33FC-45C1-932F-F7A5B01111A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.SharedUI", "Steroids.SharedUI\Steroids.SharedUI.csproj", "{58AC3D8F-294E-4389-8A93-570AE6C45808}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.SharedUI", "VisualStudio\SteroidsVS.SharedUI\SteroidsVS.SharedUI.csproj", "{58AC3D8F-294E-4389-8A93-570AE6C45808}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeQuality", "Steroids.CodeQuality\Steroids.CodeQuality.csproj", "{8E125506-818B-40E4-ADFB-6238C2A49AC7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DEA6534A-406C-409E-802F-9B655BC8E876} = {DEA6534A-406C-409E-802F-9B655BC8E876}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeQuality", "BusinessLogic\CodeQuality\Steroids.CodeQuality\Steroids.CodeQuality.csproj", "{8E125506-818B-40E4-ADFB-6238C2A49AC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Core.Tests", "Steroids.Core.Tests\Steroids.Core.Tests.csproj", "{CCA340B5-1BE3-45C6-B108-89B1BFFB36BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Core.Tests", "BusinessLogic\Core\Steroids.Core.Tests\Steroids.Core.Tests.csproj", "{CCA340B5-1BE3-45C6-B108-89B1BFFB36BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeQuality.Tests", "Steroids.CodeQuality.Tests\Steroids.CodeQuality.Tests.csproj", "{2FE84F47-9450-4701-80A4-D24104D3D504}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Controls", "Steroids.Controls\Steroids.Controls.csproj", "{F431C218-50D4-426B-A1CB-4C21AF3E7008}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeQuality.Tests", "BusinessLogic\CodeQuality\Steroids.CodeQuality.Tests\Steroids.CodeQuality.Tests.csproj", "{2FE84F47-9450-4701-80A4-D24104D3D504}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessLogic", "BusinessLogic", "{7071A409-65F5-484A-A3EB-A957E1749BF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualStudio", "VisualStudio", "{A0C635A0-8002-453A-9DA8-F43A31655793}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS.UI", "VisualStudio\SteroidsVS.UI\SteroidsVS.UI\SteroidsVS.UI.csproj", "{03A381EA-C4CA-441F-8128-0713060E919C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeQuality", "CodeQuality", "{0C924F26-8A39-4A6D-82C0-B9A504332773}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeStructure", "CodeStructure", "{22B6E3A9-C009-49D7-98A4-6B57877BA4DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS.CodeQuality", "VisualStudio\SteroidsVs.CodeQuality\SteroidsVS.CodeQuality.csproj", "{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS.CodeQuality", "VisualStudio\SteroidsVS.CodeQuality\SteroidsVS.CodeQuality.csproj", "{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS.CodeStructure", "VisualStudio\SteroidsVS.CodeStructure\SteroidsVS.CodeStructure.csproj", "{E6451202-C6F6-4E47-86F1-2745FB353758}"
 EndProject
@@ -69,10 +60,6 @@ Global
 		{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DEA6534A-406C-409E-802F-9B655BC8E876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DEA6534A-406C-409E-802F-9B655BC8E876}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DEA6534A-406C-409E-802F-9B655BC8E876}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DEA6534A-406C-409E-802F-9B655BC8E876}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D43C1A42-A6B0-4F1B-8637-79DAACAAE487}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -97,14 +84,6 @@ Global
 		{2FE84F47-9450-4701-80A4-D24104D3D504}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FE84F47-9450-4701-80A4-D24104D3D504}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FE84F47-9450-4701-80A4-D24104D3D504}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F431C218-50D4-426B-A1CB-4C21AF3E7008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F431C218-50D4-426B-A1CB-4C21AF3E7008}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F431C218-50D4-426B-A1CB-4C21AF3E7008}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F431C218-50D4-426B-A1CB-4C21AF3E7008}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03A381EA-C4CA-441F-8128-0713060E919C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03A381EA-C4CA-441F-8128-0713060E919C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03A381EA-C4CA-441F-8128-0713060E919C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03A381EA-C4CA-441F-8128-0713060E919C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4C0B3CB-96AD-405D-87FB-8E6318827E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -128,15 +107,12 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CE39BD04-12F1-4061-89A0-86154E247132} = {A0C635A0-8002-453A-9DA8-F43A31655793}
 		{1406F7C6-80FE-4EE2-A651-7432C0EF9CD2} = {22B6E3A9-C009-49D7-98A4-6B57877BA4DD}
-		{DEA6534A-406C-409E-802F-9B655BC8E876} = {A0C635A0-8002-453A-9DA8-F43A31655793}
 		{D43C1A42-A6B0-4F1B-8637-79DAACAAE487} = {1411DC52-C0F7-4D65-B418-7C83670E296D}
 		{7ACA354E-33FC-45C1-932F-F7A5B01111A0} = {22B6E3A9-C009-49D7-98A4-6B57877BA4DD}
 		{58AC3D8F-294E-4389-8A93-570AE6C45808} = {A0C635A0-8002-453A-9DA8-F43A31655793}
 		{8E125506-818B-40E4-ADFB-6238C2A49AC7} = {0C924F26-8A39-4A6D-82C0-B9A504332773}
 		{CCA340B5-1BE3-45C6-B108-89B1BFFB36BB} = {1411DC52-C0F7-4D65-B418-7C83670E296D}
 		{2FE84F47-9450-4701-80A4-D24104D3D504} = {0C924F26-8A39-4A6D-82C0-B9A504332773}
-		{F431C218-50D4-426B-A1CB-4C21AF3E7008} = {A0C635A0-8002-453A-9DA8-F43A31655793}
-		{03A381EA-C4CA-441F-8128-0713060E919C} = {A0C635A0-8002-453A-9DA8-F43A31655793}
 		{0C924F26-8A39-4A6D-82C0-B9A504332773} = {7071A409-65F5-484A-A3EB-A957E1749BF5}
 		{22B6E3A9-C009-49D7-98A4-6B57877BA4DD} = {7071A409-65F5-484A-A3EB-A957E1749BF5}
 		{E4C0B3CB-96AD-405D-87FB-8E6318827E5B} = {A0C635A0-8002-453A-9DA8-F43A31655793}

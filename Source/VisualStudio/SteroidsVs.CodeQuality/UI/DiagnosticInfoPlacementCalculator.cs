@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Text.Formatting;
 using Microsoft.VisualStudio.Text.Outlining;
 using Steroids.CodeQuality.LineHandling;
 using Steroids.Core.UI;
-using SteroidsVS.UI.Editor;
+using SteroidsVS.SharedUI.Editor;
 
 namespace SteroidsVS.CodeQuality.UI
 {
