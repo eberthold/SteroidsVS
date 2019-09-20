@@ -43,6 +43,9 @@
     <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.CSharp.2.4.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic">
+      <HintPath>..\..\..\VisualStudio\SteroidsVS.SharedUI\bin\Debug\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\System.AppContext.4.3.0\lib\net463\System.AppContext.dll</HintPath>
@@ -136,19 +139,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSharp\CSharpCodeStructureItem.cs" />
-    <Compile Include="CSharp\ClassNode.cs" />
-    <Compile Include="CSharp\ConstructorNode.cs" />
-    <Compile Include="CSharp\CSharpTypeDescriptor.cs" />
-    <Compile Include="CSharp\EnumMemberNode.cs" />
-    <Compile Include="CSharp\EnumNode.cs" />
-    <Compile Include="CSharp\EventNode.cs" />
-    <Compile Include="CSharp\FieldNode.cs" />
-    <Compile Include="CSharp\InterfaceNode.cs" />
-    <Compile Include="CSharp\MethodNode.cs" />
-    <Compile Include="CSharp\PropertyNode.cs" />
-    <Compile Include="CSharp\StructNode.cs" />
-    <Compile Include="CSharp\SortOrder.cs" />
+    <Compile Include="Common\RoslynCodeStructureItem.cs" />
+    <Compile Include="Common\ClassNode.cs" />
+    <Compile Include="Common\ConstructorNode.cs" />
+    <Compile Include="Common\RoslynTypeDescriptor.cs" />
+    <Compile Include="Common\EnumMemberNode.cs" />
+    <Compile Include="Common\EnumNode.cs" />
+    <Compile Include="Common\EventNode.cs" />
+    <Compile Include="Common\FieldNode.cs" />
+    <Compile Include="Common\InterfaceNode.cs" />
+    <Compile Include="Common\MethodNode.cs" />
+    <Compile Include="Common\PropertyNode.cs" />
+    <Compile Include="Common\StructNode.cs" />
+    <Compile Include="Common\SortOrder.cs" />
     <Compile Include="Extensions\SyntaxNodeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Strings\Strings.Designer.cs">
@@ -156,11 +159,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="StructureAnalysis\CSharpMetaNodeCreator.cs" />
-    <Compile Include="StructureAnalysis\CSharpNodeMapper.cs" />
-    <Compile Include="StructureAnalysis\CSharpTreeAnalyzer.cs" />
+    <Compile Include="Common\RoslynMetaNodeCreator.cs" />
+    <Compile Include="CSharp\CSharpNodeMapper.cs" />
+    <Compile Include="CSharp\CSharpTreeAnalyzer.cs" />
     <Compile Include="StructureAnalysis\DocumentAnalyzerService.cs" />
     <Compile Include="StructureAnalysis\HighlightRequestedEventArgs.cs" />
+    <Compile Include="StructureAnalysis\IRoslynTreeAnalyzer.cs" />
+    <Compile Include="StructureAnalysis\KnownContentTypes.cs" />
+    <Compile Include="StructureAnalysis\TreeAnalyzerFactory.cs" />
+    <Compile Include="VisualBasic\VisualBasicNodeMapper.cs" />
+    <Compile Include="VisualBasic\VisualBasicTreeAnalyzer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeStructure\Steroids.CodeStructure\Steroids.CodeStructure.csproj">

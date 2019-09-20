@@ -1,6 +1,6 @@
-﻿namespace Steroids.Roslyn.CSharp
+﻿namespace Steroids.Roslyn.Common
 {
-    public class MethodNode : CSharpCodeStructureItem
+    public class MethodNode : RoslynCodeStructureItem
     {
         /// <inheritdoc />
         public override int OrderBaseValue => (int)SortOrder.Methods;

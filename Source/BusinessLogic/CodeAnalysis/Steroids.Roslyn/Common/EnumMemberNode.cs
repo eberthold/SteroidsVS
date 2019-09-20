@@ -1,6 +1,6 @@
-﻿namespace Steroids.Roslyn.CSharp
+﻿namespace Steroids.Roslyn.Common
 {
-    public class EnumMemberNode : CSharpCodeStructureItem
+    public class EnumMemberNode : RoslynCodeStructureItem
     {
         /// <inheritdoc />
         public override int OrderBaseValue => (int)SortOrder.Enums;

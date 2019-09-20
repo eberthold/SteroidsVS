@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Steroids.CodeStructure.Analyzers;
-using Steroids.Roslyn.CSharp;
+using Steroids.Roslyn.Common;
 using Steroids.Roslyn.Extensions;
 
-namespace Steroids.Roslyn.StructureAnalysis
+namespace Steroids.Roslyn.CSharp
 {
     internal static class CSharpNodeMapper
     {
@@ -167,7 +166,7 @@ namespace Steroids.Roslyn.StructureAnalysis
             return item;
         }
 
-        private static T CreateItem<T>(CSharpSyntaxNode syntaxNode)
+        private static T CreateItem<T>(SyntaxNode syntaxNode)
             where T : CodeStructureItem, new()
         {
             var item = new T
@@ -179,12 +178,12 @@ namespace Steroids.Roslyn.StructureAnalysis
             return item;
         }
 
-        private static int GetStartLine(CSharpSyntaxNode syntaxNode)
+        private static int GetStartLine(SyntaxNode syntaxNode)
         {
             return syntaxNode.GetLocation().GetLineSpan().StartLinePosition.Line;
         }
 
-        private static int GetEndLine(CSharpSyntaxNode syntaxNode)
+        private static int GetEndLine(SyntaxNode syntaxNode)
         {
             return syntaxNode.GetLocation().GetLineSpan().EndLinePosition.Line;
         }

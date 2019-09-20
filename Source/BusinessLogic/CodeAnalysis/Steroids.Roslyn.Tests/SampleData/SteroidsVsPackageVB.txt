@@ -1,0 +1,51 @@
+﻿Imports System
+Imports System.Linq
+Imports System.Reflection
+Imports System.Runtime.InteropServices
+Imports System.Windows
+Imports Microsoft.VisualStudio
+Imports Microsoft.VisualStudio.Shell
+Imports SteroidsVS.Services
+Imports CodeQualityModule = Steroids.CodeQuality
+Imports CodeStructureModule = Steroids.CodeStructure
+Imports SharedUiModule = Steroids.SharedUI
+Imports SkinModule = Steroids.Skin
+
+Namespace SteroidsVS
+    <ProvideAutoLoad(VSConstants.UICONTEXT.ShellInitialized_string)>
+    <ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string)>
+    <PackageRegistration(UseManagedResourcesOnly:=True)>
+    <InstalledProductRegistration("#110", "#112", "1.0", IconResourceID:=400)>
+    <Guid(PackageGuidString)>
+    <ProvideMenuResource("Menus.ctmenu", 1)>
+    Public NotInheritable Class SteroidsVsPackage
+        Inherits Package
+
+        Public Const PackageGuidString As String = "9ac11e28-22b5-4c3c-a40f-ab2c9bdd18d6"
+        Private _initialized As Boolean
+        Public Property VsServiceProvider As IVsServiceProvider
+
+        Protected Overrides Sub Initialize()
+            If _initialized Then
+                Return
+            End If
+
+            _initialized = True
+            MyBase.Initialize()
+            VsServiceProvider = New VsServiceProvider(Me)
+            Assembly.Load("Steroids.Controls")
+            InitializeDictionary(Of SkinModule.Skin)()
+            InitializeDictionary(Of SharedUiModule.Resources.ModuleResourceDictionary)()
+            InitializeDictionary(Of CodeQualityModule.Resources.ModuleResourceDictionary)()
+            InitializeDictionary(Of CodeStructureModule.Resources.ModuleResourceDictionary)()
+            Dim root = New Bootstrapper()
+            root.Run(Me)
+        End Sub
+
+        Private Shared Sub InitializeDictionary(Of T As {ResourceDictionary, New})()
+            If Not Application.Current.Resources.MergedDictionaries.OfType(Of T)().Any() Then
+                Application.Current.Resources.MergedDictionaries.Add(New T())
+            End If
+        End Sub
+    End Class
+End Namespace

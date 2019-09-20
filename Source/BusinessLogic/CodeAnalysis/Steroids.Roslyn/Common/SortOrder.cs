@@ -1,4 +1,4 @@
-﻿namespace Steroids.Roslyn.CSharp
+﻿namespace Steroids.Roslyn.Common
 {
     public enum SortOrder
     {

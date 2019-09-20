@@ -1,6 +1,6 @@
-﻿namespace Steroids.Roslyn.CSharp
+﻿namespace Steroids.Roslyn.Common
 {
-    public class EventNode : CSharpCodeStructureItem
+    public class EventNode : RoslynCodeStructureItem
     {
         /// <inheritdoc />
         public override int OrderBaseValue => (int)SortOrder.Events;

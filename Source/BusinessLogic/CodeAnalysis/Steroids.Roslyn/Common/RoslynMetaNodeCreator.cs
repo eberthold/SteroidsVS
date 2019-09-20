@@ -1,10 +1,9 @@
 ﻿using Steroids.CodeStructure.Analyzers;
-using Steroids.Roslyn.CSharp;
 using Steroids.Roslyn.Resources.Strings;
 
-namespace Steroids.Roslyn.StructureAnalysis
+namespace Steroids.Roslyn.Common
 {
-    public static class CSharpMetaNodeCreator
+    public static class RoslynMetaNodeCreator
     {
         /// <summary>
         /// Creates a meta node for the given item.

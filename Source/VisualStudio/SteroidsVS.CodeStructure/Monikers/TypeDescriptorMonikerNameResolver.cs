@@ -1,5 +1,5 @@
 ﻿using Steroids.CodeStructure.Analyzers;
-using Steroids.Roslyn.CSharp;
+using Steroids.Roslyn.Common;
 
 namespace SteroidsVS.CodeStructure.Monikers
 {
@@ -14,7 +14,7 @@ namespace SteroidsVS.CodeStructure.Monikers
         {
             switch (typeDescriptor)
             {
-                case CSharpTypeDescriptor csharp:
+                case RoslynTypeDescriptor csharp:
                     return csharp.TypeName + csharp.AccessModifier;
                 default:
                     return typeDescriptor.TypeName;

@@ -1,15 +1,15 @@
 ﻿using System.Linq;
 using Steroids.CodeStructure.Analyzers;
 
-namespace Steroids.Roslyn.CSharp
+namespace Steroids.Roslyn.Common
 {
     /// <summary>
-    /// Implementation to automatically update <see cref="CodeStructureItem.TypeDescriptor"/> when 
-    /// <see cref="CodeStructureItem.AccessModifier"/> changes.
+    /// Implementation to automatically update <see cref="CodeStructure.Analyzers.CodeStructureItem.TypeDescriptor"/> when 
+    /// <see cref="CodeStructure.Analyzers.CodeStructureItem.AccessModifier"/> changes.
     /// </summary>
-    public abstract class CSharpCodeStructureItem : CodeStructureItem
+    public abstract class RoslynCodeStructureItem : CodeStructure.Analyzers.CodeStructureItem
     {
-        public CSharpCodeStructureItem()
+        public RoslynCodeStructureItem()
         {
             this.PropertyChanged += OnPropertyChanged;
             UpdateTypeDescriptor();
@@ -30,7 +30,7 @@ namespace Steroids.Roslyn.CSharp
 
         private void UpdateTypeDescriptor()
         {
-            TypeDescriptor = CSharpTypeDescriptor
+            TypeDescriptor = RoslynTypeDescriptor
                 .KnownCombinations
                 .FirstOrDefault(x =>
                     x.TypeName == NodeTypeName &&

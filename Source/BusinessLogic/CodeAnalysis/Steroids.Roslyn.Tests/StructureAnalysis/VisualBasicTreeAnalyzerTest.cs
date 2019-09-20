@@ -6,14 +6,14 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Steroids.Roslyn.CSharp;
+using Steroids.Roslyn.VisualBasic;
 
 namespace Steroids.Roslyn.Tests.StructureAnalysis
 {
     [TestClass]
-    public class CSharpTreeAnalyzerTest
+    public class VisualBasicTreeAnalyzerTest
     {
         [TestMethod]
         public async Task Analyze_ValidFile_CreatesMatchingTree()
@@ -32,7 +32,7 @@ namespace Steroids.Roslyn.Tests.StructureAnalysis
                 "InitializeDictionary"
             };
 
-            const string resourceName = "Steroids.Roslyn.Tests.SampleData.SteroidsVsPackageCS.txt";
+            const string resourceName = "Steroids.Roslyn.Tests.SampleData.SteroidsVsPackageVB.txt";
             var rootNode = GetFileAsSyntaxNode(resourceName);
             var sut = CreateSut();
 
@@ -41,14 +41,14 @@ namespace Steroids.Roslyn.Tests.StructureAnalysis
 
             // Assert
             var buildTree = sut.NodeList.Select(x => x.Data.Name).ToList();
-            CollectionAssert.AreEqual(expectedNameOrder, buildTree, 
+            CollectionAssert.AreEqual(expectedNameOrder, buildTree,
                 $"{Environment.NewLine}expected: {Environment.NewLine}{string.Join(Environment.NewLine, expectedNameOrder)}{Environment.NewLine}" +
                 $"{Environment.NewLine}actual: {Environment.NewLine}{string.Join(Environment.NewLine, buildTree)}{Environment.NewLine}");
         }
 
-        private CSharpTreeAnalyzer CreateSut()
+        private VisualBasicTreeAnalyzer CreateSut()
         {
-            return new CSharpTreeAnalyzer();
+            return new VisualBasicTreeAnalyzer();
         }
 
         private SyntaxNode GetFileAsSyntaxNode(string resourceName)
@@ -56,7 +56,7 @@ namespace Steroids.Roslyn.Tests.StructureAnalysis
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
             using (var reader = new StreamReader(stream))
             {
-                var syntaxTree = CSharpSyntaxTree.ParseText(reader.ReadToEnd());
+                var syntaxTree = VisualBasicSyntaxTree.ParseText(reader.ReadToEnd());
                 return syntaxTree.GetRoot();
             }
         }
