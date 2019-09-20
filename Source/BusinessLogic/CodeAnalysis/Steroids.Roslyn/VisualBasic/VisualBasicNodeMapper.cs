@@ -6,10 +6,11 @@ using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Steroids.CodeStructure.Analyzers;
 using Steroids.Roslyn.Common;
 using Steroids.Roslyn.Extensions;
+using Steroids.Roslyn.StructureAnalysis;
 
 namespace Steroids.Roslyn.VisualBasic
 {
-    internal static class VisualBasicNodeMapper
+    internal class VisualBasicNodeMapper : IRoslynNodeMapper
     {
         internal static IReadOnlyCollection<Type> KnownNodeTypes { get; } = new List<Type>
         {
@@ -26,7 +27,7 @@ namespace Steroids.Roslyn.VisualBasic
             typeof(ModuleBlockSyntax)
         };
 
-        internal static IReadOnlyCollection<CodeStructureItem> MapItem(SyntaxNode node)
+        public IReadOnlyCollection<CodeStructureItem> MapItem(SyntaxNode node)
         {
             switch (node)
             {

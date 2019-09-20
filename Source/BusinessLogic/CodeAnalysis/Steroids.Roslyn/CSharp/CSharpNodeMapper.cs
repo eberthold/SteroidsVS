@@ -6,10 +6,11 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Steroids.CodeStructure.Analyzers;
 using Steroids.Roslyn.Common;
 using Steroids.Roslyn.Extensions;
+using Steroids.Roslyn.StructureAnalysis;
 
 namespace Steroids.Roslyn.CSharp
 {
-    internal static class CSharpNodeMapper
+    internal class CSharpNodeMapper : IRoslynNodeMapper
     {
         internal static IReadOnlyCollection<Type> KnownNodeTypes { get; } = new List<Type>
         {
@@ -25,7 +26,7 @@ namespace Steroids.Roslyn.CSharp
             typeof(EnumMemberDeclarationSyntax)
         };
 
-        internal static IReadOnlyCollection<CodeStructureItem> MapItem(SyntaxNode node)
+        public IReadOnlyCollection<CodeStructureItem> MapItem(SyntaxNode node)
         {
             switch (node)
             {

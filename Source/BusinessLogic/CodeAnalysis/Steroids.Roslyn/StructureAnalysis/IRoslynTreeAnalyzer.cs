@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 using Steroids.CodeStructure.Analyzers;
 
 namespace Steroids.Roslyn.StructureAnalysis

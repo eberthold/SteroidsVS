@@ -1,75 +1,28 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Steroids.CodeStructure.Analyzers;
-using Steroids.Roslyn.Common;
 using Steroids.Roslyn.StructureAnalysis;
 
 namespace Steroids.Roslyn.CSharp
 {
-    public class CSharpTreeAnalyzer : IRoslynTreeAnalyzer
+    public class CSharpTreeAnalyzer : RoslynTreeAnalyzer<MemberDeclarationSyntax>
     {
         /// <inheritdoc />
-        public IEnumerable<SortedTree<CodeStructureItem>> NodeList { get; private set; }
+        protected override IReadOnlyCollection<Type> KnownNodeTypes => CSharpNodeMapper.KnownNodeTypes;
 
         /// <inheritdoc />
-        public Task Analyze(SyntaxNode node, CancellationToken token)
-        {
-            var root = new SortedTree<CodeStructureItem>(new CodeStructureItem() { Name = "File" });
-            var memberDeclarations = node
-                .DescendantNodes(_ => true)
-                .OfType<MemberDeclarationSyntax>()
-                .Where(x => CSharpNodeMapper.KnownNodeTypes.Contains(x.GetType()));
-            
-            foreach (var declaration in memberDeclarations)
-            {
-                foreach (var mappedItem in CSharpNodeMapper.MapItem(declaration))
-                {
-                    var element = new SortedTree<CodeStructureItem>(mappedItem, declaration);
-                    var parent = root.FirstOrDefault(x => x.Meta == declaration.Parent) ?? root;
-                    if (NeedsMetaNode(declaration))
-                    {
-                        var realParent = parent.Children.FirstOrDefault(x => x.Data.GetType() == element.Data.GetType() && x.Data.IsMeta);
-                        if (realParent is null)
-                        {
-                            var metaData = RoslynMetaNodeCreator.Create(element.Data);
-                            var metaNode = new SortedTree<CodeStructureItem>(metaData);
-                            parent.Add(metaNode);
-                            parent = metaNode;
-                        }
-                        else
-                        {
-                            parent = realParent;
-                        }
-                    }
-
-                    parent.Add(element);
-                }
-            }
-
-            NodeList = root.Skip(1).ToList();
-
-            //var junctions = memberDeclarations.Select(x => x.Parent).Distinct();
-            //var treeKnots = MapItems(junctions);
-            //foreach (var knot in treeKnots)
-            //{
-            //    knot.Parent = treeKnots.FirstOrDefault(x => x.Data == )
-            //}
-
-            return Task.CompletedTask;
-        }
+        protected override IRoslynNodeMapper NodeMapper { get; } = new CSharpNodeMapper();
 
         /// <inheritdoc />
-        public SyntaxTree ParseText(string text)
+        public override SyntaxTree ParseText(string text)
         {
             return CSharpSyntaxTree.ParseText(text);
         }
 
-        private bool NeedsMetaNode(MemberDeclarationSyntax member)
+        /// <inheritdoc />
+        protected override bool NeedsMetaNode(MemberDeclarationSyntax member)
         {
             switch (member)
             {
