@@ -28,6 +28,11 @@ namespace Steroids.Roslyn.StructureAnalysis
         /// <inheritdoc />
         public Task Analyze(SyntaxNode node, CancellationToken token)
         {
+            if (node is null)
+            {
+                return Task.CompletedTask;
+            }
+
             var root = new SortedTree<CodeStructureItem>(new CodeStructureItem() { Name = "File" });
             var memberDeclarations = node
                 .DescendantNodes(_ => true)

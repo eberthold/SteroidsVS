@@ -53,6 +53,7 @@ namespace Steroids.Roslyn.Common
                     return new EnumNode
                     {
                         IsMeta = true,
+#pragma warning disable CA1062 // cast in switch would not pass when member is null
                         Name = member.Name
                     };
 
