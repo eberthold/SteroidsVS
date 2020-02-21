@@ -56,7 +56,6 @@ namespace SteroidsVS.CodeStructure.Adorners
                 return;
             }
 
-
             var startLine = _textView.TextSnapshot.GetLineFromLineNumber(node.StartLineNumber);
             var endLine = _textView.TextSnapshot.GetLineFromLineNumber(node.EndLineNumber);
             var snapshotSpan = new SnapshotSpan(startLine.Start, endLine.End);

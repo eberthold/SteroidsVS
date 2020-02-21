@@ -4,14 +4,14 @@ using Steroids.CodeStructure.Analyzers;
 namespace Steroids.Roslyn.Common
 {
     /// <summary>
-    /// Implementation to automatically update <see cref="CodeStructure.Analyzers.CodeStructureItem.TypeDescriptor"/> when 
+    /// Implementation to automatically update <see cref="CodeStructure.Analyzers.CodeStructureItem.TypeDescriptor"/> when
     /// <see cref="CodeStructure.Analyzers.CodeStructureItem.AccessModifier"/> changes.
     /// </summary>
     public abstract class RoslynCodeStructureItem : CodeStructure.Analyzers.CodeStructureItem
     {
         public RoslynCodeStructureItem()
         {
-            this.PropertyChanged += OnPropertyChanged;
+            PropertyChanged += OnPropertyChanged;
             UpdateTypeDescriptor();
         }
 
