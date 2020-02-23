@@ -69,12 +69,12 @@ namespace SteroidsVS.CodeAdornments
             var outliningManagerService = RootContainer.Resolve<IOutliningManagerService>();
             Container.RegisterInstance(outliningManagerService);
 
-            Container.RegisterType<IAdornmentSpaceReservation, CodeStructureSpaceReservation>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IDocumentAnalyzerService, DocumentAnalyzerService>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<CodeStructureAdorner>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<CodeStructureViewModel>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<DiagnosticInfosViewModel>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IEditor, WpfTextViewAdapter>(new ContainerControlledLifetimeManager());
+            Container.RegisterSingleton<IAdornmentSpaceReservation, CodeStructureSpaceReservation>();
+            Container.RegisterSingleton<IDocumentAnalyzerService, DocumentAnalyzerService>();
+            Container.RegisterSingleton<CodeStructureAdorner>();
+            Container.RegisterSingleton<CodeStructureViewModel>();
+            Container.RegisterSingleton<DiagnosticInfosViewModel>();
+            Container.RegisterSingleton<IEditor, WpfTextViewAdapter>();
 
             Container.RegisterType<DiagnosticInfoAdorner>(new ContainerControlledLifetimeManager());
         }
