@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 
 namespace Steroids.Core.Framework
 {
+    /// <summary>
+    /// Simple event aggregator to fire events application wide to subscribers.
+    /// </summary>
     public class EventAggregator : IEventAggregator
     {
-        private List<EventReceiverContainer> _receiverContainers = new List<EventReceiverContainer>();
+        private readonly List<EventReceiverContainer> _receiverContainers = new List<EventReceiverContainer>();
 
         /// <inheritdoc />
         public void Publish<T>(T eventArgs)
@@ -33,15 +34,24 @@ namespace Steroids.Core.Framework
         {
             var targetHash = GetCallbackHash(callback);
             var container = GetOrAddContainer<T>();
-            container.RemoveReceiver(targetHash, callback);
+            container.RemoveReceiver(targetHash);
         }
 
+        /// <summary>
+        /// Only for unit test reasons.
+        /// </summary>
+        /// <typeparam name="T">The message type.</typeparam>
+        /// <returns>The count of living subscribers for this message type.</returns>
         internal int GetSubscriberCountFor<T>()
         {
             var container = GetOrAddContainer<T>();
             return container.GetReceiversCount();
         }
 
+        /// <summary>
+        /// Calculates the hash code to uniquely indentify callback method.
+        /// </summary>
+        /// <returns>The hash code.</returns>
         private static int GetCallbackHash<T>(Action<T> callback)
         {
             return callback.Target.GetHashCode() + callback.Method.Name.GetHashCode();
@@ -49,7 +59,7 @@ namespace Steroids.Core.Framework
 
         private EventReceiverContainer GetOrAddContainer<T>()
         {
-            var container = _receiverContainers.FirstOrDefault(x => x.EventType == typeof(T));
+            var container = _receiverContainers.Find(x => x.EventType == typeof(T));
             if (container is object)
             {
                 return container;
@@ -60,9 +70,12 @@ namespace Steroids.Core.Framework
             return container;
         }
 
+        /// <summary>
+        /// Helper class to keep weak references of subscribers.
+        /// </summary>
         private class EventReceiverContainer
         {
-            private Dictionary<int, WeakReference> _receivers = new Dictionary<int, WeakReference>();
+            private readonly Dictionary<int, WeakReference> _receivers = new Dictionary<int, WeakReference>();
 
             public EventReceiverContainer(Type type)
             {
@@ -81,7 +94,7 @@ namespace Steroids.Core.Framework
                 _receivers.Add(targetHash, new WeakReference(receiver));
             }
 
-            public void RemoveReceiver(int targetHash, object receiver)
+            public void RemoveReceiver(int targetHash)
             {
                 if (!_receivers.ContainsKey(targetHash))
                 {
