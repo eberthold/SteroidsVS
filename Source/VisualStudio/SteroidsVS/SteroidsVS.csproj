@@ -205,6 +205,9 @@
       <Version>1.7.0</Version>
       <IncludeInVSIX>true</IncludeInVSIX>
     </PackageReference>
+    <PackageReference Include="System.Runtime">
+      <Version>4.3.1</Version>
+    </PackageReference>
     <PackageReference Include="Unity">
       <Version>5.6.0</Version>
     </PackageReference>
