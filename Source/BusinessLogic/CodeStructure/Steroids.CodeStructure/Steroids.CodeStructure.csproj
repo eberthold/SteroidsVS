@@ -69,6 +69,10 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Settings\CodeStructureSettingsContainer.cs" />
+    <Compile Include="Settings\CodeStructureWidthSettings.cs" />
+    <Compile Include="Settings\FileWidthInfo.cs" />
+    <Compile Include="Settings\WidthMode.cs" />
     <Compile Include="UI\CodeStructureViewModel.cs" />
     <Compile Include="UI\HighlightRequestedEventArgs.cs" />
   </ItemGroup>

@@ -68,6 +68,8 @@
     <Compile Include="Services\DispatcherService.cs" />
     <Compile Include="Services\IActiveTextViewProvider.cs" />
     <Compile Include="Services\VsServiceProvider.cs" />
+    <Compile Include="Settings\SteroidsSettingsContainer.cs" />
+    <Compile Include="Settings\SettingsController.cs" />
     <Compile Include="SteroidsVsPackage.cs" />
   </ItemGroup>
   <ItemGroup>

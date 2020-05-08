@@ -3,10 +3,12 @@ using Steroids.Contracts.Core;
 using Steroids.Core.CodeQuality;
 using Steroids.Core.Editor;
 using Steroids.Core.Framework;
+using Steroids.Core.Settings;
 using SteroidsVS.CodeAdornments;
 using SteroidsVS.CodeQuality.Diagnostic;
 using SteroidsVS.Editor;
 using SteroidsVS.Services;
+using SteroidsVS.Settings;
 using Unity;
 using Unity.Lifetime;
 
@@ -30,6 +32,7 @@ namespace SteroidsVS
             Container.RegisterInstance(vsServiceProvider.EditorAdapterFactory);
             Container.RegisterInstance(vsServiceProvider.TableManagerProvider);
             Container.RegisterInstance(new ActiveTextViewProvider(vsServiceProvider.VsTextManager, vsServiceProvider.EditorAdapterFactory));
+            Container.RegisterSingleton<ISettingsController, SettingsController>();
 
             Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IActiveTextViewProvider, ActiveTextViewProvider>(new ContainerControlledLifetimeManager());
