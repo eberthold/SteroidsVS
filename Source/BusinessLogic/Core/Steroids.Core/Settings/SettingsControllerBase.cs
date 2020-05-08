@@ -18,7 +18,7 @@ namespace Steroids.Core.Settings
         /// <typeparam name="T">The type of the settings container.</typeparam>
         /// <returns>The current settings object.</returns>
         public abstract Task<T> LoadAsync<T>()
-            where T : ISettingsContainer;
+            where T : ISettingsContainer, new();
 
         /// <summary>
         /// Saves the settings object.
@@ -27,7 +27,7 @@ namespace Steroids.Core.Settings
         /// <param name="settings">The settings object.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         public async Task SaveAsync<T>(T settings)
-            where T : ISettingsContainer
+            where T : ISettingsContainer, new()
         {
             await SaveInternalAsync(settings).ConfigureAwait(false);
 

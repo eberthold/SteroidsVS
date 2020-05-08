@@ -35,7 +35,13 @@ namespace SteroidsVS.Settings
                 await LoadAllAsync().ConfigureAwait(false);
             }
 
-            return (T)_settingsContainer.Containers.First(x => x.GetType() == typeof(T));
+            var container = _settingsContainer.Containers.First(x => x.GetType() == typeof(T));
+            if (container is null)
+            {
+                container = new T();
+            }
+
+            return (T)container;
         }
 
         protected override Task SaveInternalAsync<T>(T settings)

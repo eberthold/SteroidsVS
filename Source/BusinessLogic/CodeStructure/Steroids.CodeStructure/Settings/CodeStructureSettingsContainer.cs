@@ -10,6 +10,6 @@ namespace Steroids.CodeStructure.Settings
         /// <summary>
         /// The width settings for the CodeStructure.
         /// </summary>
-        public CodeStructureWidthSettings WidthSettings { get; internal set; }
+        public CodeStructureWidthSettings WidthSettings { get; internal set; } = new CodeStructureWidthSettings();
     }
 }
