@@ -133,6 +133,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>2.0.4</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.ServiceHub.Framework">
       <Version>2.1.20</Version>
     </PackageReference>

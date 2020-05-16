@@ -67,6 +67,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Settings\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -102,6 +106,15 @@
     <Compile Include="Resources\ModuleResourceDictionary.xaml.cs">
       <DependentUpon>ModuleResourceDictionary.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings\ISettingsService.cs" />
+    <Compile Include="Settings\SettingsPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Settings\SettingsService.cs" />
+    <Compile Include="Settings\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\SettingsViewModel.cs" />
     <Compile Include="Text\TextSpanExtensions.cs" />
     <Compile Include="UI\CodeStructureSpaceReservation.cs" />
     <Compile Include="UI\CodeStructureView.xaml.cs">
@@ -136,6 +149,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>2.0.4</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis">
       <Version>3.4.0</Version>
     </PackageReference>
@@ -168,6 +184,9 @@
     <PackageReference Include="System.Runtime">
       <Version>4.3.1</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -21,6 +21,7 @@ namespace SteroidsVS
     [Guid(PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideBindingPath]
+    [ProvideOptionPage(typeof(CodeStructureModule.Settings.SettingsPage), SharedUiModule.Constants.AppDisplayName, CodeStructureModule.Settings.SettingsPage.SettingsPageName, 0, 0, false)]
     public sealed class SteroidsVsPackage : AsyncPackage
     {
         public const string PackageGuidString = "9ac11e28-22b5-4c3c-a40f-ab2c9bdd18d6";

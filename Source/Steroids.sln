@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionFiles", ".Solution
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeStructure.Tests", "BusinessLogic\CodeStructure\Steroids.CodeStructure.Tests\Steroids.CodeStructure.Tests.csproj", "{7ACA354E-33FC-45C1-932F-F7A5B01111A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.SharedUI", "VisualStudio\SteroidsVS.SharedUI\SteroidsVS.SharedUI.csproj", "{58AC3D8F-294E-4389-8A93-570AE6C45808}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS.SharedUI", "VisualStudio\SteroidsVS.SharedUI\SteroidsVS.SharedUI.csproj", "{58AC3D8F-294E-4389-8A93-570AE6C45808}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.CodeQuality", "BusinessLogic\CodeQuality\Steroids.CodeQuality\Steroids.CodeQuality.csproj", "{8E125506-818B-40E4-ADFB-6238C2A49AC7}"
 EndProject
@@ -45,6 +45,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1411DC52-C0F7-4D65-B418-7C83670E296D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Roslyn.Tests", "BusinessLogic\CodeAnalysis\Steroids.Roslyn.Tests\Steroids.Roslyn.Tests.csproj", "{3D1688F0-80DF-4012-9676-CE68F484254E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidVS.Tests", "VisualStudio\SteroidVS.Tests\SteroidVS.Tests.csproj", "{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -100,6 +102,10 @@ Global
 		{3D1688F0-80DF-4012-9676-CE68F484254E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D1688F0-80DF-4012-9676-CE68F484254E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D1688F0-80DF-4012-9676-CE68F484254E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,6 +127,7 @@ Global
 		{C02F84AE-8614-443D-B38C-CBAE226BAC77} = {C9DA7B40-0546-4C77-97A3-3EA0BA0C6790}
 		{1411DC52-C0F7-4D65-B418-7C83670E296D} = {7071A409-65F5-484A-A3EB-A957E1749BF5}
 		{3D1688F0-80DF-4012-9676-CE68F484254E} = {C9DA7B40-0546-4C77-97A3-3EA0BA0C6790}
+		{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50} = {A0C635A0-8002-453A-9DA8-F43A31655793}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA622E88-1DED-4B8D-8890-E38D3F07C08E}

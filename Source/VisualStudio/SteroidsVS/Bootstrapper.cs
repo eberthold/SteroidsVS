@@ -11,6 +11,7 @@ using SteroidsVS.Services;
 using SteroidsVS.Settings;
 using Unity;
 using Unity.Lifetime;
+using Unity.ServiceLocation;
 
 namespace SteroidsVS
 {
@@ -31,17 +32,25 @@ namespace SteroidsVS
             Container.RegisterInstance(vsServiceProvider.ComponentModel);
             Container.RegisterInstance(vsServiceProvider.EditorAdapterFactory);
             Container.RegisterInstance(vsServiceProvider.TableManagerProvider);
+            Container.RegisterInstance(vsServiceProvider.ServiceProvider);
             Container.RegisterInstance(new ActiveTextViewProvider(vsServiceProvider.VsTextManager, vsServiceProvider.EditorAdapterFactory));
+
             Container.RegisterSingleton<ISettingsController, SettingsController>();
+            Container.RegisterSingleton<IEventAggregator, EventAggregator>();
+            Container.RegisterSingleton<CodeStructure.Settings.ISettingsService, CodeStructure.Settings.SettingsService>();
 
             Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IActiveTextViewProvider, ActiveTextViewProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDispatcherService, DispatcherService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IFoldingManager, FoldingManagerAdapter>(new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeStructureOpenCommand>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<CodeStructure.Settings.SettingsViewModel>();
 
             Container.RegisterType<CodeStructureOpenCommand>(new ContainerControlledLifetimeManager());
             Container.Resolve<CodeStructureOpenCommand>();
+
+            var provider = new UnityServiceLocator(RootContainer);
+            CommonServiceLocator.ServiceLocator.SetLocatorProvider(() => provider);
         }
 
         /// <inheritdoc />

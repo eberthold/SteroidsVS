@@ -13,9 +13,9 @@ namespace SteroidsVS.Services
 {
     public class VsServiceProvider : IVsServiceProvider
     {
-        private readonly IAsyncServiceProvider _package;
+        private readonly SteroidsVsPackage _package;
 
-        public VsServiceProvider(IAsyncServiceProvider package)
+        public VsServiceProvider(SteroidsVsPackage package)
         {
             _package = package ?? throw new ArgumentNullException(nameof(package));
         }
@@ -41,6 +41,9 @@ namespace SteroidsVS.Services
         /// <inheritdoc />
         public IMenuCommandService MenuCommandService { get; private set; }
 
+        /// <inheritdoc />
+        public IServiceProvider ServiceProvider { get; private set; }
+
         /// <summary>
         /// Initializes the VisualStudio service map async.
         /// </summary>
@@ -51,6 +54,7 @@ namespace SteroidsVS.Services
             OutliningManagerService = ComponentModel.GetService<IOutliningManagerService>();
             EditorAdapterFactory = ComponentModel.GetService<IVsEditorAdaptersFactoryService>();
             TableManagerProvider = ComponentModel.GetService<ITableManagerProvider>();
+            ServiceProvider = _package;
 
             ErrorList = (await _package.GetServiceAsync(typeof(Interop.SVsErrorList)).ConfigureAwait(false)) as IErrorList;
             VsTextManager = (await _package.GetServiceAsync(typeof(SVsTextManager)).ConfigureAwait(false)) as IVsTextManager;

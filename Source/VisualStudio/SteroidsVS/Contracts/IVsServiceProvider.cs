@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Design;
+﻿using System;
+using System.ComponentModel.Design;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
@@ -23,5 +24,7 @@ namespace SteroidsVS
         IMenuCommandService MenuCommandService { get; }
 
         ITableManagerProvider TableManagerProvider { get; }
+
+        IServiceProvider ServiceProvider { get; }
     }
 }

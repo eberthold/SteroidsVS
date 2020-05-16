@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\MouseOverPopupBehavior.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Converters\DiagnosticLevelToBrushConverter.cs" />
     <Compile Include="Editor\IWpfTextViewExtensions.cs" />
     <Compile Include="Resources\ModuleResourceDictionary.xaml.cs">
@@ -77,6 +78,9 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>2.0.4</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis">
       <Version>3.4.0</Version>
     </PackageReference>

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.Settings;
-using Microsoft.VisualStudio.Shell.Settings;
 using Newtonsoft.Json;
 using Steroids.Core.Framework;
 using Steroids.Core.Settings;
@@ -21,13 +17,13 @@ namespace SteroidsVS.Settings
 
         public SettingsController(
             IEventAggregator eventAggregator,
-            IServiceProvider serviceProvider)
+            ISettingsStoreFactory settingsStoreFactory)
             : base(eventAggregator)
         {
-            var settingsManager = new ShellSettingsManager(serviceProvider);
-            _settingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+            _settingsStore = settingsStoreFactory.Create();
         }
 
+        /// <inheritdoc/>
         public override async Task<T> LoadAsync<T>()
         {
             if (!_loaded)
@@ -35,7 +31,7 @@ namespace SteroidsVS.Settings
                 await LoadAllAsync().ConfigureAwait(false);
             }
 
-            var container = _settingsContainer.Containers.First(x => x.GetType() == typeof(T));
+            var container = _settingsContainer.GetSection<T>();
             if (container is null)
             {
                 container = new T();
@@ -44,12 +40,12 @@ namespace SteroidsVS.Settings
             return (T)container;
         }
 
+        /// <inheritdoc/>
         protected override Task SaveInternalAsync<T>(T settings)
         {
-            var index = _settingsContainer.Containers.FindIndex(x => x.Key == settings.Key);
-            _settingsContainer.Containers[index] = settings;
+            _settingsContainer.SetSection(settings);
 
-            var json = JsonConvert.SerializeObject(_settingsContainer.Containers);
+            var json = JsonConvert.SerializeObject(_settingsContainer);
             _settingsStore.SetString(CollectionPath, SettingsPropertyName, json);
             return Task.CompletedTask;
         }
@@ -62,13 +58,13 @@ namespace SteroidsVS.Settings
                 return Task.CompletedTask;
             }
 
-            var json = _settingsStore.GetString(CollectionPath, SettingsPropertyName);
+            var json = _settingsStore.GetString(CollectionPath, SettingsPropertyName, string.Empty);
             if (string.IsNullOrWhiteSpace(json))
             {
                 return Task.CompletedTask;
             }
 
-            _settingsContainer.Containers = JsonConvert.DeserializeObject<List<ISettingsContainer>>(json);
+            _settingsContainer = JsonConvert.DeserializeObject<SteroidsSettingsContainer>(json);
             return Task.CompletedTask;
         }
     }
