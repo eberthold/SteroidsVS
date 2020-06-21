@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steroids.Roslyn.Tests", "Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidVS.Tests", "VisualStudio\SteroidVS.Tests\SteroidVS.Tests.csproj", "{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteroidsVS.CodeStructure.Tests", "VisualStudio\SteroidsVS.CodeStructure.Tests\SteroidsVS.CodeStructure.Tests.csproj", "{49A3E56D-A61B-41D7-8602-AB5773ED64FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +108,10 @@ Global
 		{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49A3E56D-A61B-41D7-8602-AB5773ED64FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A3E56D-A61B-41D7-8602-AB5773ED64FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A3E56D-A61B-41D7-8602-AB5773ED64FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A3E56D-A61B-41D7-8602-AB5773ED64FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +134,7 @@ Global
 		{1411DC52-C0F7-4D65-B418-7C83670E296D} = {7071A409-65F5-484A-A3EB-A957E1749BF5}
 		{3D1688F0-80DF-4012-9676-CE68F484254E} = {C9DA7B40-0546-4C77-97A3-3EA0BA0C6790}
 		{05CCA806-5A35-4B9A-9AF3-AF7D06D99C50} = {A0C635A0-8002-453A-9DA8-F43A31655793}
+		{49A3E56D-A61B-41D7-8602-AB5773ED64FF} = {A0C635A0-8002-453A-9DA8-F43A31655793}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA622E88-1DED-4B8D-8890-E38D3F07C08E}

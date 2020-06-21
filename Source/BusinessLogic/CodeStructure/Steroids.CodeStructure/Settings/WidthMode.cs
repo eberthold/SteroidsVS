@@ -5,7 +5,7 @@
         /// <summary>
         /// Width uses a default when file is opened.
         /// </summary>
-        RestoreWithDefault,
+        RestoreDefault,
 
         /// <summary>
         /// The last used width is stored per file.

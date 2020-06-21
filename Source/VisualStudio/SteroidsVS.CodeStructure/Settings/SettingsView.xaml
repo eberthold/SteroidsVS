@@ -4,20 +4,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" 
+             xmlns:local="clr-namespace:SteroidsVS.CodeStructure.Settings"
+             d:DataContext="{d:DesignInstance local:SettingsViewModel, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">
     <ScrollViewer>
         <StackPanel>
             <GroupBox Header="Width Handling">
                 <StackPanel Margin="12, 8">
-                    <RadioButton>
+                    <RadioButton IsChecked="{Binding IsRestoreDefault}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Restore on file open to " />
                             <TextBox MinWidth="75" Text="{Binding DefaultRestoreWidth, Mode=TwoWay}" />
                             <TextBlock Text=" pixel (50 is min value)" />
                         </StackPanel>
                     </RadioButton>
-                    <RadioButton Content="Restore last width from file" Margin="0, 8"/>
-                    <RadioButton Content="Sync all code structure views" />
+                    <RadioButton IsChecked="{Binding IsFileBasedRestore}" Content="Restore last width from file" Margin="0, 8"/>
+                    <RadioButton IsChecked="{Binding IsSyncGlobally}" Content="Sync all code structure views" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>

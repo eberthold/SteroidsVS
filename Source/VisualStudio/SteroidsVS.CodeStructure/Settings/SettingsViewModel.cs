@@ -34,7 +34,7 @@ namespace SteroidsVS.CodeStructure.Settings
         /// </summary>
         public bool IsRestoreDefault
         {
-            get => _settingsContainer.WidthSettings.WidthMode == WidthMode.RestoreWithDefault;
+            get => _settingsContainer.WidthSettings.WidthMode == WidthMode.RestoreDefault;
             set
             {
                 if (value is false)
@@ -42,7 +42,7 @@ namespace SteroidsVS.CodeStructure.Settings
                     return;
                 }
 
-                _settingsContainer.WidthSettings.WidthMode = WidthMode.RestoreWithDefault;
+                _settingsContainer.WidthSettings.WidthMode = WidthMode.RestoreDefault;
                 SaveSettings();
                 RaisePropertyChanged();
             }

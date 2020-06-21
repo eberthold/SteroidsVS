@@ -8,7 +8,7 @@ namespace Steroids.CodeStructure.Settings
         /// <summary>
         /// The currently used <see cref="WidthMode"/>.
         /// </summary>
-        public WidthMode WidthMode { get; set; } = WidthMode.RestoreWithDefault;
+        public WidthMode WidthMode { get; set; } = WidthMode.RestoreDefault;
 
         /// <summary>
         /// The deafult wide for code structure when opening a file.

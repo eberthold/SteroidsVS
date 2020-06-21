@@ -38,6 +38,7 @@ namespace SteroidsVS
             Container.RegisterSingleton<ISettingsController, SettingsController>();
             Container.RegisterSingleton<IEventAggregator, EventAggregator>();
             Container.RegisterSingleton<CodeStructure.Settings.ISettingsService, CodeStructure.Settings.SettingsService>();
+            Container.RegisterSingleton<ISettingsStoreFactory, SettingsStoreFactory>();
 
             Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IActiveTextViewProvider, ActiveTextViewProvider>(new ContainerControlledLifetimeManager());
