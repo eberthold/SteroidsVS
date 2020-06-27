@@ -74,7 +74,13 @@
     <Compile Include="Settings\FileWidthInfo.cs" />
     <Compile Include="Settings\WidthMode.cs" />
     <Compile Include="UI\CodeStructureViewModel.cs" />
+    <Compile Include="UI\WidthHandling\CurrentSettingsWidthHandlerProvider.cs" />
     <Compile Include="UI\HighlightRequestedEventArgs.cs" />
+    <Compile Include="UI\WidthHandling\GlobalSyncWidthHandler.cs" />
+    <Compile Include="UI\WidthHandling\IWidthHandler.cs" />
+    <Compile Include="UI\WidthHandling\RestoreDefaultWidthHandler.cs" />
+    <Compile Include="UI\WidthHandling\SettingsAwareWidthHandler.cs" />
+    <Compile Include="UI\WidthHandling\IWidthTarget.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\SteroidsVs.snk">
