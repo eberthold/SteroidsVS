@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Steroids.CodeStructure.Settings
 {
@@ -11,7 +10,7 @@ namespace Steroids.CodeStructure.Settings
         public WidthMode WidthMode { get; set; } = WidthMode.RestoreDefault;
 
         /// <summary>
-        /// The deafult wide for code structure when opening a file.
+        /// The default wide for code structure when opening a file.
         /// </summary>
         public double DefaultWidth { get; set; } = 250;
 

@@ -3,18 +3,13 @@
     public class FileWidthInfo
     {
         /// <summary>
-        /// Path of the current file.
+        /// Name of the current file.
         /// </summary>
-        public string FilePath { get; } = string.Empty;
+        public string FileName { get; set; } = string.Empty;
 
         /// <summary>
         /// The last known width for this file.
         /// </summary>
-        public double LastKnownWidth { get; } = 250;
-
-        /// <summary>
-        /// Flag to enabled or disable participation in global width syncing.
-        /// </summary>
-        public bool IsGloballySyncing { get; } = true;
+        public double LastKnownWidth { get; set; } = 250;
     }
 }

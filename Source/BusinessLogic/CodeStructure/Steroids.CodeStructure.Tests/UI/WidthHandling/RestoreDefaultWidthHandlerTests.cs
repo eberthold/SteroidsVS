@@ -33,7 +33,7 @@ namespace Steroids.CodeStructure.Tests.UI.WidthHandling
 
             // Assert
             A.CallTo(() => _settingsController.LoadAsync<CodeStructureSettingsContainer>()).MustHaveHappened();
-            Assert.AreEqual(expectedWidth, sut.CurrentWidth);
+            Assert.AreEqual(expectedWidth, sut.GetWidth(string.Empty));
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace Steroids.CodeStructure.Tests.UI.WidthHandling
             });
 
             // Assert
-            Assert.AreEqual(300, sut.CurrentWidth);
+            Assert.AreEqual(300, sut.GetWidth(string.Empty));
         }
 
         private async Task<IWidthHandler> CreateSut()

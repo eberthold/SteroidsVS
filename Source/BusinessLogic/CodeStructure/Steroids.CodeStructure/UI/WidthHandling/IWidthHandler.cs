@@ -13,12 +13,12 @@ namespace Steroids.CodeStructure.UI.WidthHandling
         event EventHandler<double> CurrentWidthChanged;
 
         /// <summary>
-        /// Gets or sets the current width.
+        /// Gets the current width for given file.
         /// </summary>
-        double CurrentWidth { get; }
+        double GetWidth(string fileName);
 
         /// <summary>
-        /// Updates the <see cref="CurrentWidth"/> and provides the name of the current file.
+        /// Updates the <see cref="GetWidth"/> and provides the name of the current file.
         /// </summary>
         /// <param name="width">The width value.</param>
         /// <param name="fileName">The name of the file.</param>

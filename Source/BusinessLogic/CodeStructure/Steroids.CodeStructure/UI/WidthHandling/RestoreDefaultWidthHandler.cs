@@ -12,7 +12,6 @@ namespace Steroids.CodeStructure.UI.WidthHandling
     internal class RestoreDefaultWidthHandler : IWidthHandler
     {
         private readonly ISettingsController _settingsController;
-        private readonly IEventAggregator _eventAggregator;
         private double _currentWidth;
 
         private RestoreDefaultWidthHandler(
@@ -20,28 +19,21 @@ namespace Steroids.CodeStructure.UI.WidthHandling
             IEventAggregator eventAggregator)
         {
             _settingsController = settingsController ?? throw new ArgumentNullException(nameof(settingsController));
-            _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
 
-            _eventAggregator.Subscribe<CodeStructureSettingsContainer>(OnCodeStructureSettingsChanged);
+            eventAggregator.Subscribe<CodeStructureSettingsContainer>(OnCodeStructureSettingsChanged);
         }
 
         /// <inheritdoc />
         public event EventHandler<double> CurrentWidthChanged;
 
         /// <inheritdoc />
-        public double CurrentWidth
-        {
-            get => _currentWidth;
-            set
-            {
-                if (_currentWidth == value)
-                {
-                    return;
-                }
+        public double GetWidth(string fileName)
+            => _currentWidth;
 
-                _currentWidth = value;
-                CurrentWidthChanged?.Invoke(this, value);
-            }
+        /// <inheritdoc />
+        public void UpdateWidth(double width, string fileName)
+        {
+            return;
         }
 
         internal static async Task<IWidthHandler> CreateAsync(
@@ -49,7 +41,7 @@ namespace Steroids.CodeStructure.UI.WidthHandling
             IEventAggregator eventAggregator)
         {
             var instance = new RestoreDefaultWidthHandler(settingsController, eventAggregator);
-            await instance.LoadAsync();
+            await instance.LoadAsync().ConfigureAwait(false);
             return instance;
         }
 
@@ -57,19 +49,14 @@ namespace Steroids.CodeStructure.UI.WidthHandling
         {
             var settings = await _settingsController
                 .LoadAsync<CodeStructureSettingsContainer>()
-                .ConfigureAwait(true);
+                .ConfigureAwait(false);
 
-            CurrentWidth = settings.WidthSettings.DefaultWidth;
+            _currentWidth = settings.WidthSettings.DefaultWidth;
         }
 
         private void OnCodeStructureSettingsChanged(CodeStructureSettingsContainer obj)
         {
-            CurrentWidth = obj.WidthSettings.DefaultWidth;
-        }
-
-        public void UpdateWidth(double width, string fileName)
-        {
-            throw new NotImplementedException();
+            _currentWidth = obj.WidthSettings.DefaultWidth;
         }
     }
 }

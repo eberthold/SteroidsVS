@@ -15,11 +15,14 @@ namespace Steroids.CodeStructure.UI.WidthHandling
 
         }
 
-        public double CurrentWidth { get; set; }
-
         public event EventHandler<double> CurrentWidthChanged;
 
         public void UpdateWidth(double width, string fileName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetWidth(string fileName)
         {
             throw new NotImplementedException();
         }

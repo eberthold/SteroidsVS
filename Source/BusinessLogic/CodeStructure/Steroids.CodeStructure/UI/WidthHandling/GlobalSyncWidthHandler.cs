@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Steroids.CodeStructure.UI.WidthHandling
@@ -10,28 +7,32 @@ namespace Steroids.CodeStructure.UI.WidthHandling
     {
         private double _currentWidth;
 
+        private GlobalSyncWidthHandler()
+        {
+        }
+
         /// <inheritdoc />
         public event EventHandler<double> CurrentWidthChanged;
 
         /// <inheritdoc />
-        public double CurrentWidth
-        {
-            get => _currentWidth;
-            set
-            {
-                if (_currentWidth == value)
-                {
-                    return;
-                }
+        public double GetWidth(string fileName)
+            => _currentWidth;
 
-                CurrentWidthChanged?.Invoke(this, value);
-                _currentWidth = value;
-            }
-        }
-
+        /// <inheritdoc />
         public void UpdateWidth(double width, string fileName)
         {
-            throw new NotImplementedException();
+            if (_currentWidth == width)
+            {
+                return;
+            }
+
+            CurrentWidthChanged?.Invoke(this, width);
+            _currentWidth = width;
+        }
+
+        internal static Task<GlobalSyncWidthHandler> CreateAsync()
+        {
+            return Task.FromResult(new GlobalSyncWidthHandler());
         }
     }
 }

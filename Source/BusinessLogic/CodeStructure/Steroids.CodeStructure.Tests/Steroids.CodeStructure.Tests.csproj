@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="Analyzers\SortedTreeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\WidthHandling\FileBasedWidthHandlerTests.cs" />
+    <Compile Include="UI\WidthHandling\GlobalSyncWidthHandlerTests.cs" />
     <Compile Include="UI\WidthHandling\RestoreDefaultWidthHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -76,6 +76,7 @@
     <Compile Include="UI\CodeStructureViewModel.cs" />
     <Compile Include="UI\WidthHandling\CurrentSettingsWidthHandlerProvider.cs" />
     <Compile Include="UI\HighlightRequestedEventArgs.cs" />
+    <Compile Include="UI\WidthHandling\FileBasedWidthHandler.cs" />
     <Compile Include="UI\WidthHandling\GlobalSyncWidthHandler.cs" />
     <Compile Include="UI\WidthHandling\IWidthHandler.cs" />
     <Compile Include="UI\WidthHandling\RestoreDefaultWidthHandler.cs" />
