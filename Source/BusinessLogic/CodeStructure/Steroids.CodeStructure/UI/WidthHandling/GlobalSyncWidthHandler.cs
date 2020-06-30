@@ -7,7 +7,7 @@ namespace Steroids.CodeStructure.UI.WidthHandling
     {
         private double _currentWidth;
 
-        private GlobalSyncWidthHandler()
+        internal GlobalSyncWidthHandler()
         {
         }
 

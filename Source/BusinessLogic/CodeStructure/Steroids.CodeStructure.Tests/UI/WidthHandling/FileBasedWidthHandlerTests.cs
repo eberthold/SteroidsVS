@@ -79,9 +79,11 @@ namespace Steroids.CodeStructure.Tests.UI.WidthHandling
             A.CallTo(() => _settingsController.SaveAsync<CodeStructureSettingsContainer>(settings)).MustHaveHappened();
         }
 
-        private Task<FileBasedWidthHandler> CreateSut()
+        private async Task<FileBasedWidthHandler> CreateSut()
         {
-            return FileBasedWidthHandler.CreateAsync(_settingsController, _eventAggregator);
+            var instance = new FileBasedWidthHandler(_settingsController, _eventAggregator);
+            await instance.LoadAsync();
+            return instance;
         }
     }
 }

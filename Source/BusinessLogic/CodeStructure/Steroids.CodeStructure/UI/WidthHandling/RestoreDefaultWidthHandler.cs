@@ -14,7 +14,7 @@ namespace Steroids.CodeStructure.UI.WidthHandling
         private readonly ISettingsController _settingsController;
         private double _currentWidth;
 
-        private RestoreDefaultWidthHandler(
+        internal RestoreDefaultWidthHandler(
             ISettingsController settingsController,
             IEventAggregator eventAggregator)
         {
@@ -36,16 +36,7 @@ namespace Steroids.CodeStructure.UI.WidthHandling
             return;
         }
 
-        internal static async Task<IWidthHandler> CreateAsync(
-            ISettingsController settingsController,
-            IEventAggregator eventAggregator)
-        {
-            var instance = new RestoreDefaultWidthHandler(settingsController, eventAggregator);
-            await instance.LoadAsync().ConfigureAwait(false);
-            return instance;
-        }
-
-        private async Task LoadAsync()
+        internal async Task LoadAsync()
         {
             var settings = await _settingsController
                 .LoadAsync<CodeStructureSettingsContainer>()

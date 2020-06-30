@@ -49,6 +49,8 @@
     <Compile Include="UI\WidthHandling\FileBasedWidthHandlerTests.cs" />
     <Compile Include="UI\WidthHandling\GlobalSyncWidthHandlerTests.cs" />
     <Compile Include="UI\WidthHandling\RestoreDefaultWidthHandlerTests.cs" />
+    <Compile Include="UI\WidthHandling\SettingsAwareWidthHandlerTests.cs" />
+    <Compile Include="UI\WidthHandling\WidthHandlerFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\SteroidsVs.snk">

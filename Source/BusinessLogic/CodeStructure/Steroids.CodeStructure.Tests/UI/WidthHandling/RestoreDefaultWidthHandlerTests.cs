@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Steroids.CodeStructure.Settings;
@@ -57,7 +58,9 @@ namespace Steroids.CodeStructure.Tests.UI.WidthHandling
 
         private async Task<IWidthHandler> CreateSut()
         {
-            return await RestoreDefaultWidthHandler.CreateAsync(_settingsController, _eventAggregator);
+            var instance = new RestoreDefaultWidthHandler(_settingsController, _eventAggregator);
+            await instance.LoadAsync();
+            return instance;
         }
     }
 }

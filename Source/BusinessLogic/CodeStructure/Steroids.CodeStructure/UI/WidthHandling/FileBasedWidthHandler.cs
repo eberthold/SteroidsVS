@@ -12,7 +12,7 @@ namespace Steroids.CodeStructure.UI.WidthHandling
         private readonly ISettingsController _settingsController;
         private CodeStructureSettingsContainer _settings;
 
-        private FileBasedWidthHandler(
+        internal FileBasedWidthHandler(
             ISettingsController settingsController,
             IEventAggregator eventAggregator)
         {
@@ -56,23 +56,16 @@ namespace Steroids.CodeStructure.UI.WidthHandling
             }
         }
 
-        internal static async Task<FileBasedWidthHandler> CreateAsync(ISettingsController settingsController, IEventAggregator eventAggregator)
+        internal async Task LoadAsync()
         {
-            var instance = new FileBasedWidthHandler(settingsController, eventAggregator);
-            await instance.LoadAsync().ConfigureAwait(false);
-            return instance;
+            _settings = await _settingsController
+                .LoadAsync<CodeStructureSettingsContainer>()
+                .ConfigureAwait(false);
         }
 
         private void OnCodeStructureSettingsChanged(CodeStructureSettingsContainer obj)
         {
             _settings = obj;
-        }
-
-        private async Task LoadAsync()
-        {
-            _settings = await _settingsController
-                .LoadAsync<CodeStructureSettingsContainer>()
-                .ConfigureAwait(false);
         }
     }
 }
