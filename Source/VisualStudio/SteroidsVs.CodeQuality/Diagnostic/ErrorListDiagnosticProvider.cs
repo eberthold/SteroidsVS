@@ -40,16 +40,23 @@ namespace SteroidsVS.CodeQuality.Diagnostic
         /// <param name="args">The <see cref="EntriesChangedEventArgs"/>.</param>
         private void OnErrorListEntriesChanged(object sender, EntriesChangedEventArgs args)
         {
-            var diagnostics = CurrentDiagnostics.ToDictionary(x => x.GetHashCode(), x => x);
-            var tableEntries = args.AllEntries.ToLookup(x => x.DiagnosticInfoHashCode(), x => x);
+            var diagnostics = CurrentDiagnostics.ToDictionary(
+                x => x.GetHashCode(),
+                x => x);
+            var tableEntries = args.AllEntries.ToLookup(
+                x => x.DiagnosticInfoHashCode(),
+                x => x);
 
             // remove entries which seems to be unused with the new diagnostic set.
-            foreach (var item in diagnostics.Where(x => !tableEntries.Any(y => y.Key == x.Key)).Select(x => x.Key).ToList())
+            foreach (var item in diagnostics
+                .Where(x => !tableEntries.Any(y => y.Key == x.Key))
+                .Select(x => x.Key)
+                .ToList())
             {
                 diagnostics.Remove(item);
             }
 
-            foreach (var item in tableEntries.Where(x => !diagnostics.ContainsKey(x.Key)))
+            foreach (var item in tableEntries.Where(x => !diagnostics.ContainsKey(x.Key)).ToList())
             {
                 diagnostics.Add(item.Key, item.First().ToDiagnosticInfo());
             }
