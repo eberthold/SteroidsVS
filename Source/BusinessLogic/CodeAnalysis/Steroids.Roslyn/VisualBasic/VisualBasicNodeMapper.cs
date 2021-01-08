@@ -113,7 +113,7 @@ namespace Steroids.Roslyn.VisualBasic
 
         internal static IEnumerable<CodeStructureItem> MapItem(FieldDeclarationSyntax node)
         {
-            foreach (var field in node.Declarators.SelectMany(x => x.Names))
+            foreach (var field in node.Declarators.SelectMany(x => x.Names).ToList())
             {
                 var item = CreateItem<FieldNode>(node);
                 item.AccessModifier = node.Modifiers.GetAccessModifier();

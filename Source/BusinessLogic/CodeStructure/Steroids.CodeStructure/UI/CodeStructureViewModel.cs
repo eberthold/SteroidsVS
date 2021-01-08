@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using Microsoft.Extensions.Logging;
 using Steroids.CodeStructure.Analyzers;
 using Steroids.CodeStructure.Resources.Strings;
 using Steroids.Core;
@@ -21,7 +22,7 @@ namespace Steroids.CodeStructure.UI
         private readonly IEditor _editor;
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
-
+        private readonly ILogger _logger;
         private bool _isOpen;
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
@@ -39,15 +40,18 @@ namespace Steroids.CodeStructure.UI
         /// <param name="diagnosticProvider">The <see cref="IDiagnosticProvider"/>.</param>
         /// <param name="documentAnalyzerService">The <see cref="IDocumentAnalyzerService"/>.</param>
         /// <param name="spaceReservation">The <see cref="IAdornmentSpaceReservation"/>.</param>
+        /// <param name="logger">The <see cref="ILogger"/>.</param>
         public CodeStructureViewModel(
             IEditor editor,
             IDiagnosticProvider diagnosticProvider,
             IDocumentAnalyzerService documentAnalyzerService,
-            IAdornmentSpaceReservation spaceReservation)
+            IAdornmentSpaceReservation spaceReservation,
+            ILogger logger)
         {
             _editor = editor;
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
             _documentAnalyzerService = documentAnalyzerService ?? throw new ArgumentNullException(nameof(documentAnalyzerService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
@@ -130,7 +134,7 @@ namespace Steroids.CodeStructure.UI
                     return Strings.NotAvailable_Abbreviation;
                 }
 
-                return _documentAnalyzerService.Nodes?.Count(x => x.IsLeaf).ToString();
+                return (NodeCollection?.Count(x => x.IsLeaf) ?? 0).ToString();
             }
         }
 
@@ -178,7 +182,15 @@ namespace Steroids.CodeStructure.UI
         public List<SortedTree<CodeStructureItem>> NodeCollection
         {
             get => _nodeCollection;
-            set => Set(ref _nodeCollection, value);
+            set
+            {
+                if (!Set(ref _nodeCollection, value))
+                {
+                    return;
+                }
+
+                RaisePropertyChanged(nameof(LeafCount));
+            }
         }
 
         /// <summary>
@@ -188,7 +200,14 @@ namespace Steroids.CodeStructure.UI
 
         private void OnAnalysisFinished(object sender, EventArgs args)
         {
-            Application.Current.Dispatcher.Invoke(() => RefreshUi());
+            try
+            {
+                Application.Current.Dispatcher.Invoke(() => RefreshUi());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error while refreshing CodeStructure UI of {_editor.FilePath}");
+            }
         }
 
         private void OnDiagnosticsChanged(object sender, DiagnosticsChangedEventArgs args)
@@ -211,7 +230,6 @@ namespace Steroids.CodeStructure.UI
 
         private void RefreshUi()
         {
-            RaisePropertyChanged(nameof(LeafCount));
             if (_documentAnalyzerService.Nodes == null)
             {
                 return;

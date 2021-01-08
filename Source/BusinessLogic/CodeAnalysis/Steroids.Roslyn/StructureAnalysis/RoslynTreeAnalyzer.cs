@@ -37,7 +37,8 @@ namespace Steroids.Roslyn.StructureAnalysis
             var memberDeclarations = node
                 .DescendantNodes(_ => true)
                 .OfType<T>()
-                .Where(x => KnownNodeTypes.Contains(x.GetType()));
+                .Where(x => KnownNodeTypes.Contains(x.GetType()))
+                .ToList();
 
             foreach (var declaration in memberDeclarations)
             {

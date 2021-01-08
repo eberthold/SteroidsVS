@@ -5,6 +5,7 @@ using System.Windows;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.TableControl;
 using Steroids.Core.CodeQuality;
+using Steroids.Core.Tools;
 
 namespace SteroidsVS.CodeQuality.Diagnostic
 {
@@ -13,6 +14,8 @@ namespace SteroidsVS.CodeQuality.Diagnostic
     /// </summary>
     public class ErrorListDiagnosticProvider : IDiagnosticProvider
     {
+        private readonly Debouncer _debouncer;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorListDiagnosticProvider"/> class.
         /// </summary>
@@ -23,6 +26,8 @@ namespace SteroidsVS.CodeQuality.Diagnostic
             {
                 throw new ArgumentNullException(nameof(errorList));
             }
+
+            _debouncer = new Debouncer(TimeSpan.FromSeconds(0.5));
 
             WeakEventManager<IWpfTableControl, EntriesChangedEventArgs>.AddHandler(errorList.TableControl, nameof(IWpfTableControl.EntriesChanged), OnErrorListEntriesChanged);
         }
@@ -40,9 +45,14 @@ namespace SteroidsVS.CodeQuality.Diagnostic
         /// <param name="args">The <see cref="EntriesChangedEventArgs"/>.</param>
         private void OnErrorListEntriesChanged(object sender, EntriesChangedEventArgs args)
         {
+            _debouncer.Debounce(() => UpdateDiagnostics(args));
+        }
+
+        private void UpdateDiagnostics(EntriesChangedEventArgs args)
+        {
             var diagnostics = CurrentDiagnostics.ToDictionary(
-                x => x.GetHashCode(),
-                x => x);
+                            x => x.GetHashCode(),
+                            x => x);
             var tableEntries = args.AllEntries.ToLookup(
                 x => x.DiagnosticInfoHashCode(),
                 x => x);

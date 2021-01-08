@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -65,8 +66,16 @@ namespace SteroidsVS
             ReportNextInitStep(progress, 3);
             var vsServiceProvider = new VsServiceProvider(this);
             await vsServiceProvider.InitializeAsync().ConfigureAwait(false);
-            var root = new Bootstrapper();
-            root.Run(vsServiceProvider);
+            var bootstrapper = new Bootstrapper();
+            bootstrapper.Run(vsServiceProvider);
+
+            var logger = bootstrapper.GetService(typeof(ILogger)) as ILogger;
+
+            AppDomain.CurrentDomain.UnhandledException += (sender, exception) =>
+            {
+                var ex = exception.ExceptionObject as Exception;
+                logger.LogError(ex, ex.Message);
+            };
         }
 
         /// <summary>

@@ -9,6 +9,8 @@ namespace SteroidsVS.Logging
     /// </summary>
     public class ActivityLogLogger : ILogger
     {
+        private const string ExtensionName = "SteroidsVS";
+
         /// <inheritdoc />
         public IDisposable BeginScope<TState>(TState state)
         {
@@ -26,8 +28,23 @@ namespace SteroidsVS.Logging
         {
             switch (logLevel)
             {
+                case LogLevel.Trace:
+                case LogLevel.Debug:
                 case LogLevel.Information:
-                    ActivityLog.LogInformation()
+                    ActivityLog.LogInformation(ExtensionName, formatter(state, exception));
+                    break;
+
+                case LogLevel.Error:
+                    ActivityLog.LogError(ExtensionName, formatter(state, exception));
+                    break;
+
+                case LogLevel.Warning:
+                case LogLevel.Critical:
+                    ActivityLog.LogWarning(ExtensionName, formatter(state, exception));
+                    break;
+
+                default:
+                    break;
             }
         }
     }

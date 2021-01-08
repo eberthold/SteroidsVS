@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Logging;
 using Steroids.Contracts.Core;
 using Steroids.Core.CodeQuality;
 using Steroids.Core.Editor;
@@ -6,6 +7,7 @@ using Steroids.Core.Framework;
 using SteroidsVS.CodeAdornments;
 using SteroidsVS.CodeQuality.Diagnostic;
 using SteroidsVS.Editor;
+using SteroidsVS.Logging;
 using SteroidsVS.Services;
 using Unity;
 using Unity.Lifetime;
@@ -23,6 +25,7 @@ namespace SteroidsVS
             RootContainer = new UnityContainer();
             Container = RootContainer;
 
+            Container.RegisterInstance<ILogger>(new ActivityLogLogger());
             Container.RegisterInstance(vsServiceProvider);
             Container.RegisterInstance(vsServiceProvider.ErrorList);
             Container.RegisterInstance(vsServiceProvider.OutliningManagerService);

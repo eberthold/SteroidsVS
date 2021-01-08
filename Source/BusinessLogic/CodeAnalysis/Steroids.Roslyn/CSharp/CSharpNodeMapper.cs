@@ -100,7 +100,7 @@ namespace Steroids.Roslyn.CSharp
 
         internal static IEnumerable<CodeStructureItem> MapItem(FieldDeclarationSyntax node)
         {
-            foreach (var field in node.Declaration.Variables)
+            foreach (var field in node.Declaration.Variables.ToList())
             {
                 var item = CreateItem<FieldNode>(node);
                 item.AccessModifier = node.Modifiers.GetAccessModifier();
@@ -121,7 +121,7 @@ namespace Steroids.Roslyn.CSharp
 
         internal static IEnumerable<CodeStructureItem> MapItem(EventFieldDeclarationSyntax node)
         {
-            foreach (var eventItem in node.Declaration.Variables)
+            foreach (var eventItem in node.Declaration.Variables.ToList())
             {
                 var item = CreateItem<EventNode>(node);
                 item.AccessModifier = node.Modifiers.GetAccessModifier();
