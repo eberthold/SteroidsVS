@@ -1,20 +1,48 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.VisualStudio.Shell;
 using Steroids.Contracts.Core;
-using Threading = System.Threading.Tasks;
 
 namespace SteroidsVS.Services
 {
     public class DispatcherService : IDispatcherService
     {
+        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+
         /// <inheritdoc />
-        public void Dispatch(Action action)
+        public async void Dispatch(Action action)
         {
-            ThreadHelper.JoinableTaskFactory.RunAsync(() =>
+            ResetTokenSource();
+            var token = _tokenSource.Token;
+
+            if (ThreadHelper.CheckAccess())
             {
-                action.Invoke();
-                return Threading.Task.CompletedTask;
-            });
+                Invoke(action, token);
+                return;
+            }
+
+            await ThreadHelper
+                .JoinableTaskFactory
+                .SwitchToMainThreadAsync();
+
+            Invoke(action, token);
+        }
+
+        private static void Invoke(Action action, CancellationToken token)
+        {
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            action.Invoke();
+        }
+
+        private void ResetTokenSource()
+        {
+            _tokenSource.Cancel();
+            _tokenSource.Dispose();
+            _tokenSource = new CancellationTokenSource();
         }
     }
 }

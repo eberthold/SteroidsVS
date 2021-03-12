@@ -1,5 +1,4 @@
 ﻿using System;
-using Steroids.Contracts.Core;
 using Steroids.Core.CodeQuality;
 using Steroids.Core.Editor;
 using Steroids.Core.Framework;
@@ -31,10 +30,13 @@ namespace SteroidsVS
             Container.RegisterInstance(vsServiceProvider.TableManagerProvider);
             Container.RegisterInstance(new ActiveTextViewProvider(vsServiceProvider.VsTextManager, vsServiceProvider.EditorAdapterFactory));
 
-            Container.RegisterType<IDiagnosticProvider, ErrorListDiagnosticProvider>(new ContainerControlledLifetimeManager());
+            Container.RegisterSingleton<IDiagnosticProvider, ErrorListDiagnosticProvider>();
+            Container.RegisterSingleton<IDispatcherServiceFactory, DispatcherServiceFactory>();
+            Container.RegisterSingleton<ICancellationServiceFactory, CancellationServiceFactory>();
+
             Container.RegisterType<IActiveTextViewProvider, ActiveTextViewProvider>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IDispatcherService, DispatcherService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IFoldingManager, FoldingManagerAdapter>(new ContainerControlledLifetimeManager());
+
             Container.RegisterType<CodeStructureOpenCommand>(new ContainerControlledLifetimeManager());
 
             Container.RegisterType<CodeStructureOpenCommand>(new ContainerControlledLifetimeManager());

@@ -5,7 +5,7 @@ namespace Steroids.Core.CodeQuality
     /// <summary>
     /// Keeps all informations necessary to show in-line diagnostics to the user.
     /// </summary>
-    public class DiagnosticInfo : IComparable<DiagnosticInfo>
+    public class DiagnosticInfo : BindableBase, IComparable<DiagnosticInfo>
     {
         /// <summary>
         /// The severity of the diagnostic info.

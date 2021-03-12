@@ -6,9 +6,11 @@ using System.Windows;
 using System.Windows.Data;
 using Steroids.CodeStructure.Analyzers;
 using Steroids.CodeStructure.Resources.Strings;
+using Steroids.Contracts.Core;
 using Steroids.Core;
 using Steroids.Core.CodeQuality;
 using Steroids.Core.Editor;
+using Steroids.Core.Framework;
 using Steroids.Core.UI;
 
 namespace Steroids.CodeStructure.UI
@@ -21,7 +23,7 @@ namespace Steroids.CodeStructure.UI
         private readonly IEditor _editor;
         private readonly IDiagnosticProvider _diagnosticProvider;
         private readonly IDocumentAnalyzerService _documentAnalyzerService;
-
+        private readonly IDispatcherService _dispatcherService;
         private bool _isOpen;
         private bool _isPaused;
         private ICodeStructureSyntaxAnalyzer _syntaxWalker;
@@ -43,11 +45,13 @@ namespace Steroids.CodeStructure.UI
             IEditor editor,
             IDiagnosticProvider diagnosticProvider,
             IDocumentAnalyzerService documentAnalyzerService,
-            IAdornmentSpaceReservation spaceReservation)
+            IAdornmentSpaceReservation spaceReservation,
+            IDispatcherServiceFactory dispatcherServiceFactory)
         {
             _editor = editor;
             _diagnosticProvider = diagnosticProvider ?? throw new ArgumentNullException(nameof(diagnosticProvider));
             _documentAnalyzerService = documentAnalyzerService ?? throw new ArgumentNullException(nameof(documentAnalyzerService));
+            _dispatcherService = dispatcherServiceFactory.Create();
 
             WeakEventManager<IDiagnosticProvider, DiagnosticsChangedEventArgs>.AddHandler(_diagnosticProvider, nameof(IDiagnosticProvider.DiagnosticsChanged), OnDiagnosticsChanged);
             WeakEventManager<IDocumentAnalyzerService, EventArgs>.AddHandler(_documentAnalyzerService, nameof(IDocumentAnalyzerService.AnalysisFinished), OnAnalysisFinished);
@@ -200,28 +204,35 @@ namespace Steroids.CodeStructure.UI
             }
 
             var fileDiagnostics = args.Diagnostics.Where(x => path.EndsWith(x?.Path ?? " ", StringComparison.OrdinalIgnoreCase) && x.IsActive);
-            if (!fileDiagnostics.Any())
-            {
-                CurrentDiagnosticLevel = DiagnosticSeverity.Hidden;
-                return;
-            }
 
-            CurrentDiagnosticLevel = fileDiagnostics.Max(x => x.Severity);
+            _dispatcherService.Dispatch(() =>
+            {
+                if (!fileDiagnostics.Any())
+                {
+                    CurrentDiagnosticLevel = DiagnosticSeverity.Hidden;
+                    return;
+                }
+
+                CurrentDiagnosticLevel = fileDiagnostics.Max(x => x.Severity);
+            });
         }
 
         private void RefreshUi()
         {
-            RaisePropertyChanged(nameof(LeafCount));
-            if (_documentAnalyzerService.Nodes == null)
+            _dispatcherService.Dispatch(() =>
             {
-                return;
-            }
+                RaisePropertyChanged(nameof(LeafCount));
+                if (_documentAnalyzerService.Nodes == null)
+                {
+                    return;
+                }
 
-            NodeCollection = _documentAnalyzerService.Nodes.ToList();
-            NodeListView = new ListCollectionView(NodeCollection)
-            {
-                Filter = FilterNodes
-            };
+                NodeCollection = _documentAnalyzerService.Nodes.ToList();
+                NodeListView = new ListCollectionView(NodeCollection)
+                {
+                    Filter = FilterNodes
+                };
+            });
         }
 
         private bool FilterNodes(object obj)

@@ -13,7 +13,7 @@ namespace Steroids.Roslyn.StructureAnalysis
         where T : SyntaxNode
     {
         /// <inheritdoc />
-        public IEnumerable<SortedTree<CodeStructureItem>> NodeList { get; private set; }
+        public IReadOnlyCollection<SortedTree<CodeStructureItem>> NodeList { get; private set; }
 
         /// <summary>
         /// Defines the list of known node types.

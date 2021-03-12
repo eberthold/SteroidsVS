@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Steroids.CodeQuality.UI;
 using Steroids.Core.CodeQuality;
 using Steroids.Core.Editor;
+using Steroids.Core.Framework;
 
 namespace Steroids.CodeQuality.Tests
 {
@@ -16,6 +17,7 @@ namespace Steroids.CodeQuality.Tests
         private readonly IEditor _editor = A.Fake<IEditor>();
         private readonly IFoldingManager _foldingManager = A.Fake<IFoldingManager>();
         private readonly IDiagnosticProvider _diagnosticsProvider = A.Fake<IDiagnosticProvider>();
+        private readonly IDispatcherServiceFactory _dispatcherServiceProvider = A.Fake<IDispatcherServiceFactory>();
 
         [TestMethod]
         public void QualityHints_ClassInitialized_IsEmpty()
@@ -66,6 +68,7 @@ namespace Steroids.CodeQuality.Tests
 
             return new DiagnosticInfosViewModel(
                 _editor,
+                _dispatcherServiceProvider,
                 _diagnosticsProvider);
         }
     }

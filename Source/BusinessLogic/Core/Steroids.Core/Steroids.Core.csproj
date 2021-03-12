@@ -22,7 +22,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -83,6 +83,11 @@
     <Compile Include="Editor\IFoldingManager.cs" />
     <Compile Include="Editor\IEditor.cs" />
     <Compile Include="Editor\IActiveEditorProvider.cs" />
+    <Compile Include="Framework\CancellationService.cs" />
+    <Compile Include="Framework\CancellationServiceFactory.cs" />
+    <Compile Include="Framework\ICancellationService.cs" />
+    <Compile Include="Framework\ICancellationServiceFactory.cs" />
+    <Compile Include="Framework\IDispatcherServiceFactory.cs" />
     <Compile Include="Framework\IBootstrapper.cs" />
     <Compile Include="Framework\IDispatcherService.cs" />
     <Compile Include="Framework\IModuleInitializer.cs" />
