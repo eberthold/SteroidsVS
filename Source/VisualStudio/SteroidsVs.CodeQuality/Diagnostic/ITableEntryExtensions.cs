@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.Shell.Interop;
+﻿using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell.TableManager;
 using Steroids.Core.CodeQuality;
 
@@ -10,9 +9,6 @@ namespace SteroidsVS.CodeQuality.Diagnostic
     /// </summary>
     public static class ITableEntryExtensions
     {
-        private const string SuppressionState = "suppressionstate";
-        private const string Suppressed = "suppressed";
-
         /// <summary>
         /// Creates a <see cref="DiagnosticInfo"/> from a <see cref="ITableEntriesHandle"/>.
         /// </summary>
@@ -32,7 +28,7 @@ namespace SteroidsVS.CodeQuality.Diagnostic
             entry.TryGetValue(StandardTableKeyNames.HelpLink, out string helpLink);
             entry.TryGetValue(StandardTableKeyNames.Line, out int line);
             entry.TryGetValue(StandardTableKeyNames.Column, out int column);
-            entry.TryGetValue(SuppressionState, out string suppressionState);
+            entry.TryGetValue(StandardTableKeyNames.SuppressionState, out SuppressionState suppressionState);
 
             if (string.IsNullOrWhiteSpace(fullText))
             {
@@ -71,7 +67,7 @@ namespace SteroidsVS.CodeQuality.Diagnostic
             entry.TryGetValue(StandardTableKeyNames.HelpLink, out string helpLink);
             entry.TryGetValue(StandardTableKeyNames.Line, out int line);
             entry.TryGetValue(StandardTableKeyNames.Column, out int column);
-            entry.TryGetValue(SuppressionState, out string suppressionState);
+            entry.TryGetValue(StandardTableKeyNames.SuppressionState, out SuppressionState suppressionState);
 
             var isActive = SuppressionStateToIsActive(suppressionState);
             if (string.IsNullOrWhiteSpace(fullText))
@@ -109,9 +105,9 @@ namespace SteroidsVS.CodeQuality.Diagnostic
         /// </summary>
         /// <param name="suppressionState">The plain suppression state text.</param>
         /// <returns><see langword="true"/> if diagnostic is active, otherwise <see langword="false"/>.</returns>
-        private static bool SuppressionStateToIsActive(string suppressionState)
+        private static bool SuppressionStateToIsActive(SuppressionState suppressionState)
         {
-            return string.Compare(suppressionState, Suppressed, StringComparison.OrdinalIgnoreCase) != 0;
+            return suppressionState != SuppressionState.Suppressed;
         }
     }
 }
