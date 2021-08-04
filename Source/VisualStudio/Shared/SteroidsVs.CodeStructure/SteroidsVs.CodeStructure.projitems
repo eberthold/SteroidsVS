@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>fe0356c2-d512-4f2e-8d05-50c195d99a17</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SteroidsVs.CodeStructure</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Adorners\CodeStructureAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adorners\ICodeStructureAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\IndicatorButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SelectionHintControl.xaml.cs">
+      <DependentUpon>SelectionHintControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Monikers\TypeDescriptorMonikerConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monikers\TypeDescriptorMonikerNameResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monikers\TypeDescriptorMonikerResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\ModuleResourceDictionary.xaml.cs">
+      <DependentUpon>ModuleResourceDictionary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Text\TextSpanExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\CodeStructureSpaceReservation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\CodeStructureView.xaml.cs">
+      <DependentUpon>CodeStructureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\LevelToThicknessConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\SelectionHintControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Resources\ModuleResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\CodeStructureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

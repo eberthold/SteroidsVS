@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>f31b59a8-6cdf-42de-97d5-a9cf752d3a96</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SteroidsVS.Vsix.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CodeAdornments\CodeAdornmentsBootstrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CodeAdornments\CodeAdornmentsTextViewCreationListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CodeAdornments\CodeStructureOpenCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IVsServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\FoldingManagerAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\WpfTextViewAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ActiveTextViewProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DispatcherService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DispatcherServiceFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IActiveTextViewProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\VsServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteroidsVsPackage.cs" />
+  </ItemGroup>
+</Project>

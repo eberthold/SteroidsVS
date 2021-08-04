@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d8d1074f-f9b2-46ae-9388-a1f08804e04f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SteroidsVs.CodeQuality</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostic\ErrorListDiagnosticProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostic\ITableEntryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostic\TableManagerDiagnosticsProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\ModuleResourceDictionary.xaml.cs">
+      <DependentUpon>ModuleResourceDictionary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DiagnosticInfoAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DiagnosticInfoControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DiagnosticInfoLinePanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DiagnosticInfoPlacementCalculator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DiagnosticInfosView.xaml.cs">
+      <DependentUpon>DiagnosticInfosView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Resources\ModuleResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\DiagnosticInfosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)app.config" />
+  </ItemGroup>
+</Project>
