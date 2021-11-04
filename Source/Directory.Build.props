@@ -1,5 +1,4 @@
 <Project>
     <PropertyGroup>
-        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)SteroidsVS.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 </Project>

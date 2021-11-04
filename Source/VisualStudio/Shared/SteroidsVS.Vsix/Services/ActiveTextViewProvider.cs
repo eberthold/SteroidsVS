@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
-using Steroids.Contracts.Core;
 
 namespace SteroidsVS.Services
 {

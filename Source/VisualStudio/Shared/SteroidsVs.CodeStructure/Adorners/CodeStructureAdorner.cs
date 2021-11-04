@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.Text;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Steroids.CodeStructure.UI;
 using SteroidsVS.CodeStructure.Controls;
-using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace SteroidsVS.CodeStructure.Adorners
 {
@@ -36,7 +36,7 @@ namespace SteroidsVS.CodeStructure.Adorners
             _viewModel = viewModel;
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
             _indicatorView.Focusable = false;
-            _indicatorView.Content = viewModel; 
+            _indicatorView.Content = viewModel;
 
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportWidthChanged), OnSizeChanged);
             WeakEventManager<ITextView, EventArgs>.AddHandler(_textView, nameof(ITextView.ViewportHeightChanged), OnSizeChanged);

@@ -61,7 +61,7 @@ namespace Steroids.Roslyn.CSharp
                     return new[] { MapItem(castNode) };
 
                 default:
-                    return new[] 
+                    return new[]
                     {
                         new CodeStructureItem
                         {
@@ -190,4 +190,3 @@ namespace Steroids.Roslyn.CSharp
         }
     }
 }
- 

@@ -12,7 +12,7 @@ namespace Steroids.Roslyn.Common
             "Protected",
             "Internal",
             "Public",
-            ""
+            string.Empty
         };
 
         private static readonly IReadOnlyCollection<string> KnownTypes = new List<string>
@@ -49,7 +49,6 @@ namespace Steroids.Roslyn.Common
         /// <summary>
         /// Creates the combinations of type and access modifiers.
         /// </summary>
-        /// <returns></returns>
         private static IReadOnlyCollection<RoslynTypeDescriptor> CreateKnownCombinations()
         {
             var result = new List<RoslynTypeDescriptor>(KnownTypes.Count * KnownAccessModifiers.Count);

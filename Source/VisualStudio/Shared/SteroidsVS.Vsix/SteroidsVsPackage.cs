@@ -28,12 +28,12 @@ namespace SteroidsVS
         public const string PackageGuidString = "9ac11e28-22b5-4c3c-a40f-ab2c9bdd18d6";
 
         public static readonly Guid PackageGuid = Guid.Parse("9ac11e28-22b5-4c3c-a40f-ab2c9bdd18d6");
-        public static Threading.Task InitializedAwaitable => _taskCompletionSource.Task;
-
-        private bool _initialized;
 
         private static TaskCompletionSource<bool> _taskCompletionSource = new TaskCompletionSource<bool>();
 
+        private bool _initialized;
+
+        public static Threading.Task InitializedAwaitable => _taskCompletionSource.Task;
 
         /// <summary>
         /// Checks if this <see cref="Package"/> has been loaded, and loads it asynchronously if not loaded.

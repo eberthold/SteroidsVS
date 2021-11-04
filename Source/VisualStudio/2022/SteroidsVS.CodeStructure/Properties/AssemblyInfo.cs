@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -16,8 +14,8 @@ using System.Windows;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
+// Setting ComVisible to false makes the types in this assembly not visible
+// to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
@@ -29,7 +27,7 @@ using System.Windows;
 // the line below to match the UICulture setting in the project file.
 
 // [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
-[assembly:ThemeInfo(
+[assembly: ThemeInfo(
     ResourceDictionaryLocation.None,
     ResourceDictionaryLocation.SourceAssembly)]
 

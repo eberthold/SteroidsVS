@@ -40,7 +40,7 @@ namespace SteroidsVS.CodeAdornments
                 throw new ArgumentNullException(nameof(vsServiceProvider));
             }
 
-            RegisterCommandAsync(vsServiceProvider).ConfigureAwait(false);
+            _ = RegisterCommandAsync(vsServiceProvider).ConfigureAwait(false);
         }
 
         private async Threading.Task RegisterCommandAsync(IVsServiceProvider vsServiceProvider)

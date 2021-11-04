@@ -1,0 +1,22 @@
+{
+  "solution": {
+    "path": "Steroids.sln",
+    "projects": [
+      "BusinessLogic\\CodeAnalysis\\Steroids.Roslyn.Tests\\Steroids.Roslyn.Tests.csproj",
+      "BusinessLogic\\CodeAnalysis\\Steroids.Roslyn\\Steroids.Roslyn.csproj",
+      "BusinessLogic\\CodeQuality\\Steroids.CodeQuality.Tests\\Steroids.CodeQuality.Tests.csproj",
+      "BusinessLogic\\CodeQuality\\Steroids.CodeQuality\\Steroids.CodeQuality.csproj",
+      "BusinessLogic\\CodeStructure\\Steroids.CodeStructure.Tests\\Steroids.CodeStructure.Tests.csproj",
+      "BusinessLogic\\CodeStructure\\Steroids.CodeStructure\\Steroids.CodeStructure.csproj",
+      "BusinessLogic\\Core\\Steroids.Core\\Steroids.Core.csproj",
+      "VisualStudio\\2019\\SteroidsVS.CodeStructure\\SteroidsVS.CodeStructure.csproj",
+      "VisualStudio\\2019\\SteroidsVS.SharedUI\\SteroidsVS.SharedUI.csproj",
+      "VisualStudio\\2019\\SteroidsVS.Vsix\\SteroidsVS.Vsix.csproj",
+      "VisualStudio\\2019\\SteroidsVs.CodeQuality\\SteroidsVS.CodeQuality.csproj",
+      "VisualStudio\\Shared\\SteroidsVS.Vsix\\SteroidsVS.Vsix.shproj",
+      "VisualStudio\\Shared\\SteroidsVs.CodeQuality\\SteroidsVs.CodeQuality.shproj",
+      "VisualStudio\\Shared\\SteroidsVs.CodeStructure\\SteroidsVs.CodeStructure.shproj",
+      "VisualStudio\\Shared\\SteroidsVs.SharedUI\\SteroidsVs.SharedUI.shproj"
+    ]
+  }
+}

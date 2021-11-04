@@ -1,5 +1,4 @@
-﻿using Steroids.CodeStructure.Analyzers;
-using Steroids.Roslyn.CSharp;
+﻿using Steroids.Roslyn.CSharp;
 using Steroids.Roslyn.VisualBasic;
 
 namespace Steroids.Roslyn.StructureAnalysis

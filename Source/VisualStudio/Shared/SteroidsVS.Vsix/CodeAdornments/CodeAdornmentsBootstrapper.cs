@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Text.Editor;
+﻿using System;
+using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Outlining;
 using Steroids.CodeQuality.UI;
 using Steroids.CodeStructure.Analyzers;
@@ -10,7 +11,6 @@ using SteroidsVS.CodeQuality.UI;
 using SteroidsVS.CodeStructure.Adorners;
 using SteroidsVS.CodeStructure.UI;
 using SteroidsVS.Editor;
-using System;
 using Unity;
 using Unity.Lifetime;
 
@@ -78,6 +78,5 @@ namespace SteroidsVS.CodeAdornments
 
             _disposed = true;
         }
-
     }
 }

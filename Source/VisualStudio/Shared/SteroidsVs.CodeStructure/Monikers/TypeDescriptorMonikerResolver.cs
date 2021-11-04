@@ -21,7 +21,6 @@ namespace SteroidsVS.CodeStructure.Monikers
             _nameResolver = new TypeDescriptorMonikerNameResolver();
         }
 
-        /// <inheritdoc />
         public ImageMoniker GetMoniker(ITypeDescriptor typeDescriptor)
         {
             var name = _nameResolver.Resolve(typeDescriptor);

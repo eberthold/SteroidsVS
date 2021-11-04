@@ -61,7 +61,7 @@ namespace Steroids.CodeStructure.Analyzers
         /// <summary>
         /// The descriptor to specifically identify this type of item e.g. to specify a image for UI.
         /// </summary>
-        public ITypeDescriptor TypeDescriptor { get => _imageDescriptor; set => Set(ref _imageDescriptor,  value); }
+        public ITypeDescriptor TypeDescriptor { get => _imageDescriptor; set => Set(ref _imageDescriptor, value); }
 
         /// <inheritdoc />
         public int CompareTo(CodeStructureItem other)

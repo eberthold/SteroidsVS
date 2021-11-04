@@ -1,15 +1,15 @@
-﻿using Community.VisualStudio.Toolkit;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Utilities;
-using SteroidsVS.CodeQuality.UI;
-using SteroidsVS.CodeStructure.Adorners;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
+using Community.VisualStudio.Toolkit;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Utilities;
+using SteroidsVS.CodeQuality.UI;
+using SteroidsVS.CodeStructure.Adorners;
 
 namespace SteroidsVS.CodeAdornments
 {

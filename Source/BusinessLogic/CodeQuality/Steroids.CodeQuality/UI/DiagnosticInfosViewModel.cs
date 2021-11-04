@@ -47,7 +47,7 @@ namespace Steroids.CodeQuality.UI
         /// </summary>
         public ObservableCollection<DiagnosticInfoLine> DiagnosticInfoLines
         {
-            get => _diagnosticInfoLines; 
+            get => _diagnosticInfoLines;
             set => Set(ref _diagnosticInfoLines, value);
         }
 

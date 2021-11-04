@@ -1,13 +1,13 @@
-﻿using Steroids.Core.CodeQuality;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Steroids.Core.CodeQuality;
 using Steroids.Core.Editor;
 using Steroids.Core.Framework;
 using SteroidsVS.CodeAdornments;
 using SteroidsVS.CodeQuality.Diagnostic;
 using SteroidsVS.Editor;
 using SteroidsVS.Services;
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Unity;
 using Unity.Lifetime;
 

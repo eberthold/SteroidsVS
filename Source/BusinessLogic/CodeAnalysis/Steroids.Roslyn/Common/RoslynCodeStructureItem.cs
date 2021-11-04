@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Steroids.CodeStructure.Analyzers;
 
 namespace Steroids.Roslyn.Common
 {

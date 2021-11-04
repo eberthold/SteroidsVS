@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -41,9 +40,7 @@ namespace Steroids.Roslyn.Tests.StructureAnalysis
 
             // Assert
             var buildTree = sut.NodeList.Select(x => x.Data.Name).ToList();
-            CollectionAssert.AreEqual(expectedNameOrder, buildTree,
-                $"{Environment.NewLine}expected: {Environment.NewLine}{string.Join(Environment.NewLine, expectedNameOrder)}{Environment.NewLine}" +
-                $"{Environment.NewLine}actual: {Environment.NewLine}{string.Join(Environment.NewLine, buildTree)}{Environment.NewLine}");
+            CollectionAssert.AreEqual(expectedNameOrder, buildTree);
         }
 
         private VisualBasicTreeAnalyzer CreateSut()
